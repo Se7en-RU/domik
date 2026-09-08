@@ -1,0 +1,73 @@
+name: Build and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Leave initial activation to the owner; a disabled Pages site is expected.
+      - name: Check whether Pages is enabled
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          status=$(curl --silent --show-error --output "$RUNNER_TEMP/pages.json" --write-out '%{http_code}' \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header 'Accept: application/vnd.github+json' \
+            "https://api.github.com/repos/$REPOSITORY/pages")
+          case "$status" in
+            200)
+              echo 'enabled=true' >> "$GITHUB_OUTPUT"
+              ;;
+            404)
+              echo 'enabled=false' >> "$GITHUB_OUTPUT"
+              echo 'Build ready. Enable Settings → Pages → Source: GitHub Actions, then run this workflow again.' >> "$GITHUB_STEP_SUMMARY"
+              ;;
+            *)
+              echo "Pages configuration check failed: HTTP $status"
+              exit 1
+              ;;
+          esac
+      - uses: actions/configure-pages@v5
+        if: steps.pages.outputs.enabled == 'true'
+      - uses: actions/deploy-pages@v4
+        if: steps.pages.outputs.enabled == 'true'
+        id: deployment
