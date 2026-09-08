@@ -1,19 +1,17 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 const inputPath = process.argv[2];
-const outputPath = process.argv[3] ?? 'measurements/normalized-scan.json';
+const outputPath = process.argv[3] ?? "measurements/normalized-scan.json";
 
 if (!inputPath) {
-  console.error(
-    'Usage: node scripts/roomplan-normalize.mjs <CapturedRoom.json> [output.json]',
-  );
+  console.error("Usage: node scripts/roomplan-normalize.mjs <CapturedRoom.json> [output.json]");
   process.exit(1);
 }
 
-const roomPlan = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+const roomPlan = JSON.parse(fs.readFileSync(inputPath, "utf8"));
 
 const EPSILON = 1e-6;
 
@@ -57,13 +55,7 @@ function matrixFromArray(m) {
 function transformPoint(matrix, point) {
   return add(
     matrix.translation,
-    add(
-      add(
-        scale(matrix.x, point.x),
-        scale(matrix.y, point.y),
-      ),
-      scale(matrix.z, point.z),
-    ),
+    add(add(scale(matrix.x, point.x), scale(matrix.y, point.y)), scale(matrix.z, point.z)),
   );
 }
 
@@ -83,32 +75,19 @@ function inverseRigid(matrix) {
     x: inverseX,
     y: inverseY,
     z: inverseZ,
-    translation: vec3(
-      -dot(inverseX, t),
-      -dot(inverseY, t),
-      -dot(inverseZ, t),
-    ),
+    translation: vec3(-dot(inverseX, t), -dot(inverseY, t), -dot(inverseZ, t)),
   };
 }
 
 function multiplyTransforms(a, b) {
   const transformAxis = (axis) =>
-    add(
-      add(
-        scale(a.x, axis.x),
-        scale(a.y, axis.y),
-      ),
-      scale(a.z, axis.z),
-    );
+    add(add(scale(a.x, axis.x), scale(a.y, axis.y)), scale(a.z, axis.z));
 
   return {
     x: transformAxis(b.x),
     y: transformAxis(b.y),
     z: transformAxis(b.z),
-    translation: add(
-      transformPoint(a, b.translation),
-      vec3(0, 0, 0),
-    ),
+    translation: add(transformPoint(a, b.translation), vec3(0, 0, 0)),
   };
 }
 
@@ -123,7 +102,7 @@ function normalizeAngle(angle) {
 }
 
 function deg(rad) {
-  return rad * 180 / Math.PI;
+  return (rad * 180) / Math.PI;
 }
 
 function polygonBounds(corners) {
@@ -157,7 +136,7 @@ function polygonBounds(corners) {
 }
 
 if (!roomPlan.floors?.length) {
-  throw new Error('RoomPlan scan does not contain floors.');
+  throw new Error("RoomPlan scan does not contain floors.");
 }
 
 const floor = roomPlan.floors[0];
@@ -179,11 +158,7 @@ function normalizeWall(wall) {
 
   const center = transform.translation;
 
-  const direction = vec3(
-    transform.x.x,
-    0,
-    transform.x.z,
-  );
+  const direction = vec3(transform.x.x, 0, transform.x.z);
 
   const directionLength = Math.hypot(direction.x, direction.z);
 
@@ -240,44 +215,24 @@ function normalizeWall(wall) {
 
 const walls = roomPlan.walls.map(normalizeWall);
 
-const wallById = new Map(
-  walls.map((wall) => [wall.id, wall]),
-);
+const wallById = new Map(walls.map((wall) => [wall.id, wall]));
 
 function normalizeOpening(opening, type) {
   const transform = worldToFloor(opening.transform);
   const center = transform.translation;
 
-  const parent = opening.parentIdentifier
-    ? wallById.get(opening.parentIdentifier)
-    : null;
+  const parent = opening.parentIdentifier ? wallById.get(opening.parentIdentifier) : null;
 
   let offsetFromWallStart = null;
 
   if (parent) {
-    const wallDirection = vec3(
-      parent.direction.x,
-      0,
-      parent.direction.z,
-    );
+    const wallDirection = vec3(parent.direction.x, 0, parent.direction.z);
 
-    const wallStart = vec3(
-      parent.endpoints.a.x,
-      0,
-      parent.endpoints.a.z,
-    );
+    const wallStart = vec3(parent.endpoints.a.x, 0, parent.endpoints.a.z);
 
-    const openingCenter = vec3(
-      center.x,
-      0,
-      center.z,
-    );
+    const openingCenter = vec3(center.x, 0, center.z);
 
-    offsetFromWallStart =
-      dot(
-        sub(openingCenter, wallStart),
-        wallDirection,
-      );
+    offsetFromWallStart = dot(sub(openingCenter, wallStart), wallDirection);
   }
 
   return {
@@ -296,26 +251,18 @@ function normalizeOpening(opening, type) {
       z: center.z,
     },
 
-    start:
-      offsetFromWallStart == null
-        ? null
-        : offsetFromWallStart - opening.dimensions[0] / 2,
+    start: offsetFromWallStart == null ? null : offsetFromWallStart - opening.dimensions[0] / 2,
 
     confidence: opening.confidence ?? null,
   };
 }
 
-const windows = (roomPlan.windows ?? [])
-  .map((item) => normalizeOpening(item, 'window'));
+const windows = (roomPlan.windows ?? []).map((item) => normalizeOpening(item, "window"));
 
-const doors = (roomPlan.doors ?? [])
-  .map((item) => normalizeOpening(item, 'door'));
+const doors = (roomPlan.doors ?? []).map((item) => normalizeOpening(item, "door"));
 
 const floorCorners = (floor.polygonCorners ?? [])
-  .map((p) => transformPoint(
-    matrixFromArray(floor.transform),
-    vec3(p[0], p[1], p[2]),
-  ))
+  .map((p) => transformPoint(matrixFromArray(floor.transform), vec3(p[0], p[1], p[2])))
   .map((p) => {
     const local = transformPoint(floorInverse, p);
 
@@ -329,10 +276,10 @@ const floorCorners = (floor.polygonCorners ?? [])
 const bounds = polygonBounds(floorCorners);
 
 const result = {
-  schemaVersion: '1.0',
+  schemaVersion: "1.0",
 
   source: {
-    type: 'apple-roomplan',
+    type: "apple-roomplan",
     version: roomPlan.version ?? null,
     story: roomPlan.story ?? 0,
   },
@@ -353,23 +300,16 @@ const result = {
   doors,
 
   notes: [
-    'Coordinates are normalized to the scanned floor coordinate system.',
-    'RoomPlan object identifiers are preserved.',
-    'No values from domik/house.json are applied at this stage.',
+    "Coordinates are normalized to the scanned floor coordinate system.",
+    "RoomPlan object identifiers are preserved.",
+    "No values from domik/house.json are applied at this stage.",
   ],
 };
 
 fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
-fs.writeFileSync(
-  outputPath,
-  `${JSON.stringify(result, null, 2)}\n`,
-);
+fs.writeFileSync(outputPath, `${JSON.stringify(result, null, 2)}\n`);
 
 console.log(`Written: ${outputPath}`);
-console.log(
-  `Walls: ${walls.length}, windows: ${windows.length}, doors: ${doors.length}`,
-);
-console.log(
-  `Floor bounds: ${bounds.width.toFixed(3)} × ${bounds.depth.toFixed(3)} m`,
-);
+console.log(`Walls: ${walls.length}, windows: ${windows.length}, doors: ${doors.length}`);
+console.log(`Floor bounds: ${bounds.width.toFixed(3)} × ${bounds.depth.toFixed(3)} m`);
