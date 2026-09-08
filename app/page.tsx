@@ -5,6 +5,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { buildHouse, polygonArea, upperHeightAt } from "../lib/model.mjs";
 import originalSpec from "../lib/house.json";
+import { roomFloorOffset, roomHeight, stairLayout } from "../lib/layout.mjs";
 import {
   Box,
   Layers3,
@@ -153,12 +154,18 @@ function Scene({
     controls.dampingFactor = 0.09;
     controls.maxPolarAngle = Math.PI * 0.495;
     controls.minDistance = 2;
-    controls.maxDistance = 55;
+    controls.maxDistance = 110;
     controls.screenSpacePanning = true;
     const { root, floors } = buildHouse(spec);
     scene.add(root);
     const grid = new THREE.GridHelper(32, 32, 0xb7c5cf, 0xd1dbe1);
-    grid.position.set(4.4, -spec.parameters.slabThickness - 0.02, 5);
+    const groundY = Math.min(
+      -spec.parameters.slabThickness,
+      spec.garage.floorOffset - spec.garage.slabThickness,
+    );
+    const modelBounds = new THREE.Box3().setFromObject(root);
+    const modelCenter = modelBounds.getCenter(new THREE.Vector3());
+    grid.position.set(modelCenter.x, groundY - 0.02, modelCenter.z);
     (grid.material as THREE.Material).transparent = true;
     (grid.material as THREE.Material).opacity = 0.6;
     scene.add(grid);
@@ -167,7 +174,7 @@ function Scene({
       new THREE.ShadowMaterial({ opacity: 0.1 }),
     );
     ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -spec.parameters.slabThickness - 0.03;
+    ground.position.y = groundY - 0.03;
     ground.receiveShadow = true;
     scene.add(ground);
     const labelNodes = spec.rooms.map((r) => {
@@ -267,34 +274,61 @@ function Scene({
     const target = new THREE.Vector3(4.4, 2.1, 4.9);
     let desiredPos: THREE.Vector3 | null = null,
       desiredTarget: THREE.Vector3 | null = null;
-    const home = () => {
-      const s = latest.current;
-      const base =
-        s.floor === "2" ? spec.parameters.groundHeight + spec.parameters.slabThickness : 0;
-      const cy = s.floor === "all" ? (s.split ? 4.6 : 2.4) : base + 0.4;
-      const size = s.floor === "all" && s.split ? 1.15 : 1;
-      desiredTarget = new THREE.Vector3(4.35, cy, 4.9);
-      if (s.view === "plan") {
-        desiredPos = new THREE.Vector3(4.35, cy + 25 * size, 4.901);
-        camera.up.set(0, 0, -1);
-      } else if (s.view === "front") {
-        desiredPos = new THREE.Vector3(4.35, cy + 3, 4.9 + 27 * size);
-        camera.up.set(0, 1, 0);
-      } else {
-        desiredPos = new THREE.Vector3(4.35 + 14 * size, cy + 18 * size, 4.9 + 18 * size);
-        camera.up.set(0, 1, 0);
+    const boundsForRooms = (list: typeof spec.rooms) => {
+      const bounds = new THREE.Box3();
+      for (const r of list) {
+        const base =
+          (r.floor === 2
+            ? spec.parameters.groundHeight +
+              spec.parameters.slabThickness +
+              (latest.current.floor === "all" && latest.current.split ? 4.8 : 0)
+            : 0) + roomFloorOffset(r, spec);
+        for (const [x, z] of r.polygon) {
+          bounds.expandByPoint(new THREE.Vector3(x - 0.6, base, z - 0.6));
+          bounds.expandByPoint(new THREE.Vector3(x + 0.6, base + roomHeight(r, spec), z + 0.6));
+        }
       }
-      controls.enableRotate = s.view !== "plan";
+      return bounds;
+    };
+    const frameBounds = (bounds: THREE.Box3) => {
+      const mode = latest.current.view;
+      camera.up.set(0, mode === "plan" ? 0 : 1, mode === "plan" ? -1 : 0);
+      const direction = new THREE.Vector3(
+        ...((mode === "plan"
+          ? [0, 1, 0.00001]
+          : mode === "front"
+            ? [0, 0.12, 1]
+            : [14, 18, 18]) as [number, number, number]),
+      ).normalize();
+      const right = new THREE.Vector3().crossVectors(camera.up, direction).normalize();
+      const up = new THREE.Vector3().crossVectors(direction, right).normalize();
+      const center = bounds.getCenter(new THREE.Vector3());
+      const tanV = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)),
+        tanH = tanV * camera.aspect;
+      let distance = 3;
+      for (const x of [bounds.min.x, bounds.max.x])
+        for (const y of [bounds.min.y, bounds.max.y])
+          for (const z of [bounds.min.z, bounds.max.z]) {
+            const point = new THREE.Vector3(x, y, z).sub(center);
+            distance = Math.max(
+              distance,
+              (Math.abs(point.dot(right)) * 1.12) / tanH + point.dot(direction),
+              (Math.abs(point.dot(up)) * 1.12) / tanV + point.dot(direction),
+            );
+          }
+      desiredTarget = center;
+      desiredPos = center.clone().addScaledVector(direction, distance);
+      controls.enableRotate = mode !== "plan";
+    };
+    const home = () => {
+      const list = spec.rooms.filter(
+        (r) => latest.current.floor === "all" || r.floor === Number(latest.current.floor),
+      );
+      frameBounds(boundsForRooms(list));
     };
     const focus = (id: string) => {
-      const r = spec.rooms.find((r) => r.id === id);
-      if (!r) return;
-      const y = floors[r.floor].position.y;
-      desiredTarget = new THREE.Vector3(r.label[0], y + 0.7, r.label[1]);
-      desiredPos =
-        latest.current.view === "plan"
-          ? new THREE.Vector3(r.label[0], y + 12, r.label[1] + 0.001)
-          : new THREE.Vector3(r.label[0] + 5, y + 9, r.label[1] + 7);
+      const room = spec.rooms.find((r) => r.id === id);
+      if (room) frameBounds(boundsForRooms([room]));
     };
     camera.position.set(20, 24, 26);
     controls.target.copy(target);
@@ -323,6 +357,7 @@ function Scene({
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      home();
     };
     const ro = new ResizeObserver(resize);
     ro.observe(el);
@@ -356,12 +391,19 @@ function Scene({
         const onFloor =
           s.floor === "all" ||
           String(o.userData.floor) === s.floor ||
-          (s.floor === "2" && o.userData.floor === 1 && ["stairs", "rail"].includes(k));
+          (s.floor === "2" &&
+            o.userData.floor === 1 &&
+            ["stairs", "rail", "stair-wall"].includes(k));
         o.visible = onFloor && (k === "ceiling" ? s.ceilings : k === "window" ? s.windows : true);
         const mat = o.material;
         mat.clippingPlanes =
-          s.cut && ["wall", "window"].includes(k)
-            ? [new THREE.Plane(new THREE.Vector3(0, -1, 0), base + 1.15)]
+          s.cut && ["wall", "window", "stair-wall"].includes(k)
+            ? [
+                new THREE.Plane(
+                  new THREE.Vector3(0, -1, 0),
+                  (k === "stair-wall" && s.floor === "2" ? floors[2].position.y : base) + 1.15,
+                ),
+              ]
             : [];
         if (k === "ceiling") {
           mat.transparent = true;
@@ -378,7 +420,7 @@ function Scene({
         const visible = s.labels && (s.floor === "all" || String(r.floor) === s.floor);
         div.style.display = visible ? "block" : "none";
         if (!visible) continue;
-        const y = floors[r.floor].position.y + 0.05;
+        const y = floors[r.floor].position.y + roomFloorOffset(r, spec) + 0.05;
         const v = new THREE.Vector3(r.label[0], y, r.label[1]).project(camera);
         div.style.left = (v.x * 0.5 + 0.5) * el.clientWidth + "px";
         div.style.top = (-v.y * 0.5 + 0.5) * el.clientHeight + "px";
@@ -415,7 +457,7 @@ function Scene({
 }
 export default function Home() {
   const [spec, setSpec] = useState(originalSpec),
-    [floor, setFloor] = useState<Floor>("2"),
+    [floor, setFloor] = useState<Floor>("1"),
     [view, setView] = useState<View>("orbit"),
     [split, setSplit] = useState(true),
     [ceilings, setCeilings] = useState(false),
@@ -563,7 +605,7 @@ export default function Home() {
             <h1>
               Дом<span> / </span>3D-модель
             </h1>
-            <p>Обмерная основа · 08.09.2026</p>
+            <p>Дом и гараж · 08.09.2026</p>
           </div>
         </div>
         <div className="floor-tabs" aria-label="Этаж">
@@ -766,17 +808,14 @@ export default function Home() {
                   <b>{ru(polygonArea(currentRoom.polygon))}</b> м²<small>в модели</small>
                 </span>
                 <span>
-                  <b>
-                    {currentRoom.floor === 1
-                      ? ru(spec.parameters.groundHeight)
-                      : ru(spec.parameters.upperHeight)}
-                  </b>{" "}
-                  м<small>{currentRoom.floor === 1 ? "до потолка" : "в высокой части"}</small>
+                  <b>{ru(roomHeight(currentRoom, spec))}</b> м
+                  <small>{currentRoom.floor === 1 ? "до потолка" : "в высокой части"}</small>
                 </span>
               </div>
               <p>{currentRoom.dimensions}</p>
               <small className="source-ref">
-                Черновой план · стр. {currentRoom.sourcePages.join(", ")}
+                {currentRoom.sourceLabel ??
+                  `Черновой план · стр. ${currentRoom.sourcePages.join(", ")}`}
               </small>
             </div>
           )}
@@ -875,15 +914,45 @@ export default function Home() {
                     <small>м</small>
                   </label>
                 ))}
+                <h3 className="parameter-heading">Гараж</h3>
+                {(
+                  [
+                    ["ceilingHeight", "Высота потолка", 2.7, 3.5],
+                    ["floorOffset", "Пол относительно дома", -1, 0],
+                  ] as const
+                ).map(([key, label, min, max]) => (
+                  <label className="parameter" key={key}>
+                    <span>{label}</span>
+                    <input
+                      type="number"
+                      min={min}
+                      max={max}
+                      step={0.01}
+                      value={spec.garage[key]}
+                      onChange={(e) => {
+                        const v = Number(e.target.value);
+                        if (Number.isFinite(v) && v >= min && v <= max)
+                          setSpec((s) => ({ ...s, garage: { ...s.garage, [key]: v } }));
+                      }}
+                    />
+                    <small>м</small>
+                  </label>
+                ))}
                 <div className="setting-note">
-                  Лестница: {spec.parameters.stairRisers} подъёмов по{" "}
+                  Ворота: 5,20 × 2,70 м. Отметка пола гаража предварительная; её можно уточнить
+                  здесь после обмера.
+                </div>
+                <div className="setting-note">
+                  Лестница: {spec.staircase.lowerTreads} + площадка + {spec.staircase.upperTreads}{" "}
+                  проступей. Подъёмов: {stairLayout(spec).totalRisers}, по{" "}
                   {ru(
                     ((spec.parameters.groundHeight + spec.parameters.slabThickness) /
-                      spec.parameters.stairRisers) *
+                      stairLayout(spec).totalRisers) *
                       1000,
                     0,
                   )}{" "}
-                  мм. Число и форма ступеней пока условные.
+                  мм. Число проступей подтверждено владельцем; точные размеры площадки и маршей
+                  требуют обмера.
                 </div>
                 <div className="modal-actions">
                   <button onClick={() => setSpec(originalSpec)}>
