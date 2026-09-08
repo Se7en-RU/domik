@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
@@ -146,8 +146,15 @@ function DimensionView({
   const [selectedWall, setSelectedWall] = useState("");
   const [viewBox, setViewBox] = useState<[number, number, number, number]>([-1, -1, 15, 18]);
   const drag = useRef<{ x: number; y: number; box: [number, number, number, number] } | null>(null);
-  const rooms = spec.rooms.filter((r) => floor === "all" || r.floor === Number(floor));
-  const walls = wallSet(spec).filter((w) => floor === "all" || w.floor === Number(floor));
+  // Stable dependencies keep the fit effect from resetting the view on every selection/pan.
+  const rooms = useMemo(
+    () => spec.rooms.filter((r) => floor === "all" || r.floor === Number(floor)),
+    [spec.rooms, floor],
+  );
+  const walls = useMemo(
+    () => wallSet(spec).filter((w) => floor === "all" || w.floor === Number(floor)),
+    [spec, floor],
+  );
   const selectedRoom = spec.rooms.find((r) => r.id === selected);
   const selectedWallData = walls.find((w) => w.id === selectedWall);
   const fit = useCallback(
@@ -211,7 +218,13 @@ function DimensionView({
           <h2>Размеры по модели</h2>
         </div>
         <div className="dimensions-actions">
-          <button className="dimension-action" onClick={() => fit()}>
+          <button
+            className="dimension-action"
+            onClick={() => {
+              onSelect("");
+              fit("");
+            }}
+          >
             <Maximize size={16} /> Весь план
           </button>
           <button className="dimension-action" onClick={exportSvg}>
@@ -344,11 +357,15 @@ function DimensionView({
                     className={`dimension-wall ${selectedWall === wall.id ? "selected" : ""}`}
                     role="button"
                     tabIndex={0}
+                    aria-pressed={selectedWall === wall.id}
                     aria-label={`Стена ${wall.id}, длина ${dimensionNumber(len, unit)}`}
                     onPointerDown={(e) => e.stopPropagation()}
                     onClick={() => setSelectedWall(wall.id)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") setSelectedWall(wall.id);
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelectedWall(wall.id);
+                      }
                     }}
                   >
                     <line
@@ -357,6 +374,14 @@ function DimensionView({
                       x2={wall.b[0]}
                       y2={wall.b[1]}
                       strokeWidth={Math.max(0.1, wall.t)}
+                    />
+                    <line
+                      className="wall-focus-ring"
+                      x1={wall.a[0]}
+                      y1={wall.a[1]}
+                      x2={wall.b[0]}
+                      y2={wall.b[1]}
+                      vectorEffect="non-scaling-stroke"
                     />
                     <line
                       className="wall-axis"

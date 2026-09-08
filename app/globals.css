@@ -857,6 +857,19 @@ p {
 }
 .dimension-wall {
   cursor: pointer;
+  /* Native SVG focus outlines scale in model units (metres), covering the plan.
+     Keyboard focus uses the non-scaling line below; pointer selection keeps its colour. */
+  outline: none;
+}
+.dimension-wall .wall-focus-ring {
+  display: none;
+  fill: none;
+  stroke: #edac39;
+  stroke-width: 3px;
+  pointer-events: none;
+}
+.dimension-wall:focus-visible .wall-focus-ring {
+  display: inline;
 }
 .dimension-wall > line:first-child {
   stroke: #355c6b;
