@@ -1296,3 +1296,99 @@ p {
   font-size: 16px;
   font-weight: 550;
 }
+
+/* Room-facing walls, not construction axes, own selection and dimensions. */
+.room-wall-face .face-hit {
+  cursor: pointer;
+}
+.room-wall-face .face-selection-band {
+  stroke-linecap: butt;
+}
+.dimension-annotations text {
+  stroke: none;
+}
+.room-face-list {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+}
+.room-face-list button {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  background: #f0f5f7;
+  text-align: left;
+}
+.room-face-list button.active {
+  background: #d2eaf2;
+  color: #086583;
+  box-shadow: inset 3px 0 #127c9f;
+}
+.room-face-list button strong {
+  white-space: nowrap;
+  font-size: 12px;
+}
+.face-measurements,
+.face-opening-list {
+  display: grid;
+  gap: 7px;
+  padding: 10px 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.face-measurements span,
+.face-opening-list span {
+  display: block;
+  color: #5d7885;
+}
+.face-opening-list > div {
+  padding: 8px 0;
+  border-top: 1px solid #dfe8ed;
+}
+
+/* Keep the drawing stable when the wall list/elevation grows. */
+.dimensions-view {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-top: 66px;
+}
+.dimensions-toolbar {
+  padding-right: 0;
+  flex: 0 0 auto;
+}
+.dimensions-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.dimensions-canvas-wrap,
+.dimension-plan,
+.dimensions-panel {
+  min-height: 0;
+}
+.dimensions-panel {
+  min-width: 0;
+}
+@media (max-width: 760px) {
+  .dimensions-view {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+  }
+  .dimensions-content {
+    overflow: visible;
+  }
+  .dimensions-canvas-wrap {
+    height: 65dvh;
+    min-height: 360px;
+    flex: none;
+  }
+  .dimensions-panel {
+    max-height: 65dvh;
+  }
+}

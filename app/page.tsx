@@ -5,6 +5,12 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter.js";
 import { buildHouse, polygonArea, upperHeightAt } from "../lib/model.mjs";
 import originalSpec from "../lib/house.json";
+import {
+  roomWallFaces,
+  roomInteriorPolygon,
+  placeDimensionLabels,
+  pointInPolygon,
+} from "../lib/dimensions.mjs";
 import { garageWalls, roomFloorOffset, roomHeight, stairLayout } from "../lib/layout.mjs";
 import {
   Box,
@@ -58,6 +64,12 @@ type DimensionWall = {
   t: number;
   floor: number;
   component?: string;
+  roomId?: string;
+  roomName?: string;
+  number?: number;
+  wallIds?: string[];
+  thicknesses?: number[];
+  roofZone?: string;
   height?: number;
   openings?: Array<{
     id: string;
@@ -106,7 +118,8 @@ const wallSet = (spec: typeof originalSpec): DimensionWall[] => {
   return [...walls, ...generated];
 };
 const wallTop = (wall: DimensionWall, spec: typeof originalSpec, distance = 0) => {
-  if (wall.component === "garage") return spec.garage.ceilingHeight;
+  if (wall.roomId === spec.garage.roomId || wall.component === "garage")
+    return spec.garage.ceilingHeight;
   if (wall.component === "stair") return wall.height ?? stairLayout(spec).parapetHeight;
   if (wall.floor === 1) return wall.height ?? spec.parameters.groundHeight;
   const [x, z] = wallPoint(wall, distance);
@@ -114,11 +127,12 @@ const wallTop = (wall: DimensionWall, spec: typeof originalSpec, distance = 0) =
     x,
     z,
     spec.parameters,
-    ["F2-W04", "F2-W05", "F2-W14", "F2-W15"].includes(wall.id) ? "south" : "main",
+    wall.roofZone ??
+      (["F2-W04", "F2-W05", "F2-W14", "F2-W15"].includes(wall.id) ? "south" : "main"),
   );
 };
 const dimensionNumber = (value: number, unit: "mm" | "m") =>
-  unit === "mm" ? `${Math.round(value * 1000)} мм` : `${ru(value, 2)} м`;
+  unit === "mm" ? `${Math.round(value * 1000)} мм` : `${ru(value, 3)} м`;
 const openingKind = (kind?: string) =>
   kind === "window"
     ? "Окно"
@@ -141,6 +155,8 @@ function DimensionView({
 }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [unit, setUnit] = useState<"mm" | "m">("mm");
+  const [allFloor, setAllFloor] = useState(1);
+  const visibleFloor = floor === "all" ? allFloor : Number(floor);
   const [layers, setLayers] = useState({
     walls: true,
     openings: true,
@@ -150,84 +166,206 @@ function DimensionView({
   });
   const [selectedWall, setSelectedWall] = useState("");
   const [viewBox, setViewBox] = useState<[number, number, number, number]>([-1, -1, 15, 18]);
-  const drag = useRef<{ x: number; y: number; box: [number, number, number, number] } | null>(null);
-  // Stable dependencies keep the fit effect from resetting the view on every selection/pan.
+  const [viewport, setViewport] = useState({ width: 800, height: 700 });
+  const drag = useRef<{
+    x: number;
+    y: number;
+    box: [number, number, number, number];
+    moved: boolean;
+  } | null>(null);
+  const suppressClick = useRef(false);
   const rooms = useMemo(
-    () => spec.rooms.filter((r) => floor === "all" || r.floor === Number(floor)),
-    [spec.rooms, floor],
+    () =>
+      spec.rooms
+        .filter((r) => r.floor === visibleFloor)
+        .map((r) => ({ ...r, polygon: roomInteriorPolygon(r, spec) })),
+    [spec, visibleFloor],
   );
   const walls = useMemo(
-    () => wallSet(spec).filter((w) => floor === "all" || w.floor === Number(floor)),
-    [spec, floor],
+    () => wallSet(spec).filter((w) => w.floor === visibleFloor),
+    [spec, visibleFloor],
   );
-  const selectedRoom = spec.rooms.find((r) => r.id === selected);
-  const selectedWallData = walls.find((w) => w.id === selectedWall);
+  const faces = useMemo(
+    () => roomWallFaces(spec).filter((f) => f.floor === visibleFloor),
+    [spec, visibleFloor],
+  );
+  const selectedFace = faces.find((f) => f.id === selectedWall);
+  const selectedRoom = rooms.find((r) => r.id === (selectedFace?.roomId ?? selected));
+  const visibleFaces = selectedRoom ? faces.filter((f) => f.roomId === selectedRoom.id) : faces;
+  const unitsPerPixel = Math.max(viewBox[2] / viewport.width, viewBox[3] / viewport.height);
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const observer = new ResizeObserver(([entry]) =>
+      setViewport((previous) => {
+        const next = {
+          width: Math.max(1, entry.contentRect.width),
+          height: Math.max(1, entry.contentRect.height),
+        };
+        return previous.width === next.width && previous.height === next.height ? previous : next;
+      }),
+    );
+    observer.observe(svg);
+    return () => observer.disconnect();
+  }, []);
   const fit = useCallback(
-    (roomId = selected) => {
-      const target = spec.rooms.find((r) => r.id === roomId);
-      const points = target ? target.polygon : rooms.flatMap((r) => r.polygon);
+    (roomId = "") => {
+      const target = rooms.find((r) => r.id === roomId),
+        points = target ? target.polygon : rooms.flatMap((r) => r.polygon);
       if (!points.length) return;
       const xs = points.map((p) => p[0]),
-        zs = points.map((p) => p[1]);
-      const pad = target ? 1.1 : 1.5;
+        ys = points.map((p) => p[1]),
+        pad = target ? 0.65 : 1;
       setViewBox([
         Math.min(...xs) - pad,
-        Math.min(...zs) - pad,
-        Math.max(...xs) - Math.min(...xs) + pad * 2,
-        Math.max(...zs) - Math.min(...zs) + pad * 2,
+        Math.min(...ys) - pad,
+        Math.max(...xs) - Math.min(...xs) + 2 * pad,
+        Math.max(...ys) - Math.min(...ys) + 2 * pad,
       ]);
     },
-    [rooms, selected, spec.rooms],
+    [rooms],
   );
-  useEffect(() => fit(), [fit, floor]);
-  const zoom = (factor: number) => {
+  useEffect(() => {
+    setSelectedWall("");
+    fit();
+  }, [fit]);
+  const zoom = (factor: number) =>
     setViewBox(([x, y, w, h]) => [
       x + (w * (1 - factor)) / 2,
       y + (h * (1 - factor)) / 2,
       w * factor,
       h * factor,
     ]);
+  const selectRoom = (id: string) => {
+    if (suppressClick.current) return;
+    setSelectedWall("");
+    onSelect(id);
+    fit(id);
   };
-  const panStart = (e: React.PointerEvent<SVGSVGElement>) => {
-    drag.current = { x: e.clientX, y: e.clientY, box: viewBox };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-  const panMove = (e: React.PointerEvent<SVGSVGElement>) => {
-    if (!drag.current) return;
-    const rect = svgRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const [, , w, h] = drag.current.box;
-    const scale = Math.max(w / rect.width, h / rect.height);
-    const dx = (e.clientX - drag.current.x) * scale,
-      dy = (e.clientY - drag.current.y) * scale;
-    setViewBox([drag.current.box[0] - dx, drag.current.box[1] - dy, w, h]);
-  };
+  const roomLabels = rooms.flatMap((room) => {
+    const text = room.name.replace(/ · [12] этаж/, "");
+    const font = Math.min(0.18, 12 * unitsPerPixel),
+      width = text.length * font * 0.65;
+    const box = { x: room.label[0] - width / 2, y: room.label[1] - font, w: width, h: font * 1.5 };
+    if (
+      ![
+        [box.x, box.y],
+        [box.x + box.w, box.y],
+        [box.x, box.y + box.h],
+        [box.x + box.w, box.y + box.h],
+      ].every((p) => pointInPolygon(p, room.polygon))
+    )
+      return [];
+    return [{ room, text, font, box }];
+  });
+  const candidates = visibleFaces.flatMap((face) => {
+    const room = rooms.find((r) => r.id === face.roomId)!;
+    const text =
+      dimensionNumber(face.length, unit) +
+      (layers.thickness
+        ? ` · t ${face.thicknesses.map((t) => dimensionNumber(t, unit)).join(" / ")}`
+        : "");
+    const labels = layers.walls
+      ? [
+          {
+            id: face.id,
+            faceId: face.id,
+            a: face.a,
+            b: face.b,
+            normal: face.normal,
+            polygon: room.polygon,
+            text,
+            kind: "wall",
+            priority: face.id === selectedWall ? 100 : 10 + face.length,
+          },
+        ]
+      : [];
+    if (layers.openings)
+      for (const o of face.openings) {
+        const a = wallPoint(face as DimensionWall, o.start),
+          b = wallPoint(face as DimensionWall, o.start + o.width);
+        labels.push({
+          id: `${face.id}:${o.id}`,
+          faceId: face.id,
+          a,
+          b,
+          normal: face.normal,
+          polygon: room.polygon,
+          text: dimensionNumber(o.width, unit),
+          kind: "opening",
+          priority: 5 + o.width,
+        });
+      }
+    return labels;
+  });
+  const labelObstacles = roomLabels.map((r) => ({
+    ...r.box,
+    h: r.box.h + (layers.heights ? 24 * unitsPerPixel : 0),
+  }));
+  const labels = placeDimensionLabels(candidates, labelObstacles, unitsPerPixel);
   const exportSvg = () => {
     const svg = svgRef.current;
     if (!svg) return;
-    const source = `<?xml version="1.0" encoding="UTF-8"?>\n${svg.outerHTML.replace("<svg", `<svg xmlns="http://www.w3.org/2000/svg"`)}\n`;
+    const clone = svg.cloneNode(true) as SVGSVGElement;
+    const originals = [svg, ...svg.querySelectorAll("*")],
+      copies = [clone, ...clone.querySelectorAll("*")];
+    originals.forEach((node, i) => {
+      const computed = getComputedStyle(node);
+      for (const property of [
+        "fill",
+        "stroke",
+        "stroke-width",
+        "stroke-dasharray",
+        "font-size",
+        "font-family",
+        "font-weight",
+        "paint-order",
+        "opacity",
+        "display",
+        "text-anchor",
+        "dominant-baseline",
+      ]) {
+        (copies[i] as SVGElement).style.setProperty(property, computed.getPropertyValue(property));
+      }
+    });
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    clone.setAttribute("width", String(viewport.width));
+    clone.setAttribute("height", String(viewport.height));
     save(
-      new Blob([source], { type: "image/svg+xml" }),
-      `размеры-${floor === "all" ? "дома" : `${floor}-этажа`}.svg`,
+      new Blob([`<?xml version="1.0" encoding="UTF-8"?>\n${clone.outerHTML}`], {
+        type: "image/svg+xml",
+      }),
+      `внутренние-размеры-${visibleFloor}-этаж.svg`,
     );
   };
-  const setLayer = (key: keyof typeof layers) =>
-    setLayers((value) => ({ ...value, [key]: !value[key] }));
-  const roomFill = (room: (typeof spec.rooms)[number]) =>
-    room.id === selected ? "#9ed7e5" : room.floor === 2 ? "#e5f0f3" : "#f5f8f9";
+  const stair = stairLayout(spec);
   return (
     <div className="dimensions-view">
       <div className="dimensions-toolbar">
         <div>
           <span className="eyebrow">ОБМЕРНЫЙ РЕЖИМ</span>
-          <h2>Размеры по модели</h2>
+          <h2>Внутренние размеры</h2>
         </div>
         <div className="dimensions-actions">
+          {floor === "all" && (
+            <div className="unit-switch" aria-label="Этаж чертежа">
+              {[1, 2].map((n) => (
+                <button
+                  key={n}
+                  className={allFloor === n ? "active" : ""}
+                  onClick={() => setAllFloor(n)}
+                >
+                  {n} этаж
+                </button>
+              ))}
+            </div>
+          )}
           <button
             className="dimension-action"
             onClick={() => {
               onSelect("");
-              fit("");
+              setSelectedWall("");
+              fit();
             }}
           >
             <Maximize size={16} /> Весь план
@@ -236,30 +374,43 @@ function DimensionView({
             <Download size={16} /> SVG
           </button>
           <div className="unit-switch" aria-label="Единицы">
-            <button className={unit === "mm" ? "active" : ""} onClick={() => setUnit("mm")}>
-              мм
-            </button>
-            <button className={unit === "m" ? "active" : ""} onClick={() => setUnit("m")}>
-              м
-            </button>
+            {(["mm", "m"] as const).map((u) => (
+              <button key={u} className={unit === u ? "active" : ""} onClick={() => setUnit(u)}>
+                {u === "mm" ? "мм" : "м"}
+              </button>
+            ))}
           </div>
         </div>
       </div>
       <div className="dimensions-content">
         <div className="dimensions-canvas-wrap">
           <div className="dimensions-note">
-            <Ruler size={15} /> Нажмите на помещение или стену. Панорамирование — перетаскивание,
-            масштаб — колесо.
+            <Ruler size={15} /> Размеры между внутренними углами. Выберите комнату или сторону
+            стены.
           </div>
           <svg
             ref={svgRef}
             className="dimension-plan"
             viewBox={viewBox.join(" ")}
             role="img"
-            aria-label="План с размерами стен и проёмов"
-            onPointerDown={panStart}
-            onPointerMove={panMove}
+            aria-label="План внутренних размеров комнат"
+            onPointerDown={(e) => {
+              drag.current = { x: e.clientX, y: e.clientY, box: viewBox, moved: false };
+              suppressClick.current = false;
+            }}
+            onPointerMove={(e) => {
+              if (!drag.current) return;
+              const d = drag.current,
+                dx = e.clientX - d.x,
+                dy = e.clientY - d.y;
+              d.moved ||= Math.hypot(dx, dy) > 4;
+              if (!d.moved) return;
+              e.currentTarget.setPointerCapture(e.pointerId);
+              const scale = Math.max(d.box[2] / viewport.width, d.box[3] / viewport.height);
+              setViewBox([d.box[0] - dx * scale, d.box[1] - dy * scale, d.box[2], d.box[3]]);
+            }}
             onPointerUp={() => {
+              suppressClick.current = drag.current?.moved ?? false;
               drag.current = null;
             }}
             onPointerCancel={() => {
@@ -272,7 +423,7 @@ function DimensionView({
           >
             <defs>
               <pattern id="dim-grid" width="1" height="1" patternUnits="userSpaceOnUse">
-                <path d="M 1 0 L 0 0 0 1" fill="none" stroke="#dbe7eb" strokeWidth="0.018" />
+                <path d="M1 0 L0 0 0 1" fill="none" stroke="#dbe7eb" strokeWidth=".012" />
               </pattern>
             </defs>
             <rect
@@ -282,204 +433,197 @@ function DimensionView({
               height={viewBox[3] + 60}
               fill="url(#dim-grid)"
             />
-            {rooms.map((room) => {
-              const centroid = room.polygon
-                .reduce((s, p) => [s[0] + p[0], s[1] + p[1]], [0, 0])
-                .map((v) => v / room.polygon.length);
-              return (
-                <g
-                  key={room.id}
-                  className="dimension-room"
-                  onClick={() => {
-                    onSelect(room.id);
-                    fit(room.id);
-                  }}
-                >
-                  <polygon
-                    points={room.polygon.map((p) => p.join(",")).join(" ")}
-                    fill={roomFill(room)}
-                    stroke="#7a98a5"
-                    strokeWidth="0.035"
-                  />
-                  <text
-                    x={room.label[0]}
-                    y={room.label[1]}
-                    className="room-dimension-label"
-                    textAnchor="middle"
-                  >
-                    {room.name.replace(" · 1 этаж", "").replace(" · 2 этаж", "")}
-                  </text>
-                  {layers.heights && (
-                    <text
-                      x={room.label[0]}
-                      y={room.label[1] + 0.28}
-                      className="room-height-label"
-                      textAnchor="middle"
-                    >
-                      H {dimensionNumber(roomHeight(room, spec), unit)}
-                      {room.floor === 2
-                        ? ` · низ ${dimensionNumber(Math.min(...room.polygon.map((p) => upperHeightAt(p[0], p[1], spec.parameters, room.id === "F2-ROOM" ? "south" : "main"))), unit)}`
-                        : ""}
-                    </text>
-                  )}
-                  {room.polygon.map((a, i) => {
-                    const b = room.polygon[(i + 1) % room.polygon.length],
-                      dx = b[0] - a[0],
-                      dz = b[1] - a[1],
-                      len = Math.hypot(dx, dz);
-                    if (len < 0.3) return null;
-                    const mx = (a[0] + b[0]) / 2,
-                      mz = (a[1] + b[1]) / 2;
-                    const nx = -dz / len,
-                      nz = dx / len;
-                    const sign = (centroid[0] - mx) * nx + (centroid[1] - mz) * nz > 0 ? -1 : 1;
-                    const ox = nx * 0.17 * sign,
-                      oz = nz * 0.17 * sign;
+            {rooms.map((room) => (
+              <polygon
+                key={room.id}
+                className="dimension-room"
+                data-room-id={room.id}
+                points={room.polygon.map((p) => p.join(",")).join(" ")}
+                fill={room.id === selectedRoom?.id ? "#d4eaf0" : "#edf3f5"}
+                stroke="#a0b7c0"
+                strokeWidth=".018"
+                onClick={() => selectRoom(room.id)}
+              />
+            ))}
+            {/* Structural segments form the background; no axis lengths or labels. */}
+            {walls.map((w) => (
+              <g key={w.id} className="structural-wall" pointerEvents="none">
+                <line
+                  x1={w.a[0]}
+                  y1={w.a[1]}
+                  x2={w.b[0]}
+                  y2={w.b[1]}
+                  stroke="#355c6b"
+                  strokeWidth={w.t}
+                />
+                {layers.openings &&
+                  (w.openings ?? []).map((o) => {
+                    const a = wallPoint(w, o.start),
+                      b = wallPoint(w, o.start + o.width);
                     return (
-                      <g key={`${room.id}-edge-${i}`} className="room-dim">
-                        <line x1={a[0] + ox} y1={a[1] + oz} x2={b[0] + ox} y2={b[1] + oz} />
-                        <text x={mx + ox} y={mz + oz - 0.04} textAnchor="middle">
-                          {dimensionNumber(len, unit)}
-                        </text>
-                      </g>
+                      <line
+                        key={o.id}
+                        x1={a[0]}
+                        y1={a[1]}
+                        x2={b[0]}
+                        y2={b[1]}
+                        stroke="#d37b42"
+                        strokeWidth=".12"
+                      />
                     );
                   })}
+              </g>
+            ))}
+            {layers.stairs && (
+              <g className="stair-dimension" pointerEvents="none">
+                <rect x={stair.x} y={stair.z} width={stair.width} height={stair.depth} />
+                {Array.from({ length: stair.lowerTreads }, (_, i) => (
+                  <line
+                    key={`lo${i}`}
+                    x1={stair.entryX - i * stair.lowerGoing}
+                    x2={stair.entryX - i * stair.lowerGoing}
+                    y1={stair.lowerZ}
+                    y2={stair.lowerZ + stair.lowerWidth}
+                  />
+                ))}
+                {Array.from({ length: stair.upperTreads }, (_, i) => (
+                  <line
+                    key={`up${i}`}
+                    x1={stair.turnX + i * stair.upperGoing}
+                    x2={stair.turnX + i * stair.upperGoing}
+                    y1={stair.upperZ}
+                    y2={stair.upperZ + stair.upperWidth}
+                  />
+                ))}
+              </g>
+            )}
+            {faces.map((face) => {
+              const n = face.normal,
+                centerA = face.a.map((v, i) => v - (n[i] * face.t) / 2),
+                centerB = face.b.map((v, i) => v - (n[i] * face.t) / 2);
+              const active = selectedWall === face.id;
+              return (
+                <g
+                  key={face.id}
+                  className={`dimension-wall room-wall-face ${active ? "selected" : ""}`}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={active}
+                  aria-label={`${face.roomName}, стена ${face.number}, внутренний размер ${dimensionNumber(face.length, unit)}`}
+                  data-face-id={face.id}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onClick={() => setSelectedWall(face.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelectedWall(face.id);
+                    }
+                  }}
+                >
+                  <line
+                    className="face-selection-band"
+                    x1={centerA[0]}
+                    y1={centerA[1]}
+                    x2={centerB[0]}
+                    y2={centerB[1]}
+                    strokeWidth={face.t}
+                    style={{ stroke: active ? "#127c9f" : "transparent" }}
+                  />
+                  <line
+                    className="face-hit"
+                    x1={face.a[0]}
+                    y1={face.a[1]}
+                    x2={face.b[0]}
+                    y2={face.b[1]}
+                    stroke="transparent"
+                    strokeWidth="12"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <line
+                    className="wall-focus-ring"
+                    x1={face.a[0]}
+                    y1={face.a[1]}
+                    x2={face.b[0]}
+                    y2={face.b[1]}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <title>
+                    {face.roomName} · стена {face.number}: {dimensionNumber(face.length, unit)} по
+                    внутренней грани
+                  </title>
                 </g>
               );
             })}
-            {layers.walls &&
-              walls.map((wall) => {
-                const len = wallLength(wall),
-                  mid = wallPoint(wall, len / 2),
-                  dx = wall.b[0] - wall.a[0],
-                  dz = wall.b[1] - wall.a[1],
-                  n = Math.hypot(dx, dz) || 1;
-                const nx = -dz / n,
-                  nz = dx / n;
-                return (
-                  <g
-                    key={wall.id}
-                    className={`dimension-wall ${selectedWall === wall.id ? "selected" : ""}`}
-                    role="button"
-                    tabIndex={0}
-                    aria-pressed={selectedWall === wall.id}
-                    aria-label={`Стена ${wall.id}, длина ${dimensionNumber(len, unit)}`}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={() => setSelectedWall(wall.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setSelectedWall(wall.id);
-                      }
-                    }}
+            {/* All annotations are drawn last, above wall geometry. */}
+            <g className="dimension-annotations" pointerEvents="none">
+              {roomLabels.map(({ room, text, font }) => (
+                <g key={room.id}>
+                  <text
+                    x={room.label[0]}
+                    y={room.label[1]}
+                    textAnchor="middle"
+                    fill="#315b6c"
+                    fontSize={font}
+                    fontWeight="650"
                   >
+                    {text}
+                  </text>
+                  {layers.heights && room.id === selectedRoom?.id && (
+                    <text
+                      x={room.label[0]}
+                      y={room.label[1] + font * 1.5}
+                      textAnchor="middle"
+                      fontSize={font * 0.8}
+                      fill="#5d7c89"
+                    >
+                      H {dimensionNumber(roomHeight(room, spec), unit)}
+                    </text>
+                  )}
+                </g>
+              ))}
+              {labels.map((label) => (
+                <g
+                  key={label.id}
+                  data-dimension-label={label.id}
+                  data-label-box={[label.box.x, label.box.y, label.box.w, label.box.h].join(",")}
+                >
+                  {label.kind === "wall" && (
                     <line
-                      x1={wall.a[0]}
-                      y1={wall.a[1]}
-                      x2={wall.b[0]}
-                      y2={wall.b[1]}
-                      strokeWidth={Math.max(0.1, wall.t)}
-                    />
-                    <line
-                      className="wall-focus-ring"
-                      x1={wall.a[0]}
-                      y1={wall.a[1]}
-                      x2={wall.b[0]}
-                      y2={wall.b[1]}
+                      x1={label.a[0] + label.normal[0] * 10 * unitsPerPixel}
+                      y1={label.a[1] + label.normal[1] * 10 * unitsPerPixel}
+                      x2={label.b[0] + label.normal[0] * 10 * unitsPerPixel}
+                      y2={label.b[1] + label.normal[1] * 10 * unitsPerPixel}
+                      stroke="#91adb9"
+                      strokeWidth="1"
                       vectorEffect="non-scaling-stroke"
                     />
-                    <line
-                      className="wall-axis"
-                      x1={wall.a[0] + nx * 0.22}
-                      y1={wall.a[1] + nz * 0.22}
-                      x2={wall.b[0] + nx * 0.22}
-                      y2={wall.b[1] + nz * 0.22}
+                  )}
+                  <g
+                    transform={`translate(${label.x} ${label.y}) rotate(${label.vertical ? -90 : 0})`}
+                  >
+                    <rect
+                      x={-label.width / 2}
+                      y={-label.height / 2}
+                      width={label.width}
+                      height={label.height}
+                      rx={3 * unitsPerPixel}
+                      fill="#fff"
+                      fillOpacity=".96"
                     />
-                    <text x={mid[0] + nx * 0.31} y={mid[1] + nz * 0.31} textAnchor="middle">
-                      {dimensionNumber(len, unit)}
+                    <text
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontFamily="system-ui, sans-serif"
+                      fontSize={12 * unitsPerPixel}
+                      fontWeight={label.faceId === selectedWall ? 700 : 550}
+                      fill={label.kind === "opening" ? "#a65e2d" : "#24576b"}
+                    >
+                      {label.text}
                     </text>
-                    {layers.thickness && (
-                      <text
-                        className="wall-thickness"
-                        x={mid[0] - nx * 0.31}
-                        y={mid[1] - nz * 0.31}
-                        textAnchor="middle"
-                      >
-                        t {dimensionNumber(wall.t, unit)}
-                      </text>
-                    )}
-                    {layers.openings &&
-                      (wall.openings ?? []).map((opening) => {
-                        const op = wallPoint(wall, opening.start),
-                          oq = wallPoint(wall, opening.start + opening.width);
-                        const om = wallPoint(wall, opening.start + opening.width / 2);
-                        return (
-                          <g key={opening.id} className="opening-dimension">
-                            <line x1={op[0]} y1={op[1]} x2={oq[0]} y2={oq[1]} />
-                            <text x={om[0] - nx * 0.28} y={om[1] - nz * 0.28} textAnchor="middle">
-                              {dimensionNumber(opening.width, unit)}
-                            </text>
-                            <title>
-                              {openingKind(opening.kind)} {opening.id}:{" "}
-                              {dimensionNumber(opening.width, unit)} ×{" "}
-                              {dimensionNumber(opening.height, unit)}; низ{" "}
-                              {dimensionNumber(
-                                opening.sill -
-                                  (wall.component === "garage" ? spec.garage.floorOffset : 0),
-                                unit,
-                              )}
-                            </title>
-                          </g>
-                        );
-                      })}
                   </g>
-                );
-              })}
-            {layers.stairs && (
-              <g className="stair-dimension">
-                <rect
-                  x={stairLayout(spec).x}
-                  y={stairLayout(spec).z}
-                  width={stairLayout(spec).width}
-                  height={stairLayout(spec).depth}
-                />
-                {Array.from({ length: stairLayout(spec).lowerTreads }, (_, i) => (
-                  <line
-                    key={`lo-${i}`}
-                    x1={stairLayout(spec).entryX - i * stairLayout(spec).lowerGoing}
-                    y1={stairLayout(spec).lowerZ}
-                    x2={stairLayout(spec).entryX - i * stairLayout(spec).lowerGoing}
-                    y2={stairLayout(spec).lowerZ + stairLayout(spec).lowerWidth}
-                  />
-                ))}
-                {Array.from({ length: stairLayout(spec).upperTreads }, (_, i) => (
-                  <line
-                    key={`up-${i}`}
-                    x1={stairLayout(spec).turnX + i * stairLayout(spec).upperGoing}
-                    y1={stairLayout(spec).upperZ}
-                    x2={stairLayout(spec).turnX + i * stairLayout(spec).upperGoing}
-                    y2={stairLayout(spec).upperZ + stairLayout(spec).upperWidth}
-                  />
-                ))}
-                <text
-                  x={stairLayout(spec).x + stairLayout(spec).width / 2}
-                  y={stairLayout(spec).z + stairLayout(spec).depth / 2}
-                  textAnchor="middle"
-                >
-                  {stairLayout(spec).lowerTreads} + площадка + {stairLayout(spec).upperTreads}{" "}
-                  ступеней
-                </text>
-                <text
-                  x={stairLayout(spec).x + stairLayout(spec).width / 2}
-                  y={stairLayout(spec).z + stairLayout(spec).depth / 2 + 0.28}
-                  textAnchor="middle"
-                >
-                  подъём {dimensionNumber(stairLayout(spec).rise, unit)} · проступь{" "}
-                  {dimensionNumber(stairLayout(spec).lowerGoing, unit)} /{" "}
-                  {dimensionNumber(stairLayout(spec).upperGoing, unit)}
-                </text>
-              </g>
-            )}
+                </g>
+              ))}
+            </g>
           </svg>
           <div className="dimension-zoom">
             <button onClick={() => zoom(0.82)} aria-label="Увеличить">
@@ -494,39 +638,57 @@ function DimensionView({
           <span className="eyebrow">СЛОИ</span>
           {(
             [
-              ["walls", "Стены и длины"],
-              ["openings", "Проёмы: ширина × высота"],
-              ["heights", "Высоты помещений и скосов"],
+              ["walls", "Внутренние длины"],
+              ["openings", "Размеры проёмов"],
+              ["heights", "Высота помещения"],
               ["thickness", "Толщина стен"],
               ["stairs", "Лестница"],
             ] as const
           ).map(([key, label]) => (
             <label className="dimension-check" key={key}>
-              <input type="checkbox" checked={layers[key]} onChange={() => setLayer(key)} />
+              <input
+                type="checkbox"
+                checked={layers[key]}
+                onChange={() => setLayers((v) => ({ ...v, [key]: !v[key] }))}
+              />
               <span>{label}</span>
             </label>
           ))}
           <div className="dimension-legend">
-            <i className="legend-wall" /> стена по оси <i className="legend-opening" /> проём
+            <i className="legend-wall" /> внутренняя грань <i className="legend-opening" /> проём
           </div>
           <div className="dimension-summary">
-            <strong>{floor === "all" ? "Все этажи" : `${floor} этаж`}</strong>
-            <span>
-              {rooms.length} помещений · {walls.length} стен
-            </span>
-            <span>Единицы: {unit === "mm" ? "миллиметры" : "метры"}</span>
+            <strong>{visibleFloor} этаж</strong>
+            <span>{rooms.length} помещений · размеры между внутренними углами</span>
           </div>
-          {selectedRoom && (
+          {selectedRoom ? (
             <div className="dimension-selection">
-              <span className="eyebrow">ВЫБРАНО ПОМЕЩЕНИЕ</span>
-              <strong>{selectedRoom.name}</strong>
+              <span className="eyebrow">{selectedRoom.name}</span>
               <span>Площадь {ru(polygonArea(selectedRoom.polygon), 1)} м²</span>
               <button onClick={() => fit(selectedRoom.id)}>Приблизить к комнате</button>
+              <div className="room-face-list" aria-label="Стены помещения">
+                {faces
+                  .filter((f) => f.roomId === selectedRoom.id)
+                  .map((f) => (
+                    <button
+                      key={f.id}
+                      className={selectedWall === f.id ? "active" : ""}
+                      onClick={() => setSelectedWall(f.id)}
+                    >
+                      <span>Стена {f.number}</span>
+                      <strong>{dimensionNumber(f.length, unit)}</strong>
+                    </button>
+                  ))}
+              </div>
             </div>
+          ) : (
+            <p className="dimension-footnote">
+              Выберите комнату: её стены и все короткие участки появятся в списке.
+            </p>
           )}
-          {selectedWallData ? (
+          {selectedFace ? (
             <WallElevation
-              wall={selectedWallData}
+              wall={selectedFace as DimensionWall}
               spec={spec}
               unit={unit}
               onClose={() => setSelectedWall("")}
@@ -534,14 +696,12 @@ function DimensionView({
           ) : (
             <div className="dimension-empty">
               <Ruler size={19} />
-              <span>
-                Выберите линию стены, чтобы открыть развёртку с высотой, простенками и проёмами.
-              </span>
+              <span>Выберите сторону стены для развёртки всей внутренней поверхности.</span>
             </div>
           )}
           <p className="dimension-footnote">
-            Размеры считаются по текущей геометрии. «≈» — исходное допущение модели; значения у
-            проёмов показываются в чистом проёме.
+            Одна сторона комнаты — один размер, включая проёмы. Короткие подписи появляются при
+            увеличении; все значения доступны в списке стен.
           </p>
         </aside>
       </div>
@@ -560,66 +720,85 @@ function WallElevation({
   unit: "mm" | "m";
   onClose: () => void;
 }) {
-  const len = wallLength(wall),
-    startTop = wallTop(wall, spec, 0),
-    endTop = wallTop(wall, spec, len),
-    maxTop = Math.max(startTop, endTop, ...(wall.openings ?? []).map((o) => o.sill + o.height));
-  const base = 3.25,
-    width = len + 1.2,
-    height = maxTop + 1.2;
+  const len = wallLength(wall);
+  const samples = Array.from({ length: Math.ceil(len / 0.04) + 1 }, (_, i) => {
+    const x = (len * i) / Math.ceil(len / 0.04);
+    return [x, wallTop(wall, spec, x)];
+  });
+  const maxTop = Math.max(...samples.map((p) => p[1])),
+    base = maxTop;
+  const openings = wall.openings ?? [];
+  const thicknesses = wall.thicknesses ?? [wall.t];
   return (
     <section className="wall-elevation">
       <div className="wall-elevation-head">
         <div>
-          <span className="eyebrow">РАЗВЁРТКА СТЕНЫ</span>
-          <strong>{wall.id}</strong>
+          <span className="eyebrow">ВНУТРЕННЯЯ ПОВЕРХНОСТЬ</span>
+          <strong>
+            {wall.roomName} · стена {wall.number}
+          </strong>
         </div>
         <button onClick={onClose} aria-label="Закрыть развёртку">
           <X size={16} />
         </button>
       </div>
+      <div className="face-measurements">
+        <strong>Длина {dimensionNumber(len, unit)}</strong>
+        <span>
+          Высота {dimensionNumber(Math.min(...samples.map((p) => p[1])), unit)}
+          {Math.max(...samples.map((p) => p[1])) - Math.min(...samples.map((p) => p[1])) > 0.005
+            ? `–${dimensionNumber(maxTop, unit)}`
+            : ""}
+        </span>
+        {thicknesses.length > 0 && (
+          <span>Толщина {thicknesses.map((t) => dimensionNumber(t, unit)).join(" / ")}</span>
+        )}
+      </div>
       <svg
-        viewBox={`-0.65 -0.65 ${width} ${height}`}
+        viewBox={`-.1 -.1 ${len + 0.2} ${maxTop + 0.2}`}
         role="img"
-        aria-label={`Развёртка стены ${wall.id}`}
+        aria-label={`Внутренняя развёртка: ${wall.roomName}, стена ${wall.number}`}
       >
-        <line className="elevation-base" x1={0} y1={base} x2={len} y2={base} />
         <polygon
           className="elevation-wall"
-          points={`0,${base - startTop} ${len},${base - endTop} ${len},${base} 0,${base}`}
+          points={[
+            ...samples.map(([x, h]) => `${x},${base - h}`),
+            `${len},${base}`,
+            `0,${base}`,
+          ].join(" ")}
         />
-        <line className="elevation-height" x1={-0.25} y1={base} x2={-0.25} y2={base - startTop} />
-        <text x={-0.31} y={base - startTop / 2} textAnchor="end">
-          {dimensionNumber(startTop, unit)}
-        </text>
-        <line className="elevation-length" x1={0} y1={base + 0.36} x2={len} y2={base + 0.36} />
-        <text x={len / 2} y={base + 0.62} textAnchor="middle">
-          L {dimensionNumber(len, unit)} · t {dimensionNumber(wall.t, unit)}
-        </text>
-        {(wall.openings ?? []).map((o) => {
-          const x = o.start,
-            h = o.height,
-            sill = o.sill - (wall.component === "garage" ? spec.garage.floorOffset : 0);
-          return (
-            <g className="elevation-opening" key={o.id}>
-              <rect x={x} y={base - sill - h} width={o.width} height={h} />
-              <text x={x + o.width / 2} y={base - sill - h - 0.12} textAnchor="middle">
-                {openingKind(o.kind)} {dimensionNumber(o.width, unit)} × {dimensionNumber(h, unit)}
-              </text>
-              <text x={x + o.width / 2} y={base + 0.2} textAnchor="middle">
-                низ {dimensionNumber(sill, unit)}
-              </text>
-            </g>
-          );
-        })}
+        {openings.map((o, i) => (
+          <g className="elevation-opening" key={o.id}>
+            <rect x={o.start} y={base - o.sill - o.height} width={o.width} height={o.height} />
+            <text x={o.start + o.width / 2} y={base - o.sill - o.height / 2} textAnchor="middle">
+              {i + 1}
+            </text>
+          </g>
+        ))}
       </svg>
-      <div className="wall-elevation-note">
-        Отметка высоты дана от пола соответствующего этажа; для гаража учитывается предварительный
-        перепад −0,35 м.
-      </div>
+      {openings.length > 0 && (
+        <div className="face-opening-list">
+          {openings.map((o, i) => (
+            <div key={o.id}>
+              <strong>
+                {i + 1}. {openingKind(o.kind)} · {dimensionNumber(o.width, unit)} ×{" "}
+                {dimensionNumber(o.height, unit)}
+              </strong>
+              <span>
+                От начала стены {dimensionNumber(o.start, unit)} · низ{" "}
+                {dimensionNumber(o.sill, unit)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="wall-elevation-note">
+        Длина между внутренними углами комнаты. Высоты — от её пола. Проёмы входят в общую длину.
+      </p>
     </section>
   );
 }
+
 function Scene({
   spec,
   floor,

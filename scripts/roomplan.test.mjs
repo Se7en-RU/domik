@@ -224,3 +224,70 @@ test("Coupled layout rejects protrusions, gaps and openings outside a wall", () 
   opening.walls.find((w) => w.id === "F1-W10").openings[0].start = 20;
   assert.throws(() => validateModel(opening), /outside host wall/);
 });
+
+test("Room-facing dimensions join structural segments and trim to internal corners", async () => {
+  const { roomWallFaces, roomInteriorPolygon } = await import("../lib/dimensions.mjs");
+  const spec = read("lib/house.json"),
+    faces = roomWallFaces(spec);
+  const garage = faces.find((f) => f.id === "F1-GARAGE:FACE:0");
+  assert(Math.abs(garage.length - 6.376) < 1e-6);
+  assert(garage.wallIds.includes("F1-W07") && garage.wallIds.includes("GARAGE-W01"));
+  assert.equal(faces.filter((f) => f.id === garage.id).length, 1);
+  const bathroom = faces.find((f) => f.id === "F2-BATH:FACE:1");
+  assert(Math.abs(bathroom.length - 2.81) < 1e-6);
+  assert.deepEqual(bathroom.wallIds, ["F2-W03"]);
+  const gate = faces
+    .find((f) => f.id === "F1-GARAGE:FACE:7")
+    .openings.find((o) => o.id === "GARAGE-GATE");
+  assert(Math.abs(gate.width - spec.garage.gateWidth) < 1e-6);
+  assert(Math.abs(gate.sill) < 1e-6);
+  const garageRoom = spec.rooms.find((r) => r.id === "F1-GARAGE");
+  const polygon = roomInteriorPolygon(garageRoom, spec);
+  assert(Math.abs(polygon[4][0] - spec.garage.wallProjection.rightEdgeX) < 1e-6);
+  const reversed = structuredClone(spec);
+  reversed.rooms.find((r) => r.id === "F2-BATH").polygon.reverse();
+  const door = roomWallFaces(reversed)
+    .filter((f) => f.roomId === "F2-BATH")
+    .flatMap((f) => f.openings)
+    .find((o) => o.id === "F2-WIN07");
+  assert(door.start >= 0 && door.start + door.width <= 1.905 + 1e-6);
+});
+
+test("Dimension labels remain inside rooms and never overlap reserved labels", async () => {
+  const { placeDimensionLabels, pointInPolygon } = await import("../lib/dimensions.mjs");
+  const polygon = [
+      [0, 0],
+      [3, 0],
+      [3, 3],
+      [0, 3],
+    ],
+    obstacle = { x: 1.2, y: 1.2, w: 0.6, h: 0.6 };
+  const candidates = Array.from({ length: 20 }, (_, i) => ({
+    id: String(i),
+    faceId: String(i),
+    a: [0, 0],
+    b: [3, 0],
+    normal: [0, 1],
+    polygon,
+    text: "3000 мм",
+    priority: i,
+  }));
+  for (const scale of [0.005, 0.02, 0.06]) {
+    const labels = placeDimensionLabels(candidates, [obstacle], scale),
+      boxes = [obstacle];
+    for (const label of labels) {
+      const a = label.box;
+      for (const b of boxes)
+        assert(!(a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y));
+      for (const p of [
+        [a.x, a.y],
+        [a.x + a.w, a.y],
+        [a.x, a.y + a.h],
+        [a.x + a.w, a.y + a.h],
+      ])
+        assert(pointInPolygon(p, polygon));
+      boxes.push(a);
+    }
+    assert(labels.length < candidates.length);
+  }
+});
