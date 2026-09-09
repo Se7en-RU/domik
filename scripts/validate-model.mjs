@@ -6,17 +6,110 @@ import * as THREE from "three";
 import { buildHouse, polygonArea, upperHeightAt } from "../lib/model.mjs";
 import { projectRoot } from "./paths.mjs";
 import { stairLayout, garageLayout } from "../lib/layout.mjs";
+import { checkLayout } from "./roomplan/check-layout.mjs";
+import { validateAnchors } from "./roomplan/anchors.mjs";
 
 export function readSpec() {
   return JSON.parse(fs.readFileSync(path.join(projectRoot, "lib/house.json"), "utf8"));
 }
 
 export function validateModel(spec, root = buildHouse(spec).root) {
+  if (spec.sources.some((s) => s.id === "manual-controls")) {
+    const controls = JSON.parse(
+      fs.readFileSync(path.join(projectRoot, "measurements/manual/control.json"), "utf8"),
+    );
+    validateAnchors(spec, controls);
+  }
+  if (spec.envelope) checkLayout(spec);
   const meshes = [];
   root.traverse((object) => {
     if (object.isMesh) meshes.push(object);
   });
   assert(meshes.length > 0, "Model is empty");
+  if (spec.openingHeightGroups) {
+    const openings = new Map(
+      spec.walls.flatMap((wall) => (wall.openings ?? []).map((opening) => [opening.id, opening])),
+    );
+    for (const group of spec.openingHeightGroups) {
+      for (const openingId of group.openingIds) {
+        const opening = openings.get(openingId);
+        assert(opening, `Opening height group references missing opening ${openingId}`);
+        assert.equal(opening.kind, group.kind, `${openingId}: wrong opening kind in height group`);
+        assert(
+          Math.abs(opening.height - group.height) < 1e-6,
+          `${openingId}: height differs from ${group.id}`,
+        );
+      }
+    }
+  }
+  if (spec.openingTypeGroups) {
+    const openings = new Map(
+      spec.walls.flatMap((wall) => (wall.openings ?? []).map((opening) => [opening.id, opening])),
+    );
+    for (const group of spec.openingTypeGroups) {
+      for (const openingId of group.openingIds) {
+        const opening = openings.get(openingId);
+        assert(opening, `Opening type group references missing opening ${openingId}`);
+        assert.equal(opening.kind, group.kind, `${openingId}: wrong opening kind in type group`);
+        assert.equal(opening.width, group.width, `${openingId}: width differs from ${group.id}`);
+        assert.equal(opening.height, group.height, `${openingId}: height differs from ${group.id}`);
+      }
+    }
+  }
+  const f1W14 = spec.walls.find((wall) => wall.id === "F1-W14");
+  const f1W16 = spec.walls.find((wall) => wall.id === "F1-W16");
+  const f1W17 = spec.walls.find((wall) => wall.id === "F1-W17");
+  if (f1W14 && f1W16 && f1W17) {
+    assert.equal(f1W14.t, f1W16.t, "F1-W14/F1-W16 thickness mismatch");
+    assert.equal(f1W16.t, f1W17.t, "F1-W16/F1-W17 thickness mismatch");
+    assert.equal(f1W14.b[1], f1W16.a[1], "F1-W14/F1-W16 corner height mismatch");
+    assert.equal(f1W16.a[1], f1W17.a[1], "F1-W16/F1-W17 corner height mismatch");
+    const halfThickness = f1W16.t / 2;
+    assert(
+      Math.abs(f1W16.a[0] - (f1W17.a[0] - halfThickness)) < 1e-6,
+      "F1-W16 does not overlap the F1-W17 corner",
+    );
+    assert(
+      Math.abs(f1W16.b[0] - (f1W14.b[0] + halfThickness)) < 1e-6,
+      "F1-W16 does not overlap the F1-W14 corner",
+    );
+  }
+  const f2W06 = spec.walls.find((wall) => wall.id === "F2-W06");
+  const f2W13 = spec.walls.find((wall) => wall.id === "F2-W13");
+  const f2W15 = spec.walls.find((wall) => wall.id === "F2-W15");
+  const f2W16 = spec.walls.find((wall) => wall.id === "F2-W16");
+  if (f2W06 && f2W15) {
+    assert(
+      Math.abs(f2W06.a[0] - (f2W15.a[0] + f2W15.t / 2)) < 1e-6,
+      "F2-W06 does not start at the F2-W15 face",
+    );
+    assert(
+      Math.abs(f2W15.b[1] - (f2W06.a[1] + f2W06.t / 2)) < 1e-6,
+      "F2-W15 does not reach the far face of F2-W06",
+    );
+    assert(
+      f2W06.a[1] - f2W06.t / 2 <= f2W15.b[1] + 1e-6 &&
+        f2W06.a[1] + f2W06.t / 2 >= f2W15.b[1] - 1e-6,
+      "F2-W06/F2-W15 corner does not overlap",
+    );
+  }
+  const cornerRoom = spec.rooms.find((room) => room.id === "F2-ROOM");
+  for (const point of cornerRoom.polygon.slice(2, 4)) {
+    assert(
+      Math.abs(point[1] - f2W15.b[1]) < 1e-6,
+      "Room floor/ceiling corner differs from wall junction",
+    );
+  }
+  if (f2W13 && f2W15 && f2W16) {
+    assert(
+      Math.abs(f2W13.b[1] - (f2W16.a[1] - f2W16.t / 2)) < 1e-6,
+      "F2-W13 does not reach the lower face of F2-W16",
+    );
+    assert(
+      Math.abs(f2W13.b[0] - f2W13.t / 2 - f2W16.b[0]) < 1e-6,
+      "F2-W16 does not reach the F2-W13 face",
+    );
+  }
   assert.equal(
     new Set(spec.rooms.map((room) => room.id)).size,
     spec.rooms.length,
@@ -103,15 +196,77 @@ export function validateModel(spec, root = buildHouse(spec).root) {
   ray.ray.direction.set(1, 0, 0);
   ray.far = 0.25;
   assert.equal(ray.intersectObjects(walls).length, 0, "Upper stair exit blocked");
+  const divider = root.getObjectByName("F1-W13-DIVIDER");
+  assert(divider, "Missing solid stair divider");
+  const dividerBounds = new THREE.Box3().setFromObject(divider);
+  assert(
+    Math.abs(dividerBounds.max.z - dividerBounds.min.z - spec.staircase.dividerThickness) < 1e-5,
+    "Generated divider thickness differs from manual control",
+  );
+  // A thicker divider must not block the store doorway or the lower flight.
+  ray.ray.origin.set(3.8, 1, 6.15);
+  ray.ray.direction.set(-1, 0, 0);
+  ray.far = 0.5;
+  assert.equal(ray.intersectObjects(walls).length, 0, "Store doorway blocked");
   ray.far = Infinity;
+  const garageReview = spec.sources.some((source) => source.id === "garage-review")
+    ? JSON.parse(
+        fs.readFileSync(path.join(projectRoot, "measurements/manual/garage-review.json"), "utf8"),
+      )
+    : null;
+  const acceptedGarageValue = (field, fallback) =>
+    garageReview?.decisions.findLast(
+      (decision) => decision.field === field && decision.status === "APPLIED",
+    )?.accepted ?? fallback;
+  if (spec.sources.some((source) => source.id === "garage-review")) {
+    assert(
+      garageReview.decisions.some((d) => d.field === "width" && d.status === "APPLIED"),
+      "Garage width review is missing",
+    );
+  }
   for (const [value, expected, label] of [
-    [garage.width, 6.85, "width"],
-    [garage.shortLength, 6.82, "short length"],
-    [garage.longLength, 7.87, "long length"],
+    [garage.width, acceptedGarageValue("width", 6.85), "width"],
+    [garage.shortLength, acceptedGarageValue("shortLength", 6.82), "short length"],
+    [garage.longLength, acceptedGarageValue("longLength", 7.87), "long length"],
   ])
     assert(Math.abs(value - expected) < 1e-6, `Garage ${label} differs from confirmed measurement`);
-  assert.equal(garage.gateWidth, 5.2);
+  assert.equal(garage.gateWidth, acceptedGarageValue("gateWidth", 5.2));
   assert.equal(garage.gateHeight, 2.7);
+  if (garageReview?.geometry) {
+    assert.deepEqual(
+      garage.room.polygon,
+      garageReview.geometry.polygon.map(([x, z]) => [
+        Math.round((x + (spec.garage.fitTranslation?.x ?? 0)) * 1e6) / 1e6,
+        Math.round((z + (spec.garage.fitTranslation?.z ?? 0)) * 1e6) / 1e6,
+      ]),
+      "Garage scan contour drift",
+    );
+    const projection = root.getObjectByName("GARAGE-W05-0");
+    assert(projection, "Missing confirmed wall projection");
+    if (garage.wallProjection?.joinDepth) {
+      assert(root.getObjectByName("GARAGE-W05-JOIN"), "Missing wall projection join");
+    }
+    const bounds = new THREE.Box3().setFromObject(projection);
+    assert(
+      Math.abs(bounds.max.x - bounds.min.x - garageReview.geometry.projection.width) < 1e-5,
+      "Wall projection width drift",
+    );
+    assert(
+      Math.abs(bounds.max.z - bounds.min.z - garageReview.geometry.projection.depth) < 1e-5,
+      "Wall projection depth drift",
+    );
+    if (garage.wallProjection?.rightEdgeX !== undefined) {
+      assert(
+        Math.abs(bounds.max.x - garage.wallProjection.rightEdgeX) < 1e-5,
+        "Wall projection right edge drift",
+      );
+    }
+    assert.equal(
+      garage.gateOffsetFromLeft,
+      garageReview.geometry.gate.offsetFromLeft,
+      "Gate left pier drift",
+    );
+  }
   const gateWall = meshes.filter((mesh) => mesh.userData.wallId === "GARAGE-W04");
   assert(gateWall.length > 0, "Garage gate wall is missing");
   ray.ray.direction.set(0, 0, -1);
@@ -180,11 +335,12 @@ export function validateModel(spec, root = buildHouse(spec).root) {
     "Left ceiling slope missing",
   );
   assert(
-    Math.abs(upperHeightAt(8.82, 2, p) - p.rightKneeHeight) < 0.0001,
+    Math.abs(upperHeightAt(p.upperMainWidth ?? 8.82, 2, p) - p.rightKneeHeight) < 0.0001,
     "Right ceiling slope missing",
   );
   assert(
-    Math.abs(upperHeightAt(5.19, 9, p, "south") - p.southRightKneeHeight) < 0.0001,
+    Math.abs(upperHeightAt(p.upperSouthWidth ?? 5.19, 9, p, "south") - p.southRightKneeHeight) <
+      0.0001,
     "South-room slope missing",
   );
   return {
@@ -200,6 +356,7 @@ export function validateModel(spec, root = buildHouse(spec).root) {
       "Open main doorway",
       "Confirmed stair tread counts, flat landing, reversed flights and equal rises",
       "Open upper stair exit",
+      "Manual wall controls, coupled room faces, divider thickness and open store doorway",
       "Confirmed garage dimensions and gate aperture",
       "Connected boiler passage and recessed garage floor",
       "Garage ceiling height and no upper storey over garage",

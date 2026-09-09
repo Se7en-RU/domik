@@ -98,7 +98,12 @@ const wallSet = (spec: typeof originalSpec): DimensionWall[] => {
       height: stair.parapetHeight,
     },
   ];
-  return [...(spec.walls as DimensionWall[]), ...generated];
+  const walls: DimensionWall[] = spec.walls.map((wall) => ({
+    ...wall,
+    a: [wall.a[0], wall.a[1]],
+    b: [wall.b[0], wall.b[1]],
+  }));
+  return [...walls, ...generated];
 };
 const wallTop = (wall: DimensionWall, spec: typeof originalSpec, distance = 0) => {
   if (wall.component === "garage") return spec.garage.ceilingHeight;
@@ -1174,7 +1179,7 @@ export default function Home() {
             <h1>
               Дом<span> / </span>3D-модель
             </h1>
-            <p>Дом и гараж · 08.09.2026</p>
+            <p>Дом и гараж · 09.09.2026</p>
           </div>
         </div>
         <div className="floor-tabs" aria-label="Этаж">
@@ -1225,7 +1230,7 @@ export default function Home() {
             </div>
             <div className="model-badge">
               <span />
-              <span>По черновому плану</span>
+              <span>По сканам RoomPlan</span>
             </div>
             <div className="rooms-list">
               {visibleRooms.map((r) => (

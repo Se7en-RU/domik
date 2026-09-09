@@ -1,0 +1,1876 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-09-09",
+  "authorization": "Подгонка остальных размеров под RoomPlan; округление до 0,5 см; приоритет непрерывности стен.",
+  "parameters": {
+    "W": 8.71,
+    "A": 3.23,
+    "B": 3.485,
+    "C": 5.3,
+    "H": 4.93,
+    "P": 6.705,
+    "S": 5.115,
+    "D": 2.975,
+    "U": 3.44,
+    "V": 3.075,
+    "L": 5.205,
+    "Q": 6.97,
+    "T": 1.565
+  },
+  "equations": [
+    {
+      "coeff": {
+        "W": 1
+      },
+      "value": 8.706,
+      "source": "кухня-гостиная.json:B4133602",
+      "weight": 1,
+      "fitted": 8.71,
+      "residual": 0.004
+    },
+    {
+      "coeff": {
+        "A": 1
+      },
+      "value": 3.237,
+      "source": "детская.json:11EEA21C",
+      "weight": 1,
+      "fitted": 3.23,
+      "residual": -0.007
+    },
+    {
+      "coeff": {
+        "B": 1
+      },
+      "value": 3.501,
+      "source": "детская.json:43A652BB",
+      "weight": 1,
+      "fitted": 3.485,
+      "residual": -0.016
+    },
+    {
+      "coeff": {
+        "C": 1,
+        "A": -1
+      },
+      "value": 2.08,
+      "source": "гардероб.json:CD0ACAE3",
+      "weight": 1,
+      "fitted": 2.07,
+      "residual": -0.01
+    },
+    {
+      "coeff": {
+        "W": 1,
+        "C": -1
+      },
+      "value": 3.4210000000000003,
+      "source": "спальня.json:north envelope excluding reveals",
+      "weight": 1,
+      "fitted": 3.41,
+      "residual": -0.011
+    },
+    {
+      "coeff": {
+        "W": 1,
+        "H": -1
+      },
+      "value": 3.795,
+      "source": "спальня.json:8DEBB3BF",
+      "weight": 1,
+      "fitted": 3.78,
+      "residual": -0.015
+    },
+    {
+      "coeff": {
+        "H": 1,
+        "B": -1
+      },
+      "value": 1.4620000000000002,
+      "source": "коридор-2этаж.json:6FB1D619",
+      "weight": 1,
+      "fitted": 1.445,
+      "residual": -0.017
+    },
+    {
+      "coeff": {
+        "H": 1
+      },
+      "value": 4.941,
+      "source": "коридор-2этаж.json:4C0813B4",
+      "weight": 1,
+      "fitted": 4.93,
+      "residual": -0.011
+    },
+    {
+      "coeff": {
+        "H": 1
+      },
+      "value": 4.908,
+      "source": "комната-2этаж.json:FBAFA5A6",
+      "weight": 1,
+      "fitted": 4.93,
+      "residual": 0.022
+    },
+    {
+      "coeff": {
+        "P": 1,
+        "H": -1
+      },
+      "value": 1.7630000000000001,
+      "source": "туалет-2этаж.json:9623E6B5",
+      "weight": 1,
+      "fitted": 1.775,
+      "residual": 0.012
+    },
+    {
+      "coeff": {
+        "W": 1,
+        "P": -1
+      },
+      "value": 1.991,
+      "source": "ванна.json:146414CF",
+      "weight": 1,
+      "fitted": 2.005,
+      "residual": 0.014
+    },
+    {
+      "coeff": {
+        "S": 1
+      },
+      "value": 5.102,
+      "source": "комната-2этаж.json:6E46D8C7",
+      "weight": 1,
+      "fitted": 5.115,
+      "residual": 0.013
+    },
+    {
+      "coeff": {
+        "S": 1,
+        "H": -1
+      },
+      "value": 0.194,
+      "source": "комната-2этаж.json:49F87314",
+      "weight": 1,
+      "fitted": 0.185,
+      "residual": -0.009
+    },
+    {
+      "coeff": {
+        "D": 1
+      },
+      "value": 2.963,
+      "source": "гардероб.json:67F0A06F",
+      "weight": 1,
+      "fitted": 2.975,
+      "residual": 0.012
+    },
+    {
+      "coeff": {
+        "D": 1
+      },
+      "value": 2.993,
+      "source": "детская.json:E1C30FC0",
+      "weight": 1,
+      "fitted": 2.975,
+      "residual": -0.018
+    },
+    {
+      "coeff": {
+        "D": 1
+      },
+      "value": 2.94,
+      "source": "спальня.json:7DF43A36",
+      "weight": 1,
+      "fitted": 2.975,
+      "residual": 0.035
+    },
+    {
+      "coeff": {
+        "D": 1
+      },
+      "value": 2.9989999999999997,
+      "source": "коридор-2этаж.json:1C4CED2E",
+      "weight": 1,
+      "fitted": 2.975,
+      "residual": -0.024
+    },
+    {
+      "coeff": {
+        "U": 1
+      },
+      "value": 3.442,
+      "source": "коридор.json:3A2C9A73",
+      "weight": 1,
+      "fitted": 3.44,
+      "residual": -0.002
+    },
+    {
+      "coeff": {
+        "V": 1
+      },
+      "value": 3.073,
+      "source": "коридор.json:322CE7A0",
+      "weight": 1,
+      "fitted": 3.075,
+      "residual": 0.002
+    },
+    {
+      "coeff": {
+        "U": 1,
+        "V": -1
+      },
+      "value": 0.369,
+      "source": "коридор.json:6F0DBFAF",
+      "weight": 1,
+      "fitted": 0.365,
+      "residual": -0.004
+    },
+    {
+      "coeff": {
+        "Q": 1,
+        "L": -1
+      },
+      "value": 1.749,
+      "source": "туалет-1этаж.json:39F5DA52",
+      "weight": 1,
+      "fitted": 1.765,
+      "residual": 0.016
+    },
+    {
+      "coeff": {
+        "W": 1,
+        "Q": -1
+      },
+      "value": 1.735,
+      "source": "бойлер.json:BD6887FB",
+      "weight": 1,
+      "fitted": 1.74,
+      "residual": 0.005
+    },
+    {
+      "coeff": {
+        "W": 1,
+        "L": -1
+      },
+      "value": 3.515,
+      "source": "бойлер.json:75F5865E",
+      "weight": 1,
+      "fitted": 3.505,
+      "residual": -0.01
+    },
+    {
+      "coeff": {
+        "Q": 1,
+        "L": -1
+      },
+      "value": 1.7799999999999998,
+      "source": "бойлер.json:AD7AF597",
+      "weight": 1,
+      "fitted": 1.765,
+      "residual": -0.015
+    },
+    {
+      "coeff": {
+        "T": 1
+      },
+      "value": 1.597,
+      "source": "туалет-1этаж.json:92DA86A4",
+      "weight": 1,
+      "fitted": 1.565,
+      "residual": -0.032
+    },
+    {
+      "coeff": {
+        "T": 1
+      },
+      "value": 1.535,
+      "source": "бойлер.json:35FC74A5",
+      "weight": 0.5,
+      "fitted": 1.565,
+      "residual": 0.03
+    },
+    {
+      "coeff": {
+        "T": 1
+      },
+      "value": 1.5349999999999997,
+      "source": "бойлер.json:5D8CC208",
+      "weight": 0.5,
+      "fitted": 1.565,
+      "residual": 0.03
+    }
+  ],
+  "lowWallHeights": {
+    "left": {
+      "accepted": 1.925,
+      "observations": [
+        {
+          "file": "детская.json",
+          "value": 1.908
+        },
+        {
+          "file": "комната-2этаж.json",
+          "value": 1.942
+        }
+      ]
+    },
+    "right": {
+      "accepted": 1.96,
+      "observations": [
+        {
+          "file": "спальня.json",
+          "value": 1.928
+        },
+        {
+          "file": "ванна.json",
+          "value": 1.996
+        }
+      ]
+    },
+    "southRight": {
+      "accepted": 1.94,
+      "observations": [
+        {
+          "file": "комната-2этаж.json",
+          "value": 1.942
+        }
+      ]
+    }
+  },
+  "derived": {
+    "upperRear": 7.38,
+    "roomTop": 6.77,
+    "corner": 7.645,
+    "F2W06Thickness": 0.265,
+    "garageTranslation": {
+      "dx": -0.145,
+      "dz": -0.125
+    }
+  },
+  "openingEvidence": [
+    {
+      "file": "бойлер.json",
+      "id": "237B5369-6A4D-4C9C-92DE-4FCFEBCAD0F2",
+      "type": "window",
+      "parentScanWallId": "BA0AAEA4-5623-411E-A0E0-B2B4F8ECD68D",
+      "modelWallId": "F1-W03",
+      "modelOpeningId": "F1-WIN05",
+      "status": "REVIEW REQUIRED",
+      "center": [8.71, 5.142],
+      "width": 0.762,
+      "height": 1.223,
+      "sill": 0.936,
+      "start": 4.761,
+      "registration": "REVIEW REQUIRED"
+    },
+    {
+      "file": "бойлер.json",
+      "id": "4D14C823-28F1-4047-938A-BFB8AD6623D0",
+      "type": "door",
+      "parentScanWallId": "75F5865E-4918-4634-A2CD-6748637972BF",
+      "modelWallId": "F1-W08",
+      "modelOpeningId": "F1-EXT02",
+      "status": "REVIEW REQUIRED",
+      "center": [7.184, 7.295],
+      "width": 0.981,
+      "height": 2.139,
+      "sill": 0,
+      "start": 1.589,
+      "registration": "REVIEW REQUIRED"
+    },
+    {
+      "file": "ванна.json",
+      "id": "492A36A1-588F-441C-8F9E-5A559E4316FC",
+      "type": "window",
+      "parentScanWallId": "333E1457-AC2D-435D-9BD8-5CC48717FDE3",
+      "modelWallId": "F2-W06",
+      "modelOpeningId": "F2-WIN07",
+      "status": "MATCHED",
+      "center": [7.255, 7.384],
+      "width": 0.873,
+      "height": 1.672,
+      "sill": 0.84,
+      "start": 1.788,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "гараж.json",
+      "id": "5D2AB6B7-809A-49B6-A2A9-C71A7E8229FC",
+      "type": "window",
+      "parentScanWallId": "AA861936-9D84-4DBB-984E-D921BB1EBB40",
+      "modelWallId": "F1-W08",
+      "modelOpeningId": "F1-EXT02",
+      "status": "REVIEW REQUIRED",
+      "center": [7.193, 7.895],
+      "width": 1.019,
+      "height": 2.069,
+      "sill": 0.597,
+      "start": 1.578,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "гардероб.json",
+      "id": "69A7E505-D481-4B0B-9F6C-951D1B0ECB4E",
+      "type": "window",
+      "parentScanWallId": "CD0ACAE3-835A-489C-8B3D-711F3E434F49",
+      "modelWallId": "F2-W01",
+      "modelOpeningId": "F2-WIN02",
+      "status": "MATCHED",
+      "center": [4.337, 0],
+      "width": 0.945,
+      "height": 1.7,
+      "sill": 0.735,
+      "start": 4.464,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "детская.json",
+      "id": "30E316D1-1C17-40C0-81F2-6D3EA648624C",
+      "type": "window",
+      "parentScanWallId": "11EEA21C-D272-4361-BC73-D74FBDEA8D18",
+      "modelWallId": "F2-W01",
+      "modelOpeningId": "F2-WIN01",
+      "status": "MATCHED",
+      "center": [2.248, 0.001],
+      "width": 1.612,
+      "height": 2.346,
+      "sill": 0,
+      "start": 2.042,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "комната-2этаж.json",
+      "id": "4B4FAEDC-90AC-470F-B742-F00ABD47907B",
+      "type": "window",
+      "parentScanWallId": "6E46D8C7-B8D7-4989-8A26-2E6CE4FB7113",
+      "modelWallId": "F2-W04",
+      "modelOpeningId": "F2-WIN06",
+      "status": "MATCHED",
+      "center": [3.24, 10.075],
+      "width": 1.765,
+      "height": 1.596,
+      "sill": 0.844,
+      "start": 2.957,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "комната-2этаж.json",
+      "id": "E1B1FD32-B441-4E8C-9B3C-C124AFBADF37",
+      "type": "window",
+      "parentScanWallId": "6E46D8C7-B8D7-4989-8A26-2E6CE4FB7113",
+      "modelWallId": "F2-W04",
+      "modelOpeningId": "F2-WIN05",
+      "status": "MATCHED",
+      "center": [1.492, 10.075],
+      "width": 0.865,
+      "height": 2.44,
+      "sill": 0,
+      "start": 1.659,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "комната-2этаж.json",
+      "id": "FFD90B1F-DD47-4626-AF9A-A5331536B29F",
+      "type": "window",
+      "parentScanWallId": "4D4C7DD0-21BA-4832-8FF6-9566A0D72A4D",
+      "modelWallId": "F2-W02",
+      "modelOpeningId": "F2-WIN04",
+      "status": "MATCHED",
+      "center": [0, 5.824],
+      "width": 1.074,
+      "height": 1.335,
+      "sill": 0.075,
+      "start": 5.287,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "коридор-2этаж.json",
+      "id": "78966584-4205-4190-A0D5-50F8B066B842",
+      "type": "window",
+      "parentScanWallId": "1681122E-6434-4040-9E57-1832917717C6",
+      "modelWallId": "F2-W02",
+      "modelOpeningId": "F2-WIN04",
+      "status": "MATCHED",
+      "center": [-0.011, 5.637],
+      "width": 1.03,
+      "height": 1.448,
+      "sill": 0.524,
+      "start": 5.122,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "коридор.json",
+      "id": "1D71864E-CC38-4106-AA8C-3579B291EA6E",
+      "type": "window",
+      "parentScanWallId": "322CE7A0-3867-4750-8C3D-8AF3EB49E91A",
+      "modelWallId": "F1-W04",
+      "modelOpeningId": "F1-WIN06",
+      "status": "MATCHED",
+      "center": [1.971, 10.035],
+      "width": 1.784,
+      "height": 1.776,
+      "sill": 0.829,
+      "start": 1.679,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "кухня-гостиная.json",
+      "id": "F9F718FE-FF84-4FE9-81C5-9F4596F757E4",
+      "type": "window",
+      "parentScanWallId": "7609FFCE-13A6-4419-B71A-250B1BC778E8",
+      "modelWallId": "F1-W03",
+      "modelOpeningId": "F1-WIN04",
+      "status": "MATCHED",
+      "center": [8.71, 1.784],
+      "width": 2.236,
+      "height": 1.345,
+      "sill": 0.895,
+      "start": 0.667,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "кухня-гостиная.json",
+      "id": "34A1C6F2-64C2-4F3B-AB09-88270F4A11DF",
+      "type": "door",
+      "parentScanWallId": "8F787A94-DD0A-45D0-9236-C3E2E84BC0F1",
+      "modelWallId": "F1-W01",
+      "modelOpeningId": "F1-WIN02",
+      "status": "REVIEW REQUIRED",
+      "center": [6.832, -0.381],
+      "width": 2.47,
+      "height": 2.615,
+      "sill": 0,
+      "start": 6.197,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "кухня-гостиная.json",
+      "id": "3791574B-3EE9-4841-A8C5-C7AA37C0477F",
+      "type": "door",
+      "parentScanWallId": "498C5222-6788-4B03-BA39-E0B1001CE03E",
+      "modelWallId": "F1-W01",
+      "modelOpeningId": "F1-WIN01",
+      "status": "REVIEW REQUIRED",
+      "center": [1.845, -0.37],
+      "width": 2.41,
+      "height": 2.615,
+      "sill": 0,
+      "start": 1.24,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "кухня-гостиная.json",
+      "id": "02346608-DE89-4906-B54B-5A5DA5F432CC",
+      "type": "door",
+      "parentScanWallId": "1847F0BE-A535-463E-8FDA-94B1F4C1F706",
+      "modelWallId": "F1-W02",
+      "modelOpeningId": "F1-WIN03",
+      "status": "REVIEW REQUIRED",
+      "center": [-0.36, 2.897],
+      "width": 0.949,
+      "height": 2.39,
+      "sill": 0,
+      "start": 2.422,
+      "registration": "MATCHED"
+    },
+    {
+      "file": "лестница.json",
+      "id": "E6B660EF-C0D5-49DC-8344-20F352AE5CA7",
+      "type": "window",
+      "parentScanWallId": "D08A140C-5581-4FA4-91D7-3550B7CA7F09",
+      "modelWallId": "F2-W02",
+      "modelOpeningId": "F2-WIN04",
+      "status": "REVIEW REQUIRED",
+      "center": [-0.105, 5.614],
+      "width": 1.089,
+      "height": 1.401,
+      "sill": 3.238,
+      "start": 5.069,
+      "registration": "REVIEW REQUIRED"
+    },
+    {
+      "file": "спальня.json",
+      "id": "08B2BA44-9A74-4C5E-AC8B-92CE075927F4",
+      "type": "door",
+      "parentScanWallId": "B9660F0C-B9A7-496F-875E-3E352CAE6DA1",
+      "modelWallId": "F2-W01",
+      "modelOpeningId": "F2-WIN03",
+      "status": "REVIEW REQUIRED",
+      "center": [6.457, -0.336],
+      "width": 1.67,
+      "height": 2.39,
+      "sill": 0,
+      "start": 6.222,
+      "registration": "MATCHED"
+    }
+  ],
+  "revisionBefore": "2026-09-09-f2-corner-roomplan-audit",
+  "revisionAfter": "2026-09-09-roomplan-coupled-fit",
+  "validation": {
+    "meshCount": 259,
+    "stairTreads": 19,
+    "stairRisers": 21,
+    "garageArea": 42.490824500000016,
+    "tests": [
+      "Finite nonempty meshes",
+      "Unique room IDs",
+      "Open stairwell",
+      "Slab under rooms",
+      "Open main doorway",
+      "Confirmed stair tread counts, flat landing, reversed flights and equal rises",
+      "Open upper stair exit",
+      "Manual wall controls, coupled room faces, divider thickness and open store doorway",
+      "Confirmed garage dimensions and gate aperture",
+      "Connected boiler passage and recessed garage floor",
+      "Garage ceiling height and no upper storey over garage",
+      "High ceiling and three low points"
+    ],
+    "rooms": [
+      {
+        "id": "F1-LIVING",
+        "name": "Гостиная",
+        "modelArea": 14.500950000000001,
+        "sourceArea": 14.7,
+        "delta": -0.19904999999999795
+      },
+      {
+        "id": "F1-KITCHEN",
+        "name": "Кухня",
+        "modelArea": 21.689100000000003,
+        "sourceArea": 21.9,
+        "delta": -0.2108999999999952
+      },
+      {
+        "id": "F1-HALL",
+        "name": "Прихожая",
+        "modelArea": 7.406199999999995,
+        "sourceArea": 7.68,
+        "delta": -0.27380000000000493
+      },
+      {
+        "id": "F1-BATH",
+        "name": "Ванная · 1 этаж",
+        "modelArea": 2.7622249999999884,
+        "sourceArea": 2.8,
+        "delta": -0.03777500000001144
+      },
+      {
+        "id": "F1-BOILER",
+        "name": "Бойлерная",
+        "modelArea": 6.445899999999998,
+        "sourceArea": 6.75,
+        "delta": -0.3041000000000018
+      },
+      {
+        "id": "F1-OFFICE",
+        "name": "Кабинет",
+        "modelArea": 9.904025,
+        "sourceArea": 9.93,
+        "delta": -0.02597499999999897
+      },
+      {
+        "id": "F1-STORE",
+        "name": "Кладовая",
+        "modelArea": 3.199200000000001,
+        "sourceArea": 3.54,
+        "delta": -0.3407999999999989
+      },
+      {
+        "id": "F1-STAIR",
+        "name": "Лестница",
+        "modelArea": 3.699399999999999,
+        "sourceArea": 3.52,
+        "delta": 0.1793999999999989
+      },
+      {
+        "id": "F1-GARAGE",
+        "name": "Гараж",
+        "modelArea": 42.490824500000016,
+        "sourceArea": null,
+        "delta": null
+      },
+      {
+        "id": "F2-CHILD",
+        "name": "Детская",
+        "modelArea": 13.730899999999998,
+        "sourceArea": 14,
+        "delta": -0.26910000000000167
+      },
+      {
+        "id": "F2-DRESS",
+        "name": "Гардеробная",
+        "modelArea": 5.86075,
+        "sourceArea": 5.99,
+        "delta": -0.12924999999999986
+      },
+      {
+        "id": "F2-BED",
+        "name": "Спальня",
+        "modelArea": 14.12795000000001,
+        "sourceArea": 14.4,
+        "delta": -0.27204999999999124
+      },
+      {
+        "id": "F2-HALL",
+        "name": "Коридор",
+        "modelArea": 4.8352749999999975,
+        "sourceArea": 4.94,
+        "delta": -0.10472500000000284
+      },
+      {
+        "id": "F2-SHOWER",
+        "name": "Душевая",
+        "modelArea": 4.706750000000003,
+        "sourceArea": 4.68,
+        "delta": 0.026750000000003382
+      },
+      {
+        "id": "F2-BATH",
+        "name": "Ванная · 2 этаж",
+        "modelArea": 5.35305000000001,
+        "sourceArea": 5.53,
+        "delta": -0.17694999999998995
+      },
+      {
+        "id": "F2-ROOM",
+        "name": "Комната",
+        "modelArea": 16.7432,
+        "sourceArea": 16.9,
+        "delta": -0.15679999999999694
+      },
+      {
+        "id": "F2-STAIR",
+        "name": "Лестничный проём",
+        "modelArea": 7.423499999999997,
+        "sourceArea": 7.39,
+        "delta": 0.03349999999999742
+      }
+    ]
+  },
+  "changes": [
+    {
+      "id": "F1-W01",
+      "before": {
+        "id": "F1-W01",
+        "floor": 1,
+        "a": [-0.3, -0.3],
+        "b": [9.12, -0.3],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN01",
+            "start": 0.94,
+            "width": 2.5,
+            "sill": 0.145,
+            "height": 2.9,
+            "kind": "window"
+          },
+          {
+            "id": "F1-WIN02",
+            "start": 5.98,
+            "width": 2.5,
+            "sill": 0.145,
+            "height": 2.9,
+            "kind": "window"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W01",
+        "floor": 1,
+        "a": [-0.6, -0.3],
+        "b": [9.31, -0.3],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN01",
+            "start": 1.24,
+            "width": 2.44,
+            "sill": 0,
+            "height": 2.615,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:3791574B-3EE9-4841-A8C5-C7AA37C0477F"]
+          },
+          {
+            "id": "F1-WIN02",
+            "start": 6.195,
+            "width": 2.44,
+            "sill": 0,
+            "height": 2.615,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:34A1C6F2-64C2-4F3B-AB09-88270F4A11DF"]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W02",
+      "before": {
+        "id": "F1-W02",
+        "floor": 1,
+        "a": [-0.3, 0],
+        "b": [-0.3, 10.06],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN03",
+            "start": 2.39,
+            "width": 1.06,
+            "sill": 0.14,
+            "height": 2.679,
+            "kind": "window"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W02",
+        "floor": 1,
+        "a": [-0.3, 0],
+        "b": [-0.3, 10.035],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN03",
+            "start": 2.42,
+            "width": 0.95,
+            "sill": 0,
+            "height": 2.39,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:02346608-DE89-4906-B54B-5A5DA5F432CC"]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W03",
+      "before": {
+        "id": "F1-W03",
+        "floor": 1,
+        "a": [9.12, 0],
+        "b": [9.12, 7.42],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN04",
+            "start": 0.63,
+            "width": 2.24,
+            "sill": 0.895,
+            "height": 1.4,
+            "kind": "window",
+            "sourceRefs": ["height-review:кухня-гостиная.json"]
+          },
+          {
+            "id": "F1-WIN05",
+            "start": 4.77,
+            "width": 0.91,
+            "sill": 1.075,
+            "height": 1.4,
+            "kind": "window"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W03",
+        "floor": 1,
+        "a": [9.01, 0],
+        "b": [9.01, 7.295],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN04",
+            "start": 0.665,
+            "width": 2.235,
+            "sill": 0.895,
+            "height": 1.4,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:кухня-гостиная.json",
+              "scan-fit-2026-09-09:F9F718FE-FF84-4FE9-81C5-9F4596F757E4"
+            ]
+          },
+          {
+            "id": "F1-WIN05",
+            "start": 4.76,
+            "width": 0.76,
+            "sill": 0.935,
+            "height": 1.4,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:237B5369-6A4D-4C9C-92DE-4FCFEBCAD0F2"]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W04",
+      "before": {
+        "id": "F1-W04",
+        "floor": 1,
+        "a": [-0.3, 10.36],
+        "b": [3.3, 10.36],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN06",
+            "start": 1.31,
+            "width": 1.94,
+            "sill": 0.829,
+            "height": 1.776,
+            "kind": "window",
+            "sourceRefs": ["height-review:коридор.json"]
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W04",
+        "floor": 1,
+        "a": [-0.6, 10.335],
+        "b": [3.675, 10.335],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-WIN06",
+            "start": 1.68,
+            "width": 1.785,
+            "sill": 0.83,
+            "height": 1.775,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:коридор.json",
+              "scan-fit-2026-09-09:1D71864E-CC38-4106-AA8C-3579B291EA6E"
+            ]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W05",
+      "before": {
+        "id": "F1-W05",
+        "floor": 1,
+        "a": [3.3, 9.74],
+        "b": [3.3, 10.06],
+        "t": 0.6
+      },
+      "after": {
+        "id": "F1-W05",
+        "floor": 1,
+        "a": [3.375, 9.675],
+        "b": [3.375, 10.035],
+        "t": 0.6,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W06",
+      "before": {
+        "id": "F1-W06",
+        "floor": 1,
+        "a": [3, 9.44],
+        "b": [5.55, 9.44],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-ENTRY",
+            "start": 0.82,
+            "width": 1,
+            "sill": 0,
+            "height": 2.152,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W06",
+        "floor": 1,
+        "a": [3.075, 9.375],
+        "b": [5.705, 9.375],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-ENTRY",
+            "start": 0.86,
+            "width": 1,
+            "sill": 0,
+            "height": 2.15,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W07",
+      "before": {
+        "id": "F1-W07",
+        "floor": 1,
+        "a": [5.55, 7.72],
+        "b": [5.55, 9.14],
+        "t": 0.6
+      },
+      "after": {
+        "id": "F1-W07",
+        "floor": 1,
+        "a": [5.405, 7.895],
+        "b": [5.405, 9.075],
+        "t": 0.6,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W08",
+      "before": {
+        "id": "F1-W08",
+        "floor": 1,
+        "a": [5.25, 7.72],
+        "b": [9.42, 7.72],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-EXT02",
+            "start": 1.55,
+            "width": 1.02,
+            "sill": 0,
+            "height": 2.32,
+            "kind": "door",
+            "connects": ["F1-BOILER", "F1-GARAGE"],
+            "note": "Существующий выход из бойлерной ведёт в гараж, подтверждено владельцем."
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W08",
+        "floor": 1,
+        "a": [5.105, 7.595],
+        "b": [9.31, 7.595],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F1-EXT02",
+            "start": 1.59,
+            "width": 0.98,
+            "sill": 0,
+            "height": 2.14,
+            "kind": "door",
+            "connects": ["F1-BOILER", "F1-GARAGE"],
+            "note": "Существующий выход из бойлерной ведёт в гараж, подтверждено владельцем.",
+            "sourceRefs": ["scan-fit-2026-09-09:4D14C823-28F1-4047-938A-BFB8AD6623D0"]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W09",
+      "before": {
+        "id": "F1-W09",
+        "floor": 1,
+        "a": [0, 4.3625],
+        "b": [8.82, 4.3625],
+        "t": 0.415,
+        "openings": [
+          {
+            "id": "F1-ARCH",
+            "start": 3.59,
+            "width": 1.51,
+            "sill": 0,
+            "height": 2.929,
+            "kind": "passage"
+          }
+        ],
+        "sourceRefs": ["manual-controls:stair-living-thickness"]
+      },
+      "after": {
+        "id": "F1-W09",
+        "floor": 1,
+        "a": [0, 4.3625],
+        "b": [8.71, 4.3625],
+        "t": 0.415,
+        "openings": [
+          {
+            "id": "F1-ARCH",
+            "start": 3.54,
+            "width": 1.565,
+            "sill": 0,
+            "height": 2.93,
+            "kind": "passage"
+          }
+        ],
+        "sourceRefs": ["manual-controls:stair-living-thickness", "scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W10",
+      "before": {
+        "id": "F1-W10",
+        "floor": 1,
+        "a": [5.3, 4.57],
+        "b": [5.3, 7.42],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F1-D01",
+            "start": 0.58,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          },
+          {
+            "id": "F1-D02",
+            "start": 1.84,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W10",
+        "floor": 1,
+        "a": [5.155, 4.57],
+        "b": [5.155, 7.295],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F1-D01",
+            "start": 0.535,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          },
+          {
+            "id": "F1-D02",
+            "start": 1.74,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W11",
+      "before": {
+        "id": "F1-W11",
+        "floor": 1,
+        "a": [7.15, 4.57],
+        "b": [7.15, 6.27],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F1-W11",
+        "floor": 1,
+        "a": [7.02, 4.57],
+        "b": [7.02, 6.235],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W12",
+      "before": {
+        "id": "F1-W12",
+        "floor": 1,
+        "a": [5.35, 6.22],
+        "b": [7.1, 6.22],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F1-W12",
+        "floor": 1,
+        "a": [5.205, 6.185],
+        "b": [6.97, 6.185],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W14",
+      "before": {
+        "id": "F1-W14",
+        "floor": 1,
+        "a": [3.55, 5.68],
+        "b": [3.55, 8.13],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F1-D03",
+            "start": 0.12,
+            "width": 0.7,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          },
+          {
+            "id": "F1-D04",
+            "start": 1.44,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F1-W14",
+        "floor": 1,
+        "a": [3.49, 5.68],
+        "b": [3.49, 8.05],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F1-D03",
+            "start": 0.105,
+            "width": 0.7,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          },
+          {
+            "id": "F1-D04",
+            "start": 1.38,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W15",
+      "before": {
+        "id": "F1-W15",
+        "floor": 1,
+        "a": [0, 6.815],
+        "b": [3.5, 6.815],
+        "t": 0.25
+      },
+      "after": {
+        "id": "F1-W15",
+        "floor": 1,
+        "a": [0, 6.815],
+        "b": [3.44, 6.815],
+        "t": 0.25,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W16",
+      "before": {
+        "id": "F1-W16",
+        "floor": 1,
+        "a": [3, 8.13],
+        "b": [3.6, 8.13],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F1-W16",
+        "floor": 1,
+        "a": [3.075, 8.05],
+        "b": [3.54, 8.05],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F1-W17",
+      "before": {
+        "id": "F1-W17",
+        "floor": 1,
+        "a": [3.05, 8.13],
+        "b": [3.05, 9.14],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F1-W17",
+        "floor": 1,
+        "a": [3.125, 8.05],
+        "b": [3.125, 9.075],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W01",
+      "before": {
+        "id": "F2-W01",
+        "floor": 2,
+        "a": [-0.3, -0.3],
+        "b": [9.12, -0.3],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN01",
+            "start": 1.69,
+            "width": 1.774,
+            "sill": 0,
+            "height": 2.346,
+            "kind": "window",
+            "sourceRefs": ["height-review:детская.json"]
+          },
+          {
+            "id": "F2-WIN02",
+            "start": 4.214,
+            "width": 1,
+            "sill": 0.92,
+            "height": 1.7,
+            "kind": "window"
+          },
+          {
+            "id": "F2-WIN03",
+            "start": 5.964,
+            "width": 1.758,
+            "sill": 0.08,
+            "height": 2.528,
+            "kind": "window"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W01",
+        "floor": 2,
+        "a": [-0.6, -0.3],
+        "b": [9.31, -0.3],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN01",
+            "start": 2.04,
+            "width": 1.61,
+            "sill": 0,
+            "height": 2.345,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:детская.json",
+              "scan-fit-2026-09-09:30E316D1-1C17-40C0-81F2-6D3EA648624C"
+            ]
+          },
+          {
+            "id": "F2-WIN02",
+            "start": 4.465,
+            "width": 0.945,
+            "sill": 0.735,
+            "height": 1.7,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:69A7E505-D481-4B0B-9F6C-951D1B0ECB4E"]
+          },
+          {
+            "id": "F2-WIN03",
+            "start": 6.22,
+            "width": 1.67,
+            "sill": 0,
+            "height": 2.39,
+            "kind": "window",
+            "sourceRefs": ["scan-fit-2026-09-09:08B2BA44-9A74-4C5E-AC8B-92CE075927F4"]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W02",
+      "before": {
+        "id": "F2-W02",
+        "floor": 2,
+        "a": [-0.3, 0],
+        "b": [-0.3, 10.06],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN04",
+            "start": 5.08,
+            "width": 1.06,
+            "sill": 0.05,
+            "height": 1.4,
+            "kind": "window"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W02",
+        "floor": 2,
+        "a": [-0.3, 0],
+        "b": [-0.3, 10.075],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN04",
+            "start": 5.09,
+            "width": 1.06,
+            "sill": 0.05,
+            "height": 1.4,
+            "kind": "window"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W03",
+      "before": {
+        "id": "F2-W03",
+        "floor": 2,
+        "a": [9.12, 0],
+        "b": [9.12, 7.39],
+        "t": 0.6
+      },
+      "after": {
+        "id": "F2-W03",
+        "floor": 2,
+        "a": [9.01, 0],
+        "b": [9.01, 7.38],
+        "t": 0.6,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W04",
+      "before": {
+        "id": "F2-W04",
+        "floor": 2,
+        "a": [-0.3, 10.36],
+        "b": [5.49, 10.36],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN05",
+            "start": 1.329,
+            "width": 0.844,
+            "sill": 0,
+            "height": 2.44,
+            "kind": "window",
+            "sourceRefs": ["height-review:комната-2этаж.json"]
+          },
+          {
+            "id": "F2-WIN06",
+            "start": 2.489,
+            "width": 1.791,
+            "sill": 0.844,
+            "height": 1.596,
+            "kind": "window",
+            "sourceRefs": ["height-review:комната-2этаж.json"]
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W04",
+        "floor": 2,
+        "a": [-0.6, 10.375],
+        "b": [5.715, 10.375],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN05",
+            "start": 1.66,
+            "width": 0.865,
+            "sill": 0,
+            "height": 2.44,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:комната-2этаж.json",
+              "scan-fit-2026-09-09:E1B1FD32-B441-4E8C-9B3C-C124AFBADF37"
+            ]
+          },
+          {
+            "id": "F2-WIN06",
+            "start": 2.955,
+            "width": 1.765,
+            "sill": 0.845,
+            "height": 1.595,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:комната-2этаж.json",
+              "scan-fit-2026-09-09:4B4FAEDC-90AC-470F-B742-F00ABD47907B"
+            ]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W05",
+      "before": {
+        "id": "F2-W05",
+        "floor": 2,
+        "a": [5.49, 7.69],
+        "b": [5.49, 10.06],
+        "t": 0.6
+      },
+      "after": {
+        "id": "F2-W05",
+        "floor": 2,
+        "a": [5.415, 7.645],
+        "b": [5.415, 10.075],
+        "t": 0.6,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W06",
+      "before": {
+        "id": "F2-W06",
+        "floor": 2,
+        "a": [5.09, 7.69],
+        "b": [9.42, 7.69],
+        "t": 0.6,
+        "openings": [
+          {
+            "id": "F2-WIN07",
+            "start": 1.71,
+            "width": 0.92,
+            "sill": 0.84,
+            "height": 1.672,
+            "kind": "window",
+            "sourceRefs": ["height-review:ванна.json"]
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W06",
+        "floor": 2,
+        "a": [5.03, 7.5125],
+        "b": [9.31, 7.5125],
+        "t": 0.265,
+        "openings": [
+          {
+            "id": "F2-WIN07",
+            "start": 1.79,
+            "width": 0.875,
+            "sill": 0.84,
+            "height": 1.67,
+            "kind": "window",
+            "sourceRefs": [
+              "height-review:ванна.json",
+              "scan-fit-2026-09-09:492A36A1-588F-441C-8F9E-5A559E4316FC"
+            ]
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W07",
+      "before": {
+        "id": "F2-W07",
+        "floor": 2,
+        "a": [0, 4.3675],
+        "b": [8.82, 4.3675],
+        "t": 0.405,
+        "openings": [
+          {
+            "id": "F2-HALLPASS",
+            "start": 3.56,
+            "width": 1.48,
+            "sill": 0,
+            "height": 2.97,
+            "kind": "passage"
+          },
+          {
+            "id": "F2-D01",
+            "start": 7.45,
+            "width": 0.82,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["manual-controls:bed-bath-thickness"]
+      },
+      "after": {
+        "id": "F2-W07",
+        "floor": 2,
+        "a": [0, 4.3675],
+        "b": [8.71, 4.3675],
+        "t": 0.405,
+        "openings": [
+          {
+            "id": "F2-HALLPASS",
+            "start": 3.585,
+            "width": 1.345,
+            "sill": 0,
+            "height": 2.97,
+            "kind": "passage"
+          },
+          {
+            "id": "F2-D01",
+            "start": 7.35,
+            "width": 0.82,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["manual-controls:bed-bath-thickness", "scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W08",
+      "before": {
+        "id": "F2-W08",
+        "floor": 2,
+        "a": [3.31, 0],
+        "b": [3.31, 3.09],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F2-W08",
+        "floor": 2,
+        "a": [3.28, 0],
+        "b": [3.28, 3.075],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W09",
+      "before": {
+        "id": "F2-W09",
+        "floor": 2,
+        "a": [5.42, 0],
+        "b": [5.42, 3.09],
+        "t": 0.12,
+        "openings": [
+          {
+            "id": "F2-D02",
+            "start": 0.16,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W09",
+        "floor": 2,
+        "a": [5.36, 0],
+        "b": [5.36, 3.075],
+        "t": 0.12,
+        "openings": [
+          {
+            "id": "F2-D02",
+            "start": 0.155,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W10",
+      "before": {
+        "id": "F2-W10",
+        "floor": 2,
+        "a": [3.26, 3.04],
+        "b": [5.48, 3.04],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F2-W10",
+        "floor": 2,
+        "a": [3.23, 3.025],
+        "b": [5.42, 3.025],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W11",
+      "before": {
+        "id": "F2-W11",
+        "floor": 2,
+        "a": [3.56, 3.09],
+        "b": [3.56, 4.57],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D03",
+            "start": 0.2,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W11",
+        "floor": 2,
+        "a": [3.535, 3.075],
+        "b": [3.535, 4.57],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D03",
+            "start": 0.205,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W12",
+      "before": {
+        "id": "F2-W12",
+        "floor": 2,
+        "a": [5.04, 3.09],
+        "b": [5.04, 6.73],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D04",
+            "start": 0.2,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          },
+          {
+            "id": "F2-D05",
+            "start": 2.38,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W12",
+        "floor": 2,
+        "a": [4.98, 3.075],
+        "b": [4.98, 6.72],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D04",
+            "start": 0.2,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          },
+          {
+            "id": "F2-D05",
+            "start": 2.385,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W13",
+      "before": {
+        "id": "F2-W13",
+        "floor": 2,
+        "a": [6.8, 4.57],
+        "b": [6.8, 7.39],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F2-W13",
+        "floor": 2,
+        "a": [6.755, 4.57],
+        "b": [6.755, 7.38],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W14",
+      "before": {
+        "id": "F2-W14",
+        "floor": 2,
+        "a": [0, 6.73],
+        "b": [5.04, 6.73],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D06",
+            "start": 3.68,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ]
+      },
+      "after": {
+        "id": "F2-W14",
+        "floor": 2,
+        "a": [0, 6.72],
+        "b": [5.03, 6.72],
+        "t": 0.1,
+        "openings": [
+          {
+            "id": "F2-D06",
+            "start": 3.67,
+            "width": 0.9,
+            "sill": 0,
+            "height": 2.23,
+            "kind": "door"
+          }
+        ],
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W15",
+      "before": {
+        "id": "F2-W15",
+        "floor": 2,
+        "a": [5.04, 6.73],
+        "b": [5.04, 7.99],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F2-W15",
+        "floor": 2,
+        "a": [4.98, 6.72],
+        "b": [4.98, 7.645],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    },
+    {
+      "id": "F2-W16",
+      "before": {
+        "id": "F2-W16",
+        "floor": 2,
+        "a": [5.09, 7.44],
+        "b": [6.75, 7.44],
+        "t": 0.1
+      },
+      "after": {
+        "id": "F2-W16",
+        "floor": 2,
+        "a": [5.03, 7.43],
+        "b": [6.705, 7.43],
+        "t": 0.1,
+        "sourceRefs": ["scan-fit-2026-09-09"]
+      }
+    }
+  ]
+}

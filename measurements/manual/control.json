@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "units": "metres",
+  "source": "measurements/PLAN.md, sections 2 and 11; owner authorized implementation on 2026-09-08",
+  "anchors": [
+    {
+      "id": "bed-bath-thickness",
+      "description": "Стена между спальней и ванной",
+      "value": 0.405,
+      "target": "F2-W07",
+      "property": "t",
+      "mapping": "Общая поперечная стена F2-BED / F2-BATH; южная грань Z=4.57 сохраняется как привязка лестницы. Постоянная толщина всей оси — допущение существующей модели."
+    },
+    {
+      "id": "stair-store-divider-thickness",
+      "description": "Стена между лестницей и входом в подсобку под лестницей",
+      "value": 0.13,
+      "target": "F1-W13-DIVIDER",
+      "property": "staircase.dividerThickness",
+      "mapping": "Перегородка между маршами: торец 0.12991391 м (4904EAAE-6E23-4435-A505-5F50A51D89C8) в лестница.json, между стороной 2.663 м и участком 0.943 м. Вход в кладовую расположен здесь по плану; обнаруженная RoomPlan дверь находится на другой стене. Не F1-W14 вдоль коридора."
+    },
+    {
+      "id": "stair-living-thickness",
+      "description": "Стена между лестницей и гостиной-кухней",
+      "value": 0.415,
+      "target": "F1-W09",
+      "property": "t",
+      "mapping": "Общая поперечная стена F1-STAIR / F1-LIVING; южная грань Z=4.57 сохраняется. Постоянная толщина всей оси — допущение существующей модели."
+    }
+  ]
+}

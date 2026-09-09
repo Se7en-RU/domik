@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0",
+  "decisions": [
+    {
+      "id": "garage-width-2026-09-08",
+      "date": "2026-09-08",
+      "target": "F1-GARAGE",
+      "field": "width",
+      "previous": 6.85,
+      "measured": 6.360948279568238,
+      "accepted": 6.36,
+      "units": "metres",
+      "status": "SUPERSEDED",
+      "ownerStatement": "Тут стоит полагаться на скан",
+      "scope": "Ответ на вопрос о внутренней ширине 6,85 м в модели и около 6,36 м в RoomPlan. Остальные размеры гаража ещё на review.",
+      "source": "raw/гараж.json",
+      "surfaceIds": [
+        "C49A986A-B23D-45B3-AB4F-92D2BC380C5A",
+        "95A4EED5-1598-4537-B244-212F2FA4B101"
+      ],
+      "method": "Перпендикулярное расстояние между длинными параллельными боковыми стенами. Округление до 1 см.",
+      "placement": "Левая внутренняя грань X=5.85 сохранена. Правая грань X=12.21; глубины и привязка уступа не изменены. Ширина ниши и центр ворот пересчитываются как производные."
+    },
+    {
+      "date": "2026-09-08",
+      "target": "F1-GARAGE",
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "Длину и ширину гаража, как и ширину проема используй от скана, так же там добавились стены",
+      "source": "raw/гараж.json",
+      "scope": "Относительная геометрия гаража по скану; абсолютная привязка к дому и высоты не подтверждены этим решением.",
+      "id": "garage-width-2026-09-08",
+      "field": "width",
+      "accepted": 6.361,
+      "previous": 6.36,
+      "surfaceIds": ["C49A986A-B23D-45B3-AB4F-92D2BC380C5A", "95A4EED5-1598-4537-B244-212F2FA4B101"]
+    },
+    {
+      "date": "2026-09-08",
+      "target": "F1-GARAGE",
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "Длину и ширину гаража, как и ширину проема используй от скана, так же там добавились стены",
+      "source": "raw/гараж.json",
+      "scope": "Относительная геометрия гаража по скану; абсолютная привязка к дому и высоты не подтверждены этим решением.",
+      "id": "garage-shortLength-2026-09-08",
+      "field": "shortLength",
+      "accepted": 6.376,
+      "previous": 6.82,
+      "surfaceIds": ["95A4EED5-1598-4537-B244-212F2FA4B101"]
+    },
+    {
+      "date": "2026-09-08",
+      "target": "F1-GARAGE",
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "Длину и ширину гаража, как и ширину проема используй от скана, так же там добавились стены",
+      "source": "raw/гараж.json",
+      "scope": "Относительная геометрия гаража по скану; абсолютная привязка к дому и высоты не подтверждены этим решением.",
+      "id": "garage-longLength-2026-09-08",
+      "field": "longLength",
+      "accepted": 7.131,
+      "previous": 7.87,
+      "surfaceIds": ["C49A986A-B23D-45B3-AB4F-92D2BC380C5A"]
+    },
+    {
+      "date": "2026-09-08",
+      "target": "F1-GARAGE",
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "Длину и ширину гаража, как и ширину проема используй от скана, так же там добавились стены",
+      "source": "raw/гараж.json",
+      "scope": "Относительная геометрия гаража по скану; абсолютная привязка к дому и высоты не подтверждены этим решением.",
+      "id": "garage-gateWidth-2026-09-08",
+      "field": "gateWidth",
+      "accepted": 4.743,
+      "previous": 5.2,
+      "surfaceIds": ["607DA993-F053-45EC-A508-CAAADF554F9A", "9F8F9D90-294A-46B7-956A-756F1CE4E0EB"]
+    },
+    {
+      "id": "garage-wall-projection-edge-2026-09-08",
+      "date": "2026-09-08",
+      "target": "F1-GARAGE/GARAGE-W05",
+      "field": "rightEdgeX",
+      "previous": 9.42,
+      "measured": 9.363,
+      "accepted": 9.363,
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "1",
+      "source": "raw/гараж.json",
+      "surfaceIds": [
+        "6B1867F9-D41B-4D17-9797-128D6D1F1D93",
+        "043E08A7-67CB-4204-B182-EBC263A2669D",
+        "BB82A9D7-4EB1-41C0-B260-715D7D8EFE69"
+      ],
+      "scope": "Выступ стены сохраняет координату RoomPlan; старая грань дома не сдвигается."
+    },
+    {
+      "id": "garage-wall-projection-edge-aligned-2026-09-08",
+      "date": "2026-09-08",
+      "target": "GARAGE-W05",
+      "field": "rightEdgeX",
+      "previous": 9.363,
+      "measured": 9.42,
+      "accepted": 9.42,
+      "units": "metres",
+      "status": "APPLIED",
+      "ownerStatement": "сдвинь правее чтобы она была вровень с краями F1-W08",
+      "source": "owner:wall-continuity-2026-09-08",
+      "scope": "Сдвинут только генерируемый участок GARAGE-W05; восьмиточечный контур гаража и сканные размеры не изменены."
+    }
+  ],
+  "geometry": {
+    "id": "garage-scan-outline-2026-09-08",
+    "status": "APPLIED",
+    "ownerConfirmation": "это выступ стены",
+    "polygon": [
+      [5.85, 14.396],
+      [5.85, 8.02],
+      [8.935, 8.02],
+      [8.935, 8.553],
+      [9.363, 8.553],
+      [9.363, 7.298],
+      [12.211, 7.298],
+      [12.211, 14.429]
+    ],
+    "scanToHouse": {
+      "rotationDegrees": -90,
+      "translation": [9.030475123289165, 10.863172253397277],
+      "scale": 1
+    },
+    "projection": {
+      "width": 0.428,
+      "depth": 0.533,
+      "surfaceIds": [
+        "6B1867F9-D41B-4D17-9797-128D6D1F1D93",
+        "043E08A7-67CB-4204-B182-EBC263A2669D",
+        "BB82A9D7-4EB1-41C0-B260-715D7D8EFE69"
+      ]
+    },
+    "gate": {
+      "left": [6.67, 14.396],
+      "right": [11.413, 14.429],
+      "offsetFromLeft": 0.82,
+      "width": 4.743,
+      "method": "Расстояние между свободными концами двух простенков, спроецированное на фронт. Категория двери для ворот в скане отсутствует."
+    },
+    "pending": ["Высота гаража и ворот", "Отметка пола относительно дома"],
+      "ownerDecisions": [
+      {
+        "id": "garage-wall-projection-edge-2026-09-08",
+        "choice": 1,
+        "accepted": "Сохранить край выступа строго по скану X=9,363 м.",
+        "houseWallX": 9.42,
+        "delta": 0.057
+      }
+      ,{
+        "id": "garage-wall-projection-edge-aligned-2026-09-08",
+        "accepted": "Правая грань GARAGE-W05 выровнена по F1-W08 на X=9,42 м; контур скана сохранён."
+      }
+    ]
+  }
+}

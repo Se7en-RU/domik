@@ -1,0 +1,204 @@
+{
+  "revisionBefore": "2026-09-08-garage-stairs",
+  "revisionAfter": "2026-09-08-roomplan-controls",
+  "beforeHash": "2e7b3bcf0f972079b82a1bab4aaf26f9824c2823094f11c97636469212c0e8ac",
+  "afterHash": "7e78ed025edb2f4d62d07179bca0c4e2f933b5087601af9481662617027b7c10",
+  "proposals": [
+    {
+      "roomIds": [
+        "F2-CHILD",
+        "F2-BED"
+      ],
+      "target": "F2-W07",
+      "field": "thickness",
+      "model": 0.38,
+      "measured": 0.405,
+      "delta": 0.025,
+      "observations": 1,
+      "decision": "SAFE TO APPLY",
+      "reason": "Ручной контроль; южная грань 4.57 м сохраняется; связанные комнаты заканчиваются на 4.165 м.",
+      "source": "manual-controls:bed-bath-thickness",
+      "coupledRooms": [
+        "F2-CHILD",
+        "F2-BED"
+      ]
+    },
+    {
+      "roomIds": [
+        "F1-STAIR",
+        "F1-STORE"
+      ],
+      "target": "F1-W13-DIVIDER",
+      "field": "thickness",
+      "model": 0.1,
+      "measured": 0.13,
+      "delta": 0.03,
+      "observations": 1,
+      "decision": "SAFE TO APPLY",
+      "reason": "Ручной контроль и торец в скане лестницы. Верхний марш пересчитывается; пол кладовой исключает перегородку.",
+      "source": "manual-controls:stair-store-divider-thickness",
+      "coupledRooms": [
+        "F1-STORE"
+      ]
+    },
+    {
+      "roomIds": [
+        "F1-LIVING",
+        "F1-KITCHEN"
+      ],
+      "target": "F1-W09",
+      "field": "thickness",
+      "model": 0.38,
+      "measured": 0.415,
+      "delta": 0.035,
+      "observations": 1,
+      "decision": "SAFE TO APPLY",
+      "reason": "Ручной контроль; южная грань 4.57 м сохраняется; связанные комнаты заканчиваются на 4.155 м.",
+      "source": "manual-controls:stair-living-thickness",
+      "coupledRooms": [
+        "F1-LIVING",
+        "F1-KITCHEN"
+      ]
+    }
+  ],
+  "geometry": {
+    "meshCount": 262,
+    "stairTreads": 19,
+    "stairRisers": 21,
+    "garageArea": 50.16099999999999,
+    "tests": [
+      "Finite nonempty meshes",
+      "Unique room IDs",
+      "Open stairwell",
+      "Slab under rooms",
+      "Open main doorway",
+      "Confirmed stair tread counts, flat landing, reversed flights and equal rises",
+      "Open upper stair exit",
+      "Confirmed garage dimensions and gate aperture",
+      "Connected boiler passage and recessed garage floor",
+      "Garage ceiling height and no upper storey over garage",
+      "High ceiling and three low points"
+    ],
+    "rooms": [
+      {
+        "id": "F1-LIVING",
+        "name": "Гостиная",
+        "modelArea": 14.75025,
+        "sourceArea": 14.7,
+        "delta": 0.05025000000000013
+      },
+      {
+        "id": "F1-KITCHEN",
+        "name": "Кухня",
+        "modelArea": 21.89685,
+        "sourceArea": 21.9,
+        "delta": -0.0031499999999979877
+      },
+      {
+        "id": "F1-HALL",
+        "name": "Прихожая",
+        "modelArea": 7.969500000000005,
+        "sourceArea": 7.68,
+        "delta": 0.28950000000000564
+      },
+      {
+        "id": "F1-BATH",
+        "name": "Ванная · 1 этаж",
+        "modelArea": 2.799999999999997,
+        "sourceArea": 2.8,
+        "delta": -2.6645352591003757e-15
+      },
+      {
+        "id": "F1-BOILER",
+        "name": "Бойлерная",
+        "modelArea": 6.744499999999999,
+        "sourceArea": 6.75,
+        "delta": -0.005500000000001393
+      },
+      {
+        "id": "F1-OFFICE",
+        "name": "Кабинет",
+        "modelArea": 9.929999999999996,
+        "sourceArea": 9.93,
+        "delta": -3.552713678800501e-15
+      },
+      {
+        "id": "F1-STORE",
+        "name": "Кладовая",
+        "modelArea": 3.2550000000000026,
+        "sourceArea": 3.54,
+        "delta": -0.2849999999999975
+      },
+      {
+        "id": "F1-STAIR",
+        "name": "Лестница",
+        "modelArea": 3.762999999999998,
+        "sourceArea": 3.52,
+        "delta": 0.2429999999999981
+      },
+      {
+        "id": "F1-GARAGE",
+        "name": "Гараж",
+        "modelArea": 50.16099999999999,
+        "sourceArea": null,
+        "delta": null
+      },
+      {
+        "id": "F2-CHILD",
+        "name": "Детская",
+        "modelArea": 13.84665,
+        "sourceArea": 14,
+        "delta": -0.15334999999999965
+      },
+      {
+        "id": "F2-DRESS",
+        "name": "Гардеробная",
+        "modelArea": 5.980000000000003,
+        "sourceArea": 5.99,
+        "delta": -0.009999999999997122
+      },
+      {
+        "id": "F2-BED",
+        "name": "Спальня",
+        "modelArea": 14.319600000000001,
+        "sourceArea": 14.4,
+        "delta": -0.08039999999999914
+      },
+      {
+        "id": "F2-HALL",
+        "name": "Коридор",
+        "modelArea": 4.954199999999998,
+        "sourceArea": 4.94,
+        "delta": 0.014199999999997992
+      },
+      {
+        "id": "F2-SHOWER",
+        "name": "Душевая",
+        "modelArea": 4.681200000000004,
+        "sourceArea": 4.68,
+        "delta": 0.0012000000000043087
+      },
+      {
+        "id": "F2-BATH",
+        "name": "Ванная · 2 этаж",
+        "modelArea": 5.527200000000008,
+        "sourceArea": 5.53,
+        "delta": -0.002799999999992586
+      },
+      {
+        "id": "F2-ROOM",
+        "name": "Комната",
+        "modelArea": 16.879200000000004,
+        "sourceArea": 16.9,
+        "delta": -0.020799999999994156
+      },
+      {
+        "id": "F2-STAIR",
+        "name": "Лестничный проём",
+        "modelArea": 7.475999999999999,
+        "sourceArea": 7.39,
+        "delta": 0.08599999999999941
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+# Original measurements and reproducible reports must retain their source bytes.
+measurements/raw/
+measurements/PLAN.md
+measurements/reports/

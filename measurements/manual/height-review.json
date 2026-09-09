@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0",
+  "date": "2026-09-08",
+  "policy": "Высоты принимаются по нормализованному RoomPlan; повторные значения сводятся медианой. Смежные скаты с разными wall dimensions не превращаются автоматически в единую высоту.",
+  "decisions": [
+    {
+      "id": "ground-height-roomplan-2026-09-08",
+      "target": "parameters.groundHeight",
+      "field": "height",
+      "previous": 3.22,
+      "accepted": 3.03,
+      "observations": [3.02, 3.03],
+      "method": "Медиана высоких стен в однозначно сопоставленных сканах кабинета и кухни-гостиной; гараж исключён.",
+      "status": "APPLIED",
+      "source": "measurements/reports/audit.json"
+    },
+    {
+      "id": "upper-height-roomplan-2026-09-08",
+      "target": "parameters.upperHeight",
+      "field": "height",
+      "previous": 2.97,
+      "accepted": 3.045,
+      "observations": [3.038, 3.056, 3.008, 3.052],
+      "method": "Медиана высоких частей детской, комнаты, спальни и ванной; смешанный скан коридора/лестницы исключён.",
+      "status": "APPLIED",
+      "source": "measurements/reports/audit.json"
+    },
+    {
+      "id": "garage-height-roomplan-2026-09-08",
+      "target": "garage.ceilingHeight",
+      "field": "height",
+      "previous": 2.9,
+      "accepted": 2.927,
+      "observations": [2.927, 2.927, 2.927, 2.927, 2.927, 2.927, 2.927, 2.927],
+      "method": "Медиана основных стен гаража; участок 2.670 м сохранён как локальный откос/перепад стены, а не общая высота.",
+      "status": "APPLIED",
+      "source": "raw/гараж.json"
+    },
+    {
+      "id": "garage-gate-height-unavailable-2026-09-08",
+      "target": "garage.gateHeight",
+      "field": "height",
+      "previous": 2.7,
+      "accepted": 2.7,
+      "status": "KEPT",
+      "method": "RoomPlan не содержит отдельной поверхности ворот; окно в стене бойлерной не является воротами.",
+      "source": "owner:garage-2026-09-08"
+    },
+    {
+      "id": "opening-heights-roomplan-2026-09-08",
+      "target": "matched openings",
+      "field": "height,sill",
+      "status": "APPLIED",
+      "source": "measurements/reports/audit.json",
+      "openings": {
+        "F1-WIN04": { "height": 1.345, "sill": 0.895, "scan": "кухня-гостиная.json" },
+        "F1-WIN06": { "height": 1.776, "sill": 0.829, "scan": "коридор.json" },
+        "F2-WIN01": { "height": 2.346, "sill": 0, "scan": "детская.json" },
+        "F2-WIN05": { "height": 2.44, "sill": 0, "scan": "комната-2этаж.json" },
+        "F2-WIN06": { "height": 1.596, "sill": 0.844, "scan": "комната-2этаж.json" },
+        "F2-WIN07": { "height": 1.672, "sill": 0.84, "scan": "ванна.json" }
+      }
+    },
+    {
+      "id": "opening-height-kept-2026-09-08",
+      "target": "F2-WIN04",
+      "field": "height,sill",
+      "status": "KEPT",
+      "accepted": { "height": 1.4, "sill": 0.05 },
+      "observations": [
+        { "height": 1.335, "sill": 0.075, "scan": "комната-2этаж.json" },
+        { "height": 1.448, "sill": 0.524, "scan": "коридор-2этаж.json" }
+      ],
+      "method": "Владелец подтвердил оставить текущие параметры модели; значения RoomPlan сохранены как конфликтующее наблюдение и не усредняются."
+    },
+    {
+      "id": "opening-height-group-1400-2026-09-08",
+      "target": "F1-WIN04,F1-WIN05,F2-WIN04",
+      "field": "height",
+      "accepted": 1.4,
+      "status": "APPLIED",
+      "method": "Владелец подтвердил общую высоту группы окон; ширины и низы проёмов сохранены индивидуально.",
+      "source": "owner:opening-review-2026-09-08"
+    },
+    {
+      "id": "opening-heights-kept-f2-win01-win03-2026-09-08",
+      "target": "F2-WIN01,F2-WIN03",
+      "field": "height",
+      "accepted": {
+        "F2-WIN01": 2.346,
+        "F2-WIN03": 2.528
+      },
+      "status": "KEPT",
+      "method": "Владелец подтвердил оставить текущие разные высоты; проёмы не объединять в одну типовую группу.",
+      "source": "owner:opening-review-2026-09-08"
+    },
+    {
+      "id": "opening-type-windows-2500x2900-2026-09-08",
+      "target": "F1-WIN01,F1-WIN02",
+      "field": "width,height",
+      "accepted": { "width": 2.5, "height": 2.9 },
+      "status": "APPLIED",
+      "method": "Владелец подтвердил единый тип и округление обоих проёмов до 2500 × 2900 мм; низы оставлены без изменения.",
+      "source": "owner:opening-review-2026-09-08"
+    },
+    {
+      "id": "opening-type-door-f2-d01-separate-2026-09-08",
+      "target": "F2-D01",
+      "field": "width,height",
+      "accepted": { "width": 0.82, "height": 2.23 },
+      "status": "KEPT",
+      "method": "Владелец подтвердил отдельный тип двери; к группе 900 × 2230 мм не присоединять.",
+      "source": "owner:opening-review-2026-09-08"
+    },
+    {
+      "id": "opening-type-door-f1-d03-separate-2026-09-08",
+      "target": "F1-D03",
+      "field": "width,height",
+      "accepted": { "width": 0.7, "height": 2 },
+      "status": "KEPT",
+      "method": "Владелец подтвердил отдельный тип двери; к группе 900 × 2000 мм не присоединять.",
+      "source": "owner:opening-review-2026-09-08"
+    }
+  ]
+}

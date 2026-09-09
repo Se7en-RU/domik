@@ -8,7 +8,10 @@
     "build": "node scripts/build.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/validate-model.mjs",
+    "test": "node --test scripts/roomplan.test.mjs && node scripts/validate-model.mjs",
+    "measurements:audit": "node scripts/roomplan-audit.mjs",
+    "measurements:apply": "node scripts/roomplan-audit.mjs --apply",
+    "measurements:apply-heights": "node scripts/roomplan/apply-heights.mjs",
     "export:model": "node scripts/export.mjs",
     "format": "oxfmt .",
     "format:check": "oxfmt --check ."
