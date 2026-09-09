@@ -203,6 +203,24 @@ export function validateModel(spec, root = buildHouse(spec).root) {
     Math.abs(dividerBounds.max.z - dividerBounds.min.z - spec.staircase.dividerThickness) < 1e-5,
     "Generated divider thickness differs from manual control",
   );
+  assert(
+    !root.getObjectByName("F2-STAIR-PARAPET"),
+    "Uninstalled second-floor railing must be absent",
+  );
+  assert(dividerBounds.max.y < stair.upperLevel, "Divider must stay below the second floor");
+  ray.far = Infinity;
+  ray.ray.direction.set(0, -1, 0);
+  for (const fraction of [0.1, 0.5, 0.9]) {
+    const x = stair.turnX + fraction * (stair.entryX - stair.turnX);
+    ray.ray.origin.set(x, stair.upperLevel + 1, (dividerBounds.min.z + dividerBounds.max.z) / 2);
+    const hit = ray.intersectObject(divider)[0];
+    const underside =
+      stair.landingLevel + fraction * stair.upperTreads * stair.rise - stair.waistThickness;
+    assert(
+      hit && Math.abs(hit.point.y - underside) < 1e-5,
+      "Divider must end flush with upper flight underside",
+    );
+  }
   // A thicker divider must not block the store doorway or the lower flight.
   ray.ray.origin.set(3.8, 1, 6.15);
   ray.ray.direction.set(-1, 0, 0);

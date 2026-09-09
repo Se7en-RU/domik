@@ -11,7 +11,13 @@ import {
   placeDimensionLabels,
   pointInPolygon,
 } from "../lib/dimensions.mjs";
-import { garageWalls, roomFloorOffset, roomHeight, stairLayout } from "../lib/layout.mjs";
+import {
+  garageWalls,
+  roomFloorOffset,
+  roomHeight,
+  stairLayout,
+  stairDividerTop,
+} from "../lib/layout.mjs";
 import {
   Box,
   Layers3,
@@ -93,21 +99,12 @@ const wallSet = (spec: typeof originalSpec): DimensionWall[] => {
     ...garageWalls(spec),
     {
       id: "F1-W13-DIVIDER",
-      a: [stair.turnX, stair.z + stair.lowerWidth],
-      b: [stair.entryX, stair.z + stair.lowerWidth],
+      a: [stair.turnX, stair.z + stair.lowerWidth + stair.dividerThickness / 2],
+      b: [stair.entryX, stair.z + stair.lowerWidth + stair.dividerThickness / 2],
       t: stair.dividerThickness,
       floor: 1,
       component: "stair",
-      height: stair.parapetHeight,
-    },
-    {
-      id: "F2-STAIR-PARAPET",
-      a: [stair.entryX, stair.z],
-      b: [stair.entryX, stair.z + stair.lowerWidth],
-      t: 0.05,
-      floor: 2,
-      component: "stair",
-      height: stair.parapetHeight,
+      height: stairDividerTop(stair, stair.entryX),
     },
   ];
   const walls: DimensionWall[] = spec.walls.map((wall) => ({
@@ -120,7 +117,8 @@ const wallSet = (spec: typeof originalSpec): DimensionWall[] => {
 const wallTop = (wall: DimensionWall, spec: typeof originalSpec, distance = 0) => {
   if (wall.roomId === spec.garage.roomId || wall.component === "garage")
     return spec.garage.ceilingHeight;
-  if (wall.component === "stair") return wall.height ?? stairLayout(spec).parapetHeight;
+  if (wall.component === "stair")
+    return stairDividerTop(stairLayout(spec), wallPoint(wall, distance)[0]);
   if (wall.floor === 1) return wall.height ?? spec.parameters.groundHeight;
   const [x, z] = wallPoint(wall, distance);
   return upperHeightAt(
