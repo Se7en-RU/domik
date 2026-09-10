@@ -16,6 +16,23 @@ export function checkFurniture(spec, root) {
     const object = root.getObjectByName(unit.id);
     const bounds = new THREE.Box3().setFromObject(object);
     assert(object.userData.resolvedElevation >= 0, `${unit.id}: below floor`);
+    if (unit.openingId) {
+      const wall = spec.walls.find((w) => w.openings?.some((o) => o.id === unit.openingId));
+      const opening = wall.openings.find((o) => o.id === unit.openingId);
+      const direction = new THREE.Vector2(wall.b[0] - wall.a[0], wall.b[1] - wall.a[1]).normalize();
+      const along = new THREE.Vector2(
+        object.position.x - wall.a[0],
+        object.position.z - wall.a[1],
+      ).dot(direction);
+      assert(
+        Math.abs(along - opening.start - opening.width / 2) < 1e-6,
+        `${unit.id}: off opening center`,
+      );
+      assert(
+        object.userData.resolvedElevation >= opening.sill + opening.height,
+        `${unit.id}: obstructs opening`,
+      );
+    }
     for (const other of spec.furniture.items.filter(
       (i) => i.id !== unit.id && i.roomId === unit.roomId,
     )) {
@@ -26,6 +43,26 @@ export function checkFurniture(spec, root) {
             `${unit.id}: overlaps ${other.id}`,
           );
       });
+    }
+  }
+  for (const prefix of ["F1-FUR", "F2-FUR-GUEST"]) {
+    const chair = root.getObjectByName(`${prefix}-ARMCHAIR`);
+    const lamp = root.getObjectByName(`${prefix}-LAMP`);
+    assert(
+      !new THREE.Box3().setFromObject(chair).intersectsBox(new THREE.Box3().setFromObject(lamp)),
+      `${prefix}: armchair overlaps lamp`,
+    );
+    const facing = new THREE.Vector3(0, 0, 1).applyQuaternion(chair.quaternion);
+    assert(facing.x > 0 && facing.z < 0, `${prefix}: armchair must face into room`);
+  }
+  const dressStorage = spec.furniture.items.filter(
+    (i) => i.roomId === "F2-DRESS" && i.kind === "wardrobe",
+  );
+  for (let i = 0; i < dressStorage.length; i++) {
+    for (let j = i + 1; j < dressStorage.length; j++) {
+      const a = new THREE.Box3().setFromObject(root.getObjectByName(dressStorage[i].id));
+      const b = new THREE.Box3().setFromObject(root.getObjectByName(dressStorage[j].id));
+      assert(!a.intersectsBox(b), "Dressing room wardrobes overlap");
     }
   }
   const radiators = (spec.furniture?.items ?? []).filter((i) => i.kind.startsWith("radiator-"));
