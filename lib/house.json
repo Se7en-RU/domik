@@ -3,7 +3,7 @@
   "name": "Дом и гараж · обмерная основа",
   "units": "metres",
   "axisConvention": "X вправо на плане, Y вверх по высоте, Z вниз на плане; начало — внутренний верхний левый угол первого этажа",
-  "revision": "2026-09-10-furniture-owner-adjustments",
+  "revision": "2026-09-10-electrical-layer",
   "openingTypePolicy": {
     "sameTypeMustMatch": true,
     "dimensions": ["width", "height"],
@@ -1674,7 +1674,7 @@
         "roomId": "F2-BATH",
         "kind": "towel-warmer",
         "name": "Полотенцесушитель",
-        "position": [8.66, 5.0],
+        "position": [8.66, 5],
         "size": [0.5, 1.2, 0.1],
         "elevation": 0.1,
         "rotation": 90,
@@ -1979,6 +1979,1357 @@
       "pages": [31, 32, 36, 38, 43, 44, 46],
       "count": 5,
       "notes": "Пять внутренних блоков по планам кондиционирования (листы 30–31). Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные, модель оборудования не выбрана. Верх корпуса на 290 мм ниже текущего чернового потолка; у скосов берётся минимальная высота над всем корпусом. Монтажные отметки вычисляются при изменении высот дома. Места и дренаж в самом PDF помечены для уточнения поставщиком; наружные блоки и трассы не заданы и не моделируются. Упоминание кондиционера на развёртке кухни (стр.39) противоречит плану и показано у пола: дополнительным блоком не считалось."
+    }
+  },
+  "electrical": {
+    "revision": "2026-09-10-step6-electrical",
+    "source": "step6_ver3.pdf",
+    "sourcePages": [21, 22, 25, 26, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46],
+    "notes": "Розетки и выключатели по планам PDF 21–22, 25–26 и развёрткам 33–46. По уточнению владельца розетки сохраняются за мебелью; доступ проверяется только для выключателей. Терморегуляторы/датчики температуры исключены. Шесть незаполненных модулей ТВ-рамок показаны как media с неуточнённым типом. Выводы проводов, светильники и щит не моделируются. В PDF нет внутренней электрики гаража; выключатель его света в бойлерной сохранён.",
+    "items": [
+      {
+        "id": "EL-F1-LIV-01",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W01",
+        "side": 1,
+        "offset": 0.8,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "200 мм от левого угла, возле окна.",
+        "sourcePlacement": {
+          "wallId": "F1-W01",
+          "side": 1,
+          "offset": 0.8,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-LIV-02",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 0.95,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "Торшер и кресло, 950 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 0.95,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-LIV-03",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 3.29,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "200 мм до прохода.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 3.29,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-LIV-TV-LOW",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W02",
+        "side": -1,
+        "offset": 1.45,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "ТВ-зона: три самостоятельные рамки на развёртке; незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F1-W02",
+          "side": -1,
+          "offset": 1.45,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-LIV-TV-MID",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W02",
+        "side": -1,
+        "offset": 1.45,
+        "centerHeight": 0.45,
+        "modules": ["data", "media", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "ТВ-зона: три самостоятельные рамки на развёртке; незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F1-W02",
+          "side": -1,
+          "offset": 1.45,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F1-LIV-TV-HIGH",
+        "roomId": "F1-LIVING",
+        "wallId": "F1-W02",
+        "side": -1,
+        "offset": 1.45,
+        "centerHeight": 1.3,
+        "modules": ["data", "media", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 38],
+        "sourceNote": "ТВ-зона: три самостоятельные рамки на развёртке; незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F1-W02",
+          "side": -1,
+          "offset": 1.45,
+          "centerHeight": 1.3
+        }
+      },
+      {
+        "id": "EL-F1-KIT-01",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W01",
+        "side": 1,
+        "offset": 4.95,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Обеденный стол, 1250 мм от края проёма по развёртке.",
+        "sourcePlacement": {
+          "wallId": "F1-W01",
+          "side": 1,
+          "offset": 4.95,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-KIT-02",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W03",
+        "side": 1,
+        "offset": 0.3,
+        "centerHeight": 1.1,
+        "modules": ["power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Рабочая зона, 300 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F1-W03",
+          "side": 1,
+          "offset": 0.3,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F1-KIT-03",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W03",
+        "side": 1,
+        "offset": 2.05,
+        "centerHeight": 0.45,
+        "modules": ["power", "power"],
+        "orientation": "vertical",
+        "sourcePages": [21, 39],
+        "sourceNote": "Вертикальные: измельчитель и посудомойка.",
+        "sourcePlacement": {
+          "wallId": "F1-W03",
+          "side": 1,
+          "offset": 2.05,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F1-KIT-04",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W03",
+        "side": 1,
+        "offset": 3.25,
+        "centerHeight": 0.05,
+        "modules": ["power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Варочная поверхность, Н=50 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W03",
+          "side": 1,
+          "offset": 3.25,
+          "centerHeight": 0.05
+        }
+      },
+      {
+        "id": "EL-F1-KIT-05",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 5.67,
+        "centerHeight": 0.05,
+        "modules": ["power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Холодильник, Н=50 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 5.67,
+          "centerHeight": 0.05
+        }
+      },
+      {
+        "id": "EL-F1-KIT-06",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 6.29,
+        "centerHeight": 1.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Духовой шкаф и СВЧ, Н=1300 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 6.29,
+          "centerHeight": 1.3
+        }
+      },
+      {
+        "id": "EL-F1-KIT-07",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 7.3,
+        "centerHeight": 1.1,
+        "modules": ["power", "power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 39],
+        "sourceNote": "Пять розеток рабочей зоны.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 7.3,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F1-KIT-ISLAND-LOW",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 7.85,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21],
+        "sourceNote": "Две розетки под столом острова на плане; по уточнению владельца сохранить за мебелью на исходной настенной привязке.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 7.85,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-KIT-ISLAND-TOP",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 7.85,
+        "centerHeight": 1.1,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21],
+        "sourceNote": "Две розетки на столешнице острова на плане; настенное размещение рядом с рабочей зоной — адаптация.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 7.85,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F1-HALL-01",
+        "roomId": "F1-HALL",
+        "wallId": "F1-W07",
+        "side": 1,
+        "offset": 0.98,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 33],
+        "sourceNote": "У входа, 200 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F1-W07",
+          "side": 1,
+          "offset": 0.98,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-BOILER-01",
+        "roomId": "F1-BOILER",
+        "wallId": "F1-W08",
+        "side": -1,
+        "offset": 1.36,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 34],
+        "sourceNote": "У выхода в гараж. Котельное оборудование в источнике не детализировано.",
+        "sourcePlacement": {
+          "wallId": "F1-W08",
+          "side": -1,
+          "offset": 1.36,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-BATH-01",
+        "roomId": "F1-BATH",
+        "wallId": "F1-W10",
+        "side": -1,
+        "offset": 0.23,
+        "centerHeight": 1.1,
+        "modules": ["power-ip44", "power-ip44"],
+        "orientation": "vertical",
+        "sourcePages": [21, 35],
+        "sourceNote": "Две влагозащищённые розетки у раковины.",
+        "sourcePlacement": {
+          "wallId": "F1-W10",
+          "side": -1,
+          "offset": 0.23,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F1-STORE-01",
+        "roomId": "F1-STORE",
+        "wallId": "F1-W15",
+        "side": -1,
+        "offset": 3.24,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 37],
+        "sourceNote": "200 мм от входного угла кладовой.",
+        "sourcePlacement": {
+          "wallId": "F1-W15",
+          "side": -1,
+          "offset": 3.24,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-01",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W02",
+        "side": -1,
+        "offset": 7.14,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Пара розеток в 200 мм от угла. Шкаф вдоль левой стены удлинён владельцем.",
+        "sourcePlacement": {
+          "wallId": "F1-W02",
+          "side": -1,
+          "offset": 7.14,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-02",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W02",
+        "side": -1,
+        "offset": 9.835,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Пара розеток в 200 мм от угла. Шкаф вдоль левой стены удлинён владельцем.",
+        "sourcePlacement": {
+          "wallId": "F1-W02",
+          "side": -1,
+          "offset": 9.835,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-03",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W15",
+        "side": 1,
+        "offset": 3.24,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Пара розеток в 200 мм от угла. Шкаф вдоль левой стены удлинён владельцем.",
+        "sourcePlacement": {
+          "wallId": "F1-W15",
+          "side": 1,
+          "offset": 3.24,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-04",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W17",
+        "side": 1,
+        "offset": 0.2,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Пара розеток в 200 мм от угла. Шкаф вдоль левой стены удлинён владельцем.",
+        "sourcePlacement": {
+          "wallId": "F1-W17",
+          "side": 1,
+          "offset": 0.2,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-NET",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W16",
+        "side": -1,
+        "offset": 0.25,
+        "centerHeight": 2,
+        "modules": ["power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Роутер у входа, Н=2000 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W16",
+          "side": -1,
+          "offset": 0.25,
+          "centerHeight": 2
+        }
+      },
+      {
+        "id": "EL-F1-OFF-DESK-LOW",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W04",
+        "side": -1,
+        "offset": 1.8,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Пять розеток под рабочим столом.",
+        "sourcePlacement": {
+          "wallId": "F1-W04",
+          "side": -1,
+          "offset": 1.8,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F1-OFF-DESK-MID",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W04",
+        "side": -1,
+        "offset": 1.8,
+        "centerHeight": 0.45,
+        "modules": ["power", "power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Рабочее место, Н=450 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W04",
+          "side": -1,
+          "offset": 1.8,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F1-OFF-DESK-TOP",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W04",
+        "side": -1,
+        "offset": 1.4,
+        "centerHeight": 0.85,
+        "modules": ["power", "power", "usb"],
+        "orientation": "horizontal",
+        "sourcePages": [21, 36],
+        "sourceNote": "Две розетки и USB на развёртке, Н=850 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W04",
+          "side": -1,
+          "offset": 1.4,
+          "centerHeight": 0.85
+        }
+      },
+      {
+        "id": "EL-F2-HALL-01",
+        "roomId": "F2-HALL",
+        "wallId": "F2-W12",
+        "side": 1,
+        "offset": 1.72,
+        "centerHeight": 0.3,
+        "modules": ["power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 40],
+        "sourceNote": "Розетка между дверями на правой стене.",
+        "sourcePlacement": {
+          "wallId": "F2-W12",
+          "side": 1,
+          "offset": 1.72,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-01",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W01",
+        "side": 1,
+        "offset": 1.24,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Группа у детской кроватки, 640 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F2-W01",
+          "side": 1,
+          "offset": 1.24,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-02",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W08",
+        "side": 1,
+        "offset": 0.3,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Пара у пеленального столика, 300 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F2-W08",
+          "side": 1,
+          "offset": 0.3,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-03",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W02",
+        "side": -1,
+        "offset": 1.95,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Пара за диваном в исходном проекте.",
+        "sourcePlacement": {
+          "wallId": "F2-W02",
+          "side": -1,
+          "offset": 1.95,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-04",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W07",
+        "side": -1,
+        "offset": 0.5,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Пара за шкафом в исходном проекте.",
+        "sourcePlacement": {
+          "wallId": "F2-W07",
+          "side": -1,
+          "offset": 0.5,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-TV-LOW",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W08",
+        "side": 1,
+        "offset": 2.2,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Три рамки у комода, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W08",
+          "side": 1,
+          "offset": 2.2,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-TV-MID",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W08",
+        "side": 1,
+        "offset": 2.2,
+        "centerHeight": 0.45,
+        "modules": ["data", "media", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Три рамки у комода, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W08",
+          "side": 1,
+          "offset": 2.2,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F2-CHILD-TV-HIGH",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W08",
+        "side": 1,
+        "offset": 2.2,
+        "centerHeight": 1.3,
+        "modules": ["data", "media", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 44],
+        "sourceNote": "Три рамки у комода, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W08",
+          "side": 1,
+          "offset": 2.2,
+          "centerHeight": 1.3
+        }
+      },
+      {
+        "id": "EL-F2-DRESS-01",
+        "roomId": "F2-DRESS",
+        "wallId": "F2-W08",
+        "side": -1,
+        "offset": 1,
+        "centerHeight": 0.5,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 45],
+        "sourceNote": "Две розетки за левым шкафом, Н=500 мм; по уточнению владельца оставить за мебелью на исходном месте.",
+        "sourcePlacement": {
+          "wallId": "F2-W08",
+          "side": -1,
+          "offset": 1,
+          "centerHeight": 0.5
+        }
+      },
+      {
+        "id": "EL-F2-DRESS-02",
+        "roomId": "F2-DRESS",
+        "wallId": "F2-W01",
+        "side": 1,
+        "offset": 5.15,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 45],
+        "sourceNote": "Пара в 220 мм от входа.",
+        "sourcePlacement": {
+          "wallId": "F2-W01",
+          "side": 1,
+          "offset": 5.15,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-DRESS-03",
+        "roomId": "F2-DRESS",
+        "wallId": "F2-W09",
+        "side": 1,
+        "offset": 1.355,
+        "centerHeight": 0.95,
+        "modules": ["power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 45],
+        "sourceNote": "Розетка гладильной зоны; на плане высота не задана, Н=950 мм по развёртке. Столик удалён, розетка сохранена на исходной стене.",
+        "sourcePlacement": {
+          "wallId": "F2-W09",
+          "side": 1,
+          "offset": 1.355,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F2-BED-01",
+        "roomId": "F2-BED",
+        "wallId": "F2-W01",
+        "side": 1,
+        "offset": 8.71,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 46],
+        "sourceNote": "Три розетки, 600 мм от угла.",
+        "sourcePlacement": {
+          "wallId": "F2-W01",
+          "side": 1,
+          "offset": 8.71,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-BED-TV-LOW",
+        "roomId": "F2-BED",
+        "wallId": "F2-W09",
+        "side": -1,
+        "offset": 2.05,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 46],
+        "sourceNote": "Три рамки ТВ-зоны, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W09",
+          "side": -1,
+          "offset": 2.05,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-BED-TV-MID",
+        "roomId": "F2-BED",
+        "wallId": "F2-W09",
+        "side": -1,
+        "offset": 2.05,
+        "centerHeight": 0.45,
+        "modules": ["media", "power", "power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 46],
+        "sourceNote": "Три рамки ТВ-зоны, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W09",
+          "side": -1,
+          "offset": 2.05,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F2-BED-TV-HIGH",
+        "roomId": "F2-BED",
+        "wallId": "F2-W09",
+        "side": -1,
+        "offset": 2.05,
+        "centerHeight": 1.3,
+        "modules": ["media", "power", "power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 46],
+        "sourceNote": "Три рамки ТВ-зоны, незаполненный мультимедийный модуль требует уточнения типа.",
+        "sourcePlacement": {
+          "wallId": "F2-W09",
+          "side": -1,
+          "offset": 2.05,
+          "centerHeight": 1.3
+        }
+      },
+      {
+        "id": "EL-F2-BED-BEDSIDE-LEFT",
+        "roomId": "F2-BED",
+        "wallId": "F2-W03",
+        "side": 1,
+        "offset": 0.86,
+        "centerHeight": 0.65,
+        "modules": ["usb", "power", "switch-pass", "switch", "switch"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 26, 46],
+        "sourceNote": "Общая пятипостовая рамка у тумбы: розетка, USB и три выключателя, Н=650 мм.",
+        "sourcePlacement": {
+          "wallId": "F2-W03",
+          "side": 1,
+          "offset": 0.86,
+          "centerHeight": 0.65
+        }
+      },
+      {
+        "id": "EL-F2-BED-BEDSIDE-RIGHT",
+        "roomId": "F2-BED",
+        "wallId": "F2-W03",
+        "side": 1,
+        "offset": 3.18,
+        "centerHeight": 0.65,
+        "modules": ["usb", "power", "switch-pass", "switch", "switch"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 26, 46],
+        "sourceNote": "Общая пятипостовая рамка у тумбы: розетка, USB и три выключателя, Н=650 мм.",
+        "sourcePlacement": {
+          "wallId": "F2-W03",
+          "side": 1,
+          "offset": 3.18,
+          "centerHeight": 0.65
+        }
+      },
+      {
+        "id": "EL-F2-SHOWER-01",
+        "roomId": "F2-SHOWER",
+        "wallId": "F2-W13",
+        "side": 1,
+        "offset": 0.65,
+        "centerHeight": 1.1,
+        "modules": ["power-ip44", "power-ip44", "power-ip44"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 41],
+        "sourceNote": "Три розетки над столешницей, Н=1100 мм.",
+        "sourcePlacement": {
+          "wallId": "F2-W13",
+          "side": 1,
+          "offset": 0.65,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F2-SHOWER-02",
+        "roomId": "F2-SHOWER",
+        "wallId": "F2-W13",
+        "side": 1,
+        "offset": 0.65,
+        "centerHeight": 0.65,
+        "modules": ["power-ip44", "power-ip44"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 41],
+        "sourceNote": "Две розетки под столешницей, Н=650 мм.",
+        "sourcePlacement": {
+          "wallId": "F2-W13",
+          "side": 1,
+          "offset": 0.65,
+          "centerHeight": 0.65
+        }
+      },
+      {
+        "id": "EL-F2-SHOWER-03",
+        "roomId": "F2-SHOWER",
+        "wallId": "F2-W16",
+        "side": -1,
+        "offset": 0.35,
+        "centerHeight": 1,
+        "modules": ["power-ip44", "power-ip44"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 41],
+        "sourceNote": "Стиральная и сушильная машины, Н=1000 мм; по уточнению владельца сохранить за техникой на исходной настенной привязке.",
+        "sourcePlacement": {
+          "wallId": "F2-W16",
+          "side": -1,
+          "offset": 0.35,
+          "centerHeight": 1
+        }
+      },
+      {
+        "id": "EL-F2-BATH-01",
+        "roomId": "F2-BATH",
+        "wallId": "F2-W03",
+        "side": 1,
+        "offset": 7.13,
+        "centerHeight": 1.1,
+        "modules": ["power-ip44", "power-ip44"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 42],
+        "sourceNote": "Над раковиной, Н=1100 мм; раковина перенесена владельцем.",
+        "sourcePlacement": {
+          "wallId": "F2-W03",
+          "side": 1,
+          "offset": 7.13,
+          "centerHeight": 1.1
+        }
+      },
+      {
+        "id": "EL-F2-BATH-02",
+        "roomId": "F2-BATH",
+        "wallId": "F2-W06",
+        "side": -1,
+        "offset": 3.48,
+        "centerHeight": 0.6,
+        "modules": ["power-ip44", "power-ip44"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 42],
+        "sourceNote": "Под раковиной, Н=600 мм; по уточнению владельца оставить за мебелью на исходном месте.",
+        "sourcePlacement": {
+          "wallId": "F2-W06",
+          "side": -1,
+          "offset": 3.48,
+          "centerHeight": 0.6
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-01",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W14",
+        "side": 1,
+        "offset": 0.3,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "300 мм от угла, за диваном в PDF.",
+        "sourcePlacement": {
+          "wallId": "F2-W14",
+          "side": 1,
+          "offset": 0.3,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-02",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W14",
+        "side": 1,
+        "offset": 2.93,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "Три розетки у книжного шкафа.",
+        "sourcePlacement": {
+          "wallId": "F2-W14",
+          "side": 1,
+          "offset": 2.93,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-03",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W05",
+        "side": 1,
+        "offset": 1.23,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "Пара за правым шкафом, 1200 мм от нижнего угла.",
+        "sourcePlacement": {
+          "wallId": "F2-W05",
+          "side": 1,
+          "offset": 1.23,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-04",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W02",
+        "side": -1,
+        "offset": 9.675,
+        "centerHeight": 0.3,
+        "modules": ["power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "Торшер, 400 мм от нижнего угла.",
+        "sourcePlacement": {
+          "wallId": "F2-W02",
+          "side": -1,
+          "offset": 9.675,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-DESK-LOW",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W04",
+        "side": -1,
+        "offset": 4.415,
+        "centerHeight": 0.3,
+        "modules": ["power", "power", "power", "power", "power"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "Пять розеток под столом.",
+        "sourcePlacement": {
+          "wallId": "F2-W04",
+          "side": -1,
+          "offset": 4.415,
+          "centerHeight": 0.3
+        }
+      },
+      {
+        "id": "EL-F2-ROOM-DESK-MID",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W04",
+        "side": -1,
+        "offset": 4.415,
+        "centerHeight": 0.45,
+        "modules": ["power", "power", "data"],
+        "orientation": "horizontal",
+        "sourcePages": [22, 43],
+        "sourceNote": "Две розетки и интернет, Н=450 мм.",
+        "sourcePlacement": {
+          "wallId": "F2-W04",
+          "side": -1,
+          "offset": 4.415,
+          "centerHeight": 0.45
+        }
+      },
+      {
+        "id": "EL-F1-SW-ARCH",
+        "roomId": "F1-HALL",
+        "wallId": "F1-W10",
+        "side": 1,
+        "offset": 0.16,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch", "switch-pass", "switch"],
+        "orientation": "vertical",
+        "sourcePages": [25],
+        "sourceNote": "Четыре выключателя на торце прохода в кухню-гостиную; адаптированы на примыкающую грань стены.",
+        "sourcePlacement": {
+          "wallId": "F1-W10",
+          "side": 1,
+          "offset": 0.16,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-STAIR",
+        "roomId": "F1-STAIR",
+        "wallId": "F1-W09",
+        "side": 1,
+        "offset": 3.29,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch-pass"],
+        "orientation": "horizontal",
+        "sourcePages": [25],
+        "sourceNote": "Два выключателя у лестницы.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": 1,
+          "offset": 3.29,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-BATH",
+        "roomId": "F1-HALL",
+        "wallId": "F1-W10",
+        "side": 1,
+        "offset": 0.35,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch"],
+        "orientation": "vertical",
+        "sourcePages": [25],
+        "sourceNote": "Свет и вентилятор санузла, со стороны прихожей.",
+        "sourcePlacement": {
+          "wallId": "F1-W10",
+          "side": 1,
+          "offset": 0.35,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-STORE",
+        "roomId": "F1-STORE",
+        "wallId": "F1-W15",
+        "side": -1,
+        "offset": 3.375,
+        "centerHeight": 0.95,
+        "modules": ["switch"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 37],
+        "sourceNote": "Кладовая, 120 мм от края проёма.",
+        "sourcePlacement": {
+          "wallId": "F1-W14",
+          "side": 1,
+          "offset": 0.9,
+          "centerHeight": 0.95
+        },
+        "adjustment": "Адаптация к текущей модели: доступ перекрывает F1-FUR-STORE-SHELVES. Исходная грань F1-W14, отступ 0.9 м, центр 0.95 м; текущая грань F1-W15, отступ 3.375 м, центр 0.95 м."
+      },
+      {
+        "id": "EL-F1-SW-BOILER",
+        "roomId": "F1-BOILER",
+        "wallId": "F1-W08",
+        "side": -1,
+        "offset": 1.36,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 34],
+        "sourceNote": "Два выключателя: котельная и свет гаража.",
+        "sourcePlacement": {
+          "wallId": "F1-W08",
+          "side": -1,
+          "offset": 1.36,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-OFFICE",
+        "roomId": "F1-OFFICE",
+        "wallId": "F1-W16",
+        "side": -1,
+        "offset": 0.25,
+        "centerHeight": 0.95,
+        "modules": ["switch-3"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 36],
+        "sourceNote": "Один трёхклавишный выключатель по плану PDF 25; терморегулятор из общей рамки на развёртке 36 исключён по запросу владельца.",
+        "sourcePlacement": {
+          "wallId": "F1-W16",
+          "side": -1,
+          "offset": 0.25,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-KITCHEN",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W09",
+        "side": -1,
+        "offset": 6.725,
+        "centerHeight": 1.1,
+        "modules": ["switch-2"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 39],
+        "sourceNote": "Подсветка кухни, Н=1100 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W09",
+          "side": -1,
+          "offset": 6.51,
+          "centerHeight": 1.1
+        },
+        "adjustment": "Адаптация к текущей модели: доступ перекрывает F1-FUR-OVEN. Исходная грань F1-W09, отступ 6.51 м, центр 1.1 м; текущая грань F1-W09, отступ 6.725 м, центр 1.1 м."
+      },
+      {
+        "id": "EL-F1-SW-TERRACE",
+        "roomId": "F1-KITCHEN",
+        "wallId": "F1-W01",
+        "side": 1,
+        "offset": 5.395,
+        "centerHeight": 0.95,
+        "modules": ["switch"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 39],
+        "sourceNote": "Свет за остеклённым выходом, 200 мм от проёма.",
+        "sourcePlacement": {
+          "wallId": "F1-W01",
+          "side": 1,
+          "offset": 5.395,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-ENTRY",
+        "roomId": "F1-HALL",
+        "wallId": "F1-W07",
+        "side": 1,
+        "offset": 0.98,
+        "centerHeight": 0.95,
+        "modules": ["switch-pass", "switch-pass"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 33],
+        "sourceNote": "Два выключателя у входа.",
+        "sourcePlacement": {
+          "wallId": "F1-W07",
+          "side": 1,
+          "offset": 0.98,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F1-SW-MASTER",
+        "roomId": "F1-HALL",
+        "wallId": "F1-W07",
+        "side": 1,
+        "offset": 0.98,
+        "centerHeight": 1.2,
+        "modules": ["switch"],
+        "orientation": "horizontal",
+        "sourcePages": [25, 33],
+        "sourceNote": "Выключение всего света, Н=1200 мм.",
+        "sourcePlacement": {
+          "wallId": "F1-W07",
+          "side": 1,
+          "offset": 0.98,
+          "centerHeight": 1.2
+        }
+      },
+      {
+        "id": "EL-F2-SW-CHILD",
+        "roomId": "F2-CHILD",
+        "wallId": "F2-W10",
+        "side": 1,
+        "offset": 0.125,
+        "centerHeight": 0.95,
+        "modules": ["switch-2"],
+        "orientation": "horizontal",
+        "sourcePages": [26, 44],
+        "sourceNote": "Один двухклавишный выключатель по плану PDF 26; терморегулятор из общей рамки на развёртке 44 исключён по запросу владельца.",
+        "sourcePlacement": {
+          "wallId": "F2-W10",
+          "side": 1,
+          "offset": 0.16,
+          "centerHeight": 0.95
+        },
+        "adjustment": "Адаптация к текущей модели: доступ перекрывает F2-FUR-DRESSER. Исходная грань F2-W08, отступ 2.88 м, центр 0.95 м; текущая грань F2-W10, отступ 0.125 м, центр 0.95 м."
+      },
+      {
+        "id": "EL-F2-SW-DRESS",
+        "roomId": "F2-DRESS",
+        "wallId": "F2-W01",
+        "side": 1,
+        "offset": 5.525,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch"],
+        "orientation": "horizontal",
+        "sourcePages": [26, 45],
+        "sourceNote": "Два выключателя гардеробной у входа.",
+        "sourcePlacement": {
+          "wallId": "F2-W01",
+          "side": 1,
+          "offset": 5.19,
+          "centerHeight": 0.95
+        },
+        "adjustment": "Адаптация к текущей модели: проём F2-WIN02. Исходная грань F2-W01, отступ 5.19 м, центр 0.95 м; текущая грань F2-W01, отступ 5.525 м, центр 0.95 м."
+      },
+      {
+        "id": "EL-F2-SW-BED",
+        "roomId": "F2-BED",
+        "wallId": "F2-W09",
+        "side": -1,
+        "offset": 2.88,
+        "centerHeight": 0.95,
+        "modules": ["switch-2"],
+        "orientation": "horizontal",
+        "sourcePages": [26, 46],
+        "sourceNote": "Выключатель спальни у входа; размещён на примыкающей стене.",
+        "sourcePlacement": {
+          "wallId": "F2-W10",
+          "side": 1,
+          "offset": 1.99,
+          "centerHeight": 0.95
+        },
+        "adjustment": "Адаптация к текущей модели: исходный участок закрыт мебелью; размещено на примыкающей стене F2-W09. Исходная грань F2-W10, отступ 1.99 м, центр 0.95 м; текущая грань F2-W09, отступ 2.88 м, центр 0.95 м."
+      },
+      {
+        "id": "EL-F2-SW-BALCONY",
+        "roomId": "F2-BED",
+        "wallId": "F2-W01",
+        "side": 1,
+        "offset": 8.525,
+        "centerHeight": 0.95,
+        "modules": ["switch"],
+        "orientation": "horizontal",
+        "sourcePages": [26, 46],
+        "sourceNote": "Свет за остеклённым выходом, 200 мм от проёма.",
+        "sourcePlacement": {
+          "wallId": "F2-W01",
+          "side": 1,
+          "offset": 7.49,
+          "centerHeight": 0.95
+        },
+        "adjustment": "Адаптация к текущей модели: проём F2-WIN03. Исходная грань F2-W01, отступ 7.49 м, центр 0.95 м; текущая грань F2-W01, отступ 8.525 м, центр 0.95 м."
+      },
+      {
+        "id": "EL-F2-SW-BATH",
+        "roomId": "F2-BED",
+        "wallId": "F2-W07",
+        "side": -1,
+        "offset": 7.05,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch"],
+        "orientation": "horizontal",
+        "sourcePages": [26, 46],
+        "sourceNote": "Два выключателя ванной на стороне спальни, 200 мм от двери.",
+        "sourcePlacement": {
+          "wallId": "F2-W07",
+          "side": -1,
+          "offset": 7.05,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F2-SW-SHOWER",
+        "roomId": "F2-HALL",
+        "wallId": "F2-W12",
+        "side": 1,
+        "offset": 2.185,
+        "centerHeight": 0.95,
+        "modules": ["switch", "switch"],
+        "orientation": "vertical",
+        "sourcePages": [26, 40],
+        "sourceNote": "Два выключателя перед дверью душевой.",
+        "sourcePlacement": {
+          "wallId": "F2-W12",
+          "side": 1,
+          "offset": 2.185,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F2-SW-HALL",
+        "roomId": "F2-HALL",
+        "wallId": "F2-W12",
+        "side": 1,
+        "offset": 3.47,
+        "centerHeight": 0.95,
+        "modules": ["switch-pass", "switch"],
+        "orientation": "vertical",
+        "sourcePages": [26],
+        "sourceNote": "Холл, пара возле лестничной площадки. Перенос с открытого края лестницы на правую стену.",
+        "sourcePlacement": {
+          "wallId": "F2-W12",
+          "side": 1,
+          "offset": 3.47,
+          "centerHeight": 0.95
+        }
+      },
+      {
+        "id": "EL-F2-SW-ROOM",
+        "roomId": "F2-ROOM",
+        "wallId": "F2-W14",
+        "side": 1,
+        "offset": 3.52,
+        "centerHeight": 0.95,
+        "modules": ["switch-2"],
+        "orientation": "vertical",
+        "sourcePages": [26, 43],
+        "sourceNote": "Один двухклавишный выключатель по плану PDF 26; терморегулятор из общей рамки на развёртке 43 исключён по запросу владельца.",
+        "sourcePlacement": {
+          "wallId": "F2-W14",
+          "side": 1,
+          "offset": 3.52,
+          "centerHeight": 0.95
+        }
+      }
+    ],
+    "sourceModuleCounts": {
+      "power": 111,
+      "data": 10,
+      "media": 6,
+      "power-ip44": 13,
+      "usb": 3,
+      "switch-pass": 7,
+      "switch": 23,
+      "switch-3": 1,
+      "switch-2": 4
+    },
+    "assumptions": [
+      "Тип шести незаполненных модулей в ТВ-рамках не раскрыт в легенде: показаны как мультимедийные, требуется уточнение.",
+      "Размер рамок: шаг механизмов 71 мм, одиночная рамка 86 мм, выступ до 19 мм — условные.",
+      "Доступ 650 мм с запасом 50 мм проверяется только для выключателей. Розетки за мебелью разрешены владельцем; открывание дверей и фасадов не моделируется.",
+      "Розетки острова оставлены на исходной настенной привязке и могут оказаться за мебелью по уточнению владельца.",
+      "Высоты 300/950 мм по общим примечаниям PDF; индивидуальные высоты и переносы из проёмов отражены в ведомости."
+    ],
+    "placementPolicy": {
+      "outletsBehindFurniture": true,
+      "switchAccessDepth": 0.65,
+      "temperatureControls": false
     }
   }
 }

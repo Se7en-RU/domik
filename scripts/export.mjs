@@ -36,7 +36,7 @@ export async function exportModel() {
   assert.equal(glb.readUInt32LE(8), glb.byteLength);
   const metadata = JSON.parse(glb.subarray(20, 20 + glb.readUInt32LE(12)).toString());
   assert.equal(metadata.asset.version, "2.0");
-  for (const floor of ["Floor_1", "Floor_2"]) {
+  for (const floor of ["Floor_1", "Floor_2", "Electrical_1", "Electrical_2"]) {
     assert(
       metadata.nodes.some((node) => node.name === floor),
       `GLB missing ${floor}`,
@@ -54,6 +54,10 @@ export async function exportModel() {
   await fs.copyFile(
     path.join(projectRoot, "lib/furniture.mjs"),
     path.join(distDir, "furniture.mjs"),
+  );
+  await fs.copyFile(
+    path.join(projectRoot, "lib/electrical.mjs"),
+    path.join(distDir, "electrical.mjs"),
   );
   await fs.mkdir(path.join(projectRoot, "work"), { recursive: true });
   await fs.writeFile(

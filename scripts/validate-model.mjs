@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { checkElectrical } from "./check-electrical.mjs";
 import { checkFurniture } from "./check-furniture.mjs";
 import path from "node:path";
 import assert from "node:assert/strict";
@@ -23,6 +24,7 @@ export function validateModel(spec, root = buildHouse(spec).root) {
   }
   if (spec.envelope) checkLayout(spec);
   checkFurniture(spec, root);
+  checkElectrical(spec, root);
   const meshes = [];
   root.traverse((object) => {
     if (object.isMesh) meshes.push(object);
