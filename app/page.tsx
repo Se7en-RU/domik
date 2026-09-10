@@ -804,6 +804,7 @@ function Scene({
   split,
   ceilings,
   furniture,
+  equipment,
   cut,
   labels,
   windows,
@@ -819,6 +820,7 @@ function Scene({
   split: boolean;
   ceilings: boolean;
   furniture: boolean;
+  equipment: boolean;
   cut: boolean;
   labels: boolean;
   windows: boolean;
@@ -836,6 +838,7 @@ function Scene({
     split,
     ceilings,
     furniture,
+    equipment,
     cut,
     labels,
     windows,
@@ -849,6 +852,7 @@ function Scene({
     split,
     ceilings,
     furniture,
+    equipment,
     cut,
     labels,
     windows,
@@ -1161,11 +1165,13 @@ function Scene({
           onFloor &&
           (k === "furniture"
             ? s.furniture
-            : k === "ceiling"
-              ? s.ceilings
-              : k === "window"
-                ? s.windows
-                : true);
+            : k === "equipment"
+              ? s.equipment
+              : k === "ceiling"
+                ? s.ceilings
+                : k === "window"
+                  ? s.windows
+                  : true);
         const mat = o.material;
         mat.clippingPlanes =
           s.cut && ["wall", "window", "stair-wall"].includes(k)
@@ -1234,6 +1240,7 @@ export default function Home() {
     [split, setSplit] = useState(true),
     [ceilings, setCeilings] = useState(false),
     [furniture, setFurniture] = useState(true),
+    [equipment, setEquipment] = useState(true),
     [cut, setCut] = useState(false),
     [labels, setLabels] = useState(true),
     [windows, setWindows] = useState(true),
@@ -1463,7 +1470,8 @@ export default function Home() {
             </div>
             <div className="visibility-panel">
               <span className="eyebrow">ОТОБРАЖЕНИЕ</span>
-              {toggle(furniture, setFurniture, <Box size={17} />, "Мебель и оборудование")}
+              {toggle(furniture, setFurniture, <Box size={17} />, "Мебель")}
+              {toggle(equipment, setEquipment, <Settings2 size={17} />, "Радиаторы и кондиционеры")}
               {toggle(ceilings, setCeilings, <Layers3 size={17} />, "Потолки и скосы")}
               {toggle(cut, setCut, <Scissors size={17} />, "Стены до 1,15 м")}
               {toggle(labels, setLabels, <MousePointer2 size={17} />, "Названия комнат")}
@@ -1494,6 +1502,7 @@ export default function Home() {
               view={view}
               split={split}
               furniture={furniture}
+              equipment={equipment}
               ceilings={ceilings}
               cut={cut}
               labels={labels}

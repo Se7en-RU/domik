@@ -65,6 +65,11 @@ export function checkFurniture(spec, root) {
     );
     const object = root.getObjectByName(item.id);
     assert(object, `${item.id}: missing model`);
+    const expectedKind =
+      item.kind.startsWith("radiator-") || item.kind === "air-conditioner"
+        ? "equipment"
+        : "furniture";
+    assert.equal(object.userData.kind, expectedKind, `${item.id}: wrong display layer`);
     object.updateWorldMatrix(true, true);
     object.traverse((mesh) => {
       if (!mesh.isMesh) return;
