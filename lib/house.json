@@ -3,7 +3,7 @@
   "name": "Дом и гараж · обмерная основа",
   "units": "metres",
   "axisConvention": "X вправо на плане, Y вверх по высоте, Z вниз на плане; начало — внутренний верхний левый угол первого этажа",
-  "revision": "2026-09-09-stair-divider",
+  "revision": "2026-09-10-furniture-heating-ac",
   "openingTypePolicy": {
     "sameTypeMustMatch": true,
     "dimensions": ["width", "height"],
@@ -183,6 +183,21 @@
       "id": "scan-fit",
       "title": "Согласование сканов 09.09.2026",
       "text": "Размеры помещений согласованы общей системой координат с округлением измеряемых размеров до 5 мм. Оси стен толщиной 405/415 мм могут попадать на 2,5 мм. Толщина F2-W06 выведена из совместной привязки ванной и комнаты и остаётся расчётным допущением. Сканы расходятся на несколько сантиметров; неподтверждённые двери и высотная привязка лестничного окна сохранены. Гараж перенесён целиком вместе с общей стеной без изменения измеренной формы."
+    },
+    {
+      "id": "furniture-step6",
+      "title": "Мебель по step6_ver3.pdf",
+      "text": "Расстановка по листам 8–9 (страницы PDF 9–10), адаптирована к текущим внутренним граням RoomPlan без изменения здания. position=[X,Z] — центр; size=[ширина,высота,глубина] в локальных осях, rotation — градусы по часовой стрелке на плане. Размеры с подписями перенесены по плану; прочие габариты, высоты, материалы и детализация условные. Высокие шкафы у скосов понижены. Диваны показаны сложенными. Сантехника входит в слой. В гараже и бойлерной расстановка не задана. Шкаф нижней комнаты второго этажа укорочен с 2,50 до 2,35 м из-за уточнённого уступа. Отдельные навесные полки, зеркала, верхние шкафы и декоративные детали пока не детализированы. Это объёмная расстановка, не рабочие чертежи мебели."
+    },
+    {
+      "id": "heating-p62",
+      "title": "Радиаторы · П-62 Отопление финал.pdf",
+      "text": "Радиаторы из проекта отопления добавлены в тот же слой. Строительная геометрия и отметка второго этажа сохранены по RoomPlan; старые размеры здания и +3,440 из PDF не применялись. Привязки к окнам перенесены на текущие проёмы. Гараж: боковые стены и общая линия приборов по плану, положение вдоль стен оценочное. Высота BASE 500/18 540 мм по разрезу требует подтверждения; глубина TUBOG/CV22 условная. Трубы и коллекторы не моделируются. Кресло и приставной столик гостиной сдвинуты вправо на 160 мм, рабочий стол F2-ROOM — от окна на 160 мм для устранения пересечений."
+    },
+    {
+      "id": "air-conditioning-step6",
+      "title": "Кондиционеры · step6_ver3.pdf",
+      "text": "Пять внутренних блоков по планам кондиционирования (листы 30–31). Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные, модель оборудования не выбрана. Верх корпуса на 290 мм ниже текущего чернового потолка; у скосов берётся минимальная высота над всем корпусом. Монтажные отметки вычисляются при изменении высот дома. Места и дренаж в самом PDF помечены для уточнения поставщиком; наружные блоки и трассы не заданы и не моделируются. Упоминание кондиционера на развёртке кухни (стр.39) противоречит плану и показано у пола: дополнительным блоком не считалось."
     }
   ],
   "rooms": [
@@ -1142,5 +1157,795 @@
       [5.715, 10.674999999999999],
       [-0.6, 10.674999999999999]
     ]
+  },
+  "furniture": {
+    "revision": "2026-09-10-step6-layout",
+    "source": "step6_ver3.pdf",
+    "sourcePages": [9, 10],
+    "notes": "Расстановка по листам 8–9 (страницы PDF 9–10), адаптирована к текущим внутренним граням RoomPlan без изменения здания. position=[X,Z] — центр; size=[ширина,высота,глубина] в локальных осях, rotation — градусы по часовой стрелке на плане. Размеры с подписями перенесены по плану; прочие габариты, высоты, материалы и детализация условные. Высокие шкафы у скосов понижены. Диваны показаны сложенными. Сантехника входит в слой. В гараже и бойлерной расстановка не задана.",
+    "items": [
+      {
+        "id": "F1-FUR-SOFA",
+        "roomId": "F1-LIVING",
+        "kind": "sofa",
+        "position": [2.4, 1.46],
+        "size": [2.4, 0.85, 1],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-TV",
+        "roomId": "F1-LIVING",
+        "kind": "tv",
+        "position": [0.23, 1.45],
+        "size": [1.8, 1.35, 0.4],
+        "rotation": -90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-SIDEBOARD",
+        "roomId": "F1-LIVING",
+        "kind": "cabinet",
+        "position": [2.43, 3.9],
+        "size": [1.2, 1.05, 0.45],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-ARMCHAIR",
+        "roomId": "F1-LIVING",
+        "kind": "sofa",
+        "position": [0.79, 3.43],
+        "size": [0.85, 0.85, 0.85],
+        "rotation": -35,
+        "sourcePage": 9,
+        "heatingAdjustment": "Сдвиг на 160 мм вправо для размещения F1-RAD03."
+      },
+      {
+        "id": "F1-FUR-SIDE-TABLE",
+        "roomId": "F1-LIVING",
+        "kind": "roundTable",
+        "position": [1.39, 3.59],
+        "size": [0.45, 0.5, 0.45],
+        "rotation": 0,
+        "sourcePage": 9,
+        "heatingAdjustment": "Сдвиг на 160 мм вправо для размещения F1-RAD03."
+      },
+      {
+        "id": "F1-FUR-LAMP",
+        "roomId": "F1-LIVING",
+        "kind": "lamp",
+        "position": [0.92, 3.98],
+        "size": [0.28, 1.65, 0.28],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-DINING",
+        "roomId": "F1-KITCHEN",
+        "kind": "table",
+        "position": [4.4, 0.87],
+        "size": [0.8, 0.76, 1.6],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-DINING-CHAIR-1",
+        "roomId": "F1-KITCHEN",
+        "kind": "chair",
+        "position": [3.74, 0.42],
+        "size": [0.46, 0.84, 0.46],
+        "rotation": -90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-DINING-CHAIR-2",
+        "roomId": "F1-KITCHEN",
+        "kind": "chair",
+        "position": [3.74, 1.2],
+        "size": [0.46, 0.84, 0.46],
+        "rotation": -90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-DINING-CHAIR-3",
+        "roomId": "F1-KITCHEN",
+        "kind": "chair",
+        "position": [5.08, 0.42],
+        "size": [0.46, 0.84, 0.46],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-DINING-CHAIR-4",
+        "roomId": "F1-KITCHEN",
+        "kind": "chair",
+        "position": [5.08, 1.2],
+        "size": [0.46, 0.84, 0.46],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-ISLAND",
+        "roomId": "F1-KITCHEN",
+        "kind": "kitchen",
+        "position": [6.55, 1.78],
+        "size": [0.8, 0.92, 1.2],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-STOOL-1",
+        "roomId": "F1-KITCHEN",
+        "kind": "stool",
+        "position": [7.25, 1.48],
+        "size": [0.42, 0.65, 0.42],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-STOOL-2",
+        "roomId": "F1-KITCHEN",
+        "kind": "stool",
+        "position": [7.25, 2.1],
+        "size": [0.42, 0.65, 0.42],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-KITCHEN-RUN",
+        "roomId": "F1-KITCHEN",
+        "kind": "kitchen",
+        "position": [8.4, 1.79],
+        "size": [3.52, 0.9, 0.6],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-KITCHEN-RETURN",
+        "roomId": "F1-KITCHEN",
+        "kind": "kitchen",
+        "position": [7.48, 3.795],
+        "size": [1.83, 0.9, 0.6],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-FRIDGE",
+        "roomId": "F1-KITCHEN",
+        "kind": "fridge",
+        "position": [5.67, 3.795],
+        "size": [0.6, 2.05, 0.6],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-OVEN",
+        "roomId": "F1-KITCHEN",
+        "kind": "oven",
+        "position": [6.29, 3.795],
+        "size": [0.6, 2.05, 0.6],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-SINK",
+        "roomId": "F1-KITCHEN",
+        "kind": "sink",
+        "position": [8.4, 2.05],
+        "size": [0.48, 0.98, 0.5],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-HOB",
+        "roomId": "F1-KITCHEN",
+        "kind": "hob",
+        "position": [8.4, 3.25],
+        "size": [0.52, 0.93, 0.52],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-HALL-CONSOLE",
+        "roomId": "F1-HALL",
+        "kind": "table",
+        "position": [4.88, 8.73],
+        "size": [0.4, 0.8, 0.6],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-HALL-POUF",
+        "roomId": "F1-HALL",
+        "kind": "stool",
+        "position": [4.78, 7.55],
+        "size": [0.43, 0.44, 0.43],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-OFFICE-WARDROBE",
+        "roomId": "F1-OFFICE",
+        "kind": "wardrobe",
+        "position": [0.3, 8.11],
+        "size": [2.25, 2.35, 0.58],
+        "rotation": -90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-OFFICE-DESK",
+        "roomId": "F1-OFFICE",
+        "kind": "desk",
+        "position": [1.79, 9.66],
+        "size": [2.5, 0.75, 0.7],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-OFFICE-CHAIR",
+        "roomId": "F1-OFFICE",
+        "kind": "chair",
+        "position": [1.91, 8.87],
+        "size": [0.58, 0.94, 0.58],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-OFFICE-CABINET",
+        "roomId": "F1-OFFICE",
+        "kind": "wardrobe",
+        "position": [2.8, 8.7],
+        "size": [0.95, 2.35, 0.5],
+        "rotation": 90,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-STORE-SHELVES",
+        "roomId": "F1-STORE",
+        "kind": "shelf",
+        "position": [1.63, 6.5],
+        "size": [3.2, 1.5, 0.32],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-BATH-VANITY",
+        "roomId": "F1-BATH",
+        "kind": "vanity",
+        "position": [5.63, 4.86],
+        "size": [0.8, 0.85, 0.54],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F1-FUR-BATH-WC",
+        "roomId": "F1-BATH",
+        "kind": "toilet",
+        "position": [6.57, 4.96],
+        "size": [0.4, 0.78, 0.7],
+        "rotation": 0,
+        "sourcePage": 9
+      },
+      {
+        "id": "F2-FUR-CRIB",
+        "roomId": "F2-CHILD",
+        "kind": "crib",
+        "position": [0.66, 0.51],
+        "size": [1.25, 0.95, 0.65],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-CHILD-SOFA",
+        "roomId": "F2-CHILD",
+        "kind": "sofa",
+        "position": [0.54, 2.18],
+        "size": [1.5, 0.85, 1],
+        "rotation": -90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-CHANGING",
+        "roomId": "F2-CHILD",
+        "kind": "cabinet",
+        "position": [2.98, 0.54],
+        "size": [0.45, 0.95, 0.68],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-DRESSER",
+        "roomId": "F2-CHILD",
+        "kind": "cabinet",
+        "position": [2.98, 2.08],
+        "size": [1.6, 0.95, 0.45],
+        "rotation": 90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-CHILD-WARDROBE",
+        "roomId": "F2-CHILD",
+        "kind": "wardrobe",
+        "position": [0.83, 3.82],
+        "size": [1.62, 1.9, 0.63],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-DRESS-LEFT",
+        "roomId": "F2-DRESS",
+        "kind": "wardrobe",
+        "position": [3.64, 1.2],
+        "size": [2.3, 2.4, 0.58],
+        "rotation": -90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-DRESS-BACK",
+        "roomId": "F2-DRESS",
+        "kind": "wardrobe",
+        "position": [4.33, 2.6149999999999998],
+        "size": [1.87, 2.4, 0.6],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-DRESS-IRONING",
+        "roomId": "F2-DRESS",
+        "kind": "table",
+        "position": [4.94, 1.68],
+        "size": [0.35, 0.88, 1],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-BED",
+        "roomId": "F2-BED",
+        "kind": "bed",
+        "position": [7.54, 2.02],
+        "size": [1.8, 0.95, 2.3],
+        "rotation": 90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-NIGHTSTAND-1",
+        "roomId": "F2-BED",
+        "kind": "cabinet",
+        "position": [8.4, 0.86],
+        "size": [0.5, 0.55, 0.5],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-NIGHTSTAND-2",
+        "roomId": "F2-BED",
+        "kind": "cabinet",
+        "position": [8.4, 3.18],
+        "size": [0.5, 0.55, 0.5],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-BED-TV",
+        "roomId": "F2-BED",
+        "kind": "tv",
+        "position": [5.64, 2.05],
+        "size": [1.4, 1.3, 0.4],
+        "rotation": -90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-SOFA",
+        "roomId": "F2-ROOM",
+        "kind": "sofa",
+        "position": [1.17, 7.3],
+        "size": [2.2, 0.85, 1],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-BOOKCASE",
+        "roomId": "F2-ROOM",
+        "kind": "shelf",
+        "position": [2.93, 7.02],
+        "size": [0.8, 1.7, 0.4],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-WARDROBE",
+        "roomId": "F2-ROOM",
+        "kind": "wardrobe",
+        "position": [4.755, 8.85],
+        "size": [2.35, 1.85, 0.6],
+        "rotation": 90,
+        "sourcePage": 10,
+        "note": "Длина уменьшена с 2,5 до 2,35 м: актуальный уступ RoomPlan оставляет 2,43 м стены."
+      },
+      {
+        "id": "F2-FUR-GUEST-DESK",
+        "roomId": "F2-ROOM",
+        "kind": "desk",
+        "position": [3.12, 9.54],
+        "size": [1.4, 0.75, 0.7],
+        "rotation": 0,
+        "sourcePage": 10,
+        "heatingAdjustment": "Сдвиг на 160 мм от окна: ножки освобождают F2-RAD05."
+      },
+      {
+        "id": "F2-FUR-GUEST-CHAIR",
+        "roomId": "F2-ROOM",
+        "kind": "chair",
+        "position": [3.2, 8.9],
+        "size": [0.58, 0.94, 0.58],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-ARMCHAIR",
+        "roomId": "F2-ROOM",
+        "kind": "sofa",
+        "position": [0.63, 9.48],
+        "size": [0.85, 0.85, 0.85],
+        "rotation": -35,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-TABLE",
+        "roomId": "F2-ROOM",
+        "kind": "roundTable",
+        "position": [1.25, 9.5],
+        "size": [0.45, 0.5, 0.45],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-GUEST-LAMP",
+        "roomId": "F2-ROOM",
+        "kind": "lamp",
+        "position": [0.96, 9.91],
+        "size": [0.28, 1.65, 0.28],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-SHOWER-WC",
+        "roomId": "F2-SHOWER",
+        "kind": "toilet",
+        "position": [5.49, 4.98],
+        "size": [0.4, 0.78, 0.72],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-SHOWER-VANITY",
+        "roomId": "F2-SHOWER",
+        "kind": "vanity",
+        "position": [6.45, 5.64],
+        "size": [0.8, 0.85, 0.46],
+        "rotation": 90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-LAUNDRY",
+        "roomId": "F2-SHOWER",
+        "kind": "laundry",
+        "position": [5.39, 7.02],
+        "size": [0.64, 1.75, 0.65],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-SHOWER",
+        "roomId": "F2-SHOWER",
+        "kind": "shower",
+        "position": [6.24, 6.86],
+        "size": [0.85, 2, 1],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-BATH-WC",
+        "roomId": "F2-BATH",
+        "kind": "toilet",
+        "position": [7.19, 4.97],
+        "size": [0.4, 0.78, 0.68],
+        "rotation": -90,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-BATH-TUB",
+        "roomId": "F2-BATH",
+        "kind": "bath",
+        "position": [7.23, 6.46],
+        "size": [0.75, 0.6, 1.7],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F2-FUR-BATH-VANITY",
+        "roomId": "F2-BATH",
+        "kind": "vanity",
+        "position": [8.22, 7.075],
+        "size": [0.85, 0.85, 0.5],
+        "rotation": 0,
+        "sourcePage": 10
+      },
+      {
+        "id": "F1-RAD01",
+        "roomId": "F1-LIVING",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/8",
+        "position": [0.275, 0.1],
+        "size": [0.37, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": 0,
+        "sections": 8,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "RIFAR TUBOG 3180/8",
+        "anchor": "Слева от F1-WIN01, зазор 0,18 м по разрезу 2–2",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-RAD02",
+        "roomId": "F1-KITCHEN",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/8",
+        "position": [5.3, 0.1],
+        "size": [0.37, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": 0,
+        "sections": 8,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "RIFAR TUBOG 3180/8",
+        "anchor": "Слева от F1-WIN02, зазор 0,11 м по разрезу 2–2",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-RAD03",
+        "roomId": "F1-LIVING",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/10",
+        "position": [0.1, 3.75],
+        "size": [0.46, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": -90,
+        "sections": 10,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "RIFAR TUBOG 3180/10",
+        "anchor": "После F1-WIN03, зазор 0,15 м по разрезу 3–3",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-RAD04",
+        "roomId": "F1-OFFICE",
+        "kind": "radiator-sectional",
+        "name": "Радиатор RIFAR BASE 500/14",
+        "position": [1.9725, 9.94],
+        "size": [1.12, 0.57, 0.09],
+        "elevation": 0.1,
+        "rotation": 180,
+        "sections": 14,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "RIFAR BASE 500/14",
+        "anchor": "По центру актуального F1-WIN06",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-RAD05",
+        "roomId": "F1-GARAGE",
+        "kind": "radiator-panel",
+        "name": "Радиатор CV22-500-500",
+        "position": [5.805, 11.6],
+        "size": [0.5, 0.5, 0.1],
+        "elevation": 0.1,
+        "rotation": -90,
+        "sections": 0,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "CV22-500-500",
+        "anchor": "На левой боковой стене; доля длины стены 0,581 от заднего угла по плану PDF",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-RAD06",
+        "roomId": "F1-GARAGE",
+        "kind": "radiator-panel",
+        "name": "Радиатор CV22-500-500",
+        "position": [11.966, 11.6],
+        "size": [0.5, 0.5, 0.1],
+        "elevation": 0.1,
+        "rotation": 90,
+        "sections": 0,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 5,
+        "sourcePages": [5, 6, 9, 16],
+        "model": "CV22-500-500",
+        "anchor": "На правой боковой стене напротив F1-RAD05; продольная привязка условная",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F2-RAD01",
+        "roomId": "F2-CHILD",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/8",
+        "position": [1.075, 0.1],
+        "size": [0.37, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": 0,
+        "sections": 8,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 7,
+        "sourcePages": [7, 8, 9, 16],
+        "model": "RIFAR TUBOG 3180/8",
+        "anchor": "Слева от F2-WIN01, зазор 0,18 м по разрезу 2–2",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F2-RAD02",
+        "roomId": "F2-DRESS",
+        "kind": "radiator-sectional",
+        "name": "Радиатор RIFAR BASE 500/6",
+        "position": [4.3375, 0.095],
+        "size": [0.48, 0.57, 0.09],
+        "elevation": 0.1,
+        "rotation": 0,
+        "sections": 6,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 7,
+        "sourcePages": [7, 8, 9, 16],
+        "model": "RIFAR BASE 500/6",
+        "anchor": "По центру актуального F2-WIN02",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F2-RAD03",
+        "roomId": "F2-BED",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/8",
+        "position": [7.635, 0.1],
+        "size": [0.37, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": 0,
+        "sections": 8,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 7,
+        "sourcePages": [7, 8, 9, 16],
+        "model": "RIFAR TUBOG 3180/8",
+        "anchor": "Справа от F2-WIN03, зазор 0,16 м по разрезу 2–2",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F2-RAD04",
+        "roomId": "F2-BATH",
+        "kind": "radiator-tubular",
+        "name": "Радиатор RIFAR TUBOG 3180/6",
+        "position": [8.61, 6.08],
+        "size": [0.28, 1.8, 0.1],
+        "elevation": 0.1,
+        "rotation": 90,
+        "sections": 6,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 7,
+        "sourcePages": [7, 8, 9, 16],
+        "model": "RIFAR TUBOG 3180/6",
+        "anchor": "Правая стена, 1,37 м от верхней внутренней грани до прибора по разрезу 1–1",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F2-RAD05",
+        "roomId": "F2-ROOM",
+        "kind": "radiator-sectional",
+        "name": "Радиатор RIFAR BASE 500/18",
+        "position": [3.2375, 9.98],
+        "size": [1.44, 0.54, 0.09],
+        "elevation": 0.1,
+        "rotation": 180,
+        "sections": 18,
+        "source": "П-62 Отопление финал.pdf",
+        "sourcePage": 7,
+        "sourcePages": [7, 8, 9, 16],
+        "model": "RIFAR BASE 500/18",
+        "anchor": "По центру актуального F2-WIN06; высота 0,54 м по разрезу 4–4, в отличие от 0,57 м соседних BASE — требует подтверждения",
+        "dimensionNote": "Габариты по разрезам PDF; глубина трубчатых 0,10 м и панельных 0,10 м условная, секционных 0,09 м по спецификации. Низ 0,10 м над местным полом; в гараже условно."
+      },
+      {
+        "id": "F1-AC01",
+        "roomId": "F1-LIVING",
+        "kind": "air-conditioner",
+        "name": "Внутренний блок кондиционера",
+        "position": [0.625, 4.045],
+        "size": [0.75, 0.3, 0.2],
+        "rotation": 180,
+        "ceilingClearance": 0.29,
+        "source": "step6_ver3.pdf",
+        "sourcePage": 31,
+        "sourcePages": [31, 38],
+        "anchor": "Над зоной кресла на стене со стороны лестницы; край 0,25 м от левого угла по развёртке.",
+        "dimensionNote": "Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные. Зазор 290 мм до чернового потолка — в пределах 280–300 мм из примечания плана. Указанные в PDF −450 мм относятся к выводу электропитания, а не низу корпуса."
+      },
+      {
+        "id": "F1-AC02",
+        "roomId": "F1-OFFICE",
+        "kind": "air-conditioner",
+        "name": "Внутренний блок кондиционера",
+        "position": [3.33, 7.51],
+        "size": [0.75, 0.3, 0.2],
+        "rotation": 90,
+        "ceilingClearance": 0.29,
+        "source": "step6_ver3.pdf",
+        "sourcePage": 31,
+        "sourcePages": [31, 36],
+        "anchor": "Над дверью F1-D04; центр по текущему проёму.",
+        "dimensionNote": "Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные. Зазор 290 мм до чернового потолка — в пределах 280–300 мм из примечания плана. Указанные в PDF −450 мм относятся к выводу электропитания, а не низу корпуса."
+      },
+      {
+        "id": "F2-AC01",
+        "roomId": "F2-CHILD",
+        "kind": "air-conditioner",
+        "name": "Внутренний блок кондиционера",
+        "position": [3.375, 3.73],
+        "size": [0.75, 0.3, 0.2],
+        "rotation": 90,
+        "ceilingClearance": 0.29,
+        "source": "step6_ver3.pdf",
+        "sourcePage": 32,
+        "sourcePages": [32, 44],
+        "anchor": "Над дверью F2-D03; центр по текущему проёму.",
+        "dimensionNote": "Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные. Зазор 290 мм до чернового потолка — в пределах 280–300 мм из примечания плана. Указанные в PDF −450 мм относятся к выводу электропитания, а не низу корпуса."
+      },
+      {
+        "id": "F2-AC02",
+        "roomId": "F2-BED",
+        "kind": "air-conditioner",
+        "name": "Внутренний блок кондиционера",
+        "position": [5.14, 3.725],
+        "size": [0.75, 0.3, 0.2],
+        "rotation": -90,
+        "ceilingClearance": 0.29,
+        "source": "step6_ver3.pdf",
+        "sourcePage": 32,
+        "sourcePages": [32, 46],
+        "anchor": "Над дверью F2-D04; центр по текущему проёму.",
+        "dimensionNote": "Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные. Зазор 290 мм до чернового потолка — в пределах 280–300 мм из примечания плана. Указанные в PDF −450 мм относятся к выводу электропитания, а не низу корпуса."
+      },
+      {
+        "id": "F2-AC03",
+        "roomId": "F2-ROOM",
+        "kind": "air-conditioner",
+        "name": "Внутренний блок кондиционера",
+        "position": [1.675, 6.88],
+        "size": [0.75, 0.3, 0.2],
+        "rotation": 0,
+        "ceilingClearance": 0.29,
+        "source": "step6_ver3.pdf",
+        "sourcePage": 32,
+        "sourcePages": [32, 43],
+        "anchor": "Над диваном: левый край 1,30 м от левой стены по плану и развёртке. Отметка по низшей точке скоса над корпусом.",
+        "dimensionNote": "Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные. Зазор 290 мм до чернового потолка — в пределах 280–300 мм из примечания плана. Указанные в PDF −450 мм относятся к выводу электропитания, а не низу корпуса."
+      }
+    ],
+    "heatingSource": {
+      "file": "П-62 Отопление финал.pdf",
+      "pages": [5, 6, 7, 8, 9, 16],
+      "count": 11,
+      "notes": "Радиаторы из проекта отопления добавлены в тот же слой. Строительная геометрия и отметка второго этажа сохранены по RoomPlan; старые размеры здания и +3,440 из PDF не применялись. Привязки к окнам перенесены на текущие проёмы. Гараж: боковые стены и общая линия приборов по плану, положение вдоль стен оценочное. Высота BASE 500/18 540 мм по разрезу требует подтверждения; глубина TUBOG/CV22 условная. Трубы и коллекторы не моделируются. Кресло и приставной столик гостиной сдвинуты вправо на 160 мм, рабочий стол F2-ROOM — от окна на 160 мм для устранения пересечений."
+    },
+    "airConditioningSource": {
+      "file": "step6_ver3.pdf",
+      "pages": [31, 32, 36, 38, 43, 44, 46],
+      "count": 5,
+      "notes": "Пять внутренних блоков по планам кондиционирования (листы 30–31). Ширина 750 мм по развёрткам; высота 300 мм и глубина 200 мм условные, модель оборудования не выбрана. Верх корпуса на 290 мм ниже текущего чернового потолка; у скосов берётся минимальная высота над всем корпусом. Монтажные отметки вычисляются при изменении высот дома. Места и дренаж в самом PDF помечены для уточнения поставщиком; наружные блоки и трассы не заданы и не моделируются. Упоминание кондиционера на развёртке кухни (стр.39) противоречит плану и показано у пола: дополнительным блоком не считалось."
+    }
   }
 }

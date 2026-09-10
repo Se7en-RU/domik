@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { checkFurniture } from "./check-furniture.mjs";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { pathToFileURL } from "node:url";
@@ -21,6 +22,7 @@ export function validateModel(spec, root = buildHouse(spec).root) {
     validateAnchors(spec, controls);
   }
   if (spec.envelope) checkLayout(spec);
+  checkFurniture(spec, root);
   const meshes = [];
   root.traverse((object) => {
     if (object.isMesh) meshes.push(object);

@@ -803,6 +803,7 @@ function Scene({
   view,
   split,
   ceilings,
+  furniture,
   cut,
   labels,
   windows,
@@ -817,6 +818,7 @@ function Scene({
   view: View;
   split: boolean;
   ceilings: boolean;
+  furniture: boolean;
   cut: boolean;
   labels: boolean;
   windows: boolean;
@@ -833,6 +835,7 @@ function Scene({
     view,
     split,
     ceilings,
+    furniture,
     cut,
     labels,
     windows,
@@ -845,6 +848,7 @@ function Scene({
     view,
     split,
     ceilings,
+    furniture,
     cut,
     labels,
     windows,
@@ -1021,6 +1025,12 @@ function Scene({
     const target = new THREE.Vector3(4.4, 2.1, 4.9);
     let desiredPos: THREE.Vector3 | null = null,
       desiredTarget: THREE.Vector3 | null = null;
+    // A manual gesture takes over from floor changes, room focus and Home.
+    const stopCameraTransition = () => {
+      desiredPos = null;
+      desiredTarget = null;
+    };
+    controls.addEventListener("start", stopCameraTransition);
     const boundsForRooms = (list: typeof spec.rooms) => {
       const bounds = new THREE.Box3();
       for (const r of list) {
@@ -1097,6 +1107,7 @@ function Scene({
       clearMeasure: resetMeasurement,
     };
     onReady(api);
+    let hasViewportSize = false;
     const resize = () => {
       const w = el.clientWidth,
         h = el.clientHeight;
@@ -1104,7 +1115,12 @@ function Scene({
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      home();
+      // Mobile browser chrome and panels can resize the viewport mid-gesture.
+      // Update the projection without resetting the user's camera position.
+      if (!hasViewportSize) {
+        hasViewportSize = true;
+        home();
+      }
     };
     const ro = new ResizeObserver(resize);
     ro.observe(el);
@@ -1141,7 +1157,15 @@ function Scene({
           (s.floor === "2" &&
             o.userData.floor === 1 &&
             ["stairs", "rail", "stair-wall"].includes(k));
-        o.visible = onFloor && (k === "ceiling" ? s.ceilings : k === "window" ? s.windows : true);
+        o.visible =
+          onFloor &&
+          (k === "furniture"
+            ? s.furniture
+            : k === "ceiling"
+              ? s.ceilings
+              : k === "window"
+                ? s.windows
+                : true);
         const mat = o.material;
         mat.clippingPlanes =
           s.cut && ["wall", "window", "stair-wall"].includes(k)
@@ -1182,6 +1206,7 @@ function Scene({
       ro.disconnect();
       renderer.domElement.removeEventListener("pointerdown", pointerDown);
       renderer.domElement.removeEventListener("pointerup", pointerUp);
+      controls.removeEventListener("start", stopCameraTransition);
       controls.dispose();
       scene.traverse((o: any) => {
         o.geometry?.dispose();
@@ -1208,6 +1233,7 @@ export default function Home() {
     [view, setView] = useState<View>("orbit"),
     [split, setSplit] = useState(true),
     [ceilings, setCeilings] = useState(false),
+    [furniture, setFurniture] = useState(true),
     [cut, setCut] = useState(false),
     [labels, setLabels] = useState(true),
     [windows, setWindows] = useState(true),
@@ -1356,7 +1382,7 @@ export default function Home() {
             <h1>
               Дом<span> / </span>3D-модель
             </h1>
-            <p>Дом и гараж · 09.09.2026</p>
+            <p>Дом и мебель · 10.09.2026</p>
           </div>
         </div>
         <div className="floor-tabs" aria-label="Этаж">
@@ -1437,6 +1463,7 @@ export default function Home() {
             </div>
             <div className="visibility-panel">
               <span className="eyebrow">ОТОБРАЖЕНИЕ</span>
+              {toggle(furniture, setFurniture, <Box size={17} />, "Мебель и оборудование")}
               {toggle(ceilings, setCeilings, <Layers3 size={17} />, "Потолки и скосы")}
               {toggle(cut, setCut, <Scissors size={17} />, "Стены до 1,15 м")}
               {toggle(labels, setLabels, <MousePointer2 size={17} />, "Названия комнат")}
@@ -1466,6 +1493,7 @@ export default function Home() {
               floor={floor}
               view={view}
               split={split}
+              furniture={furniture}
               ceilings={ceilings}
               cut={cut}
               labels={labels}
@@ -1515,7 +1543,9 @@ export default function Home() {
                 <Ruler size={15} /> Размеры
               </button>
             </div>
-            {view !== "dimensions" && <span className="scale-tag">Метры · без мебели</span>}
+            {view !== "dimensions" && (
+              <span className="scale-tag">Метры · {furniture ? "с мебелью" : "без мебели"}</span>
+            )}
           </div>
           {view !== "dimensions" && (
             <div className="viewport-tools">

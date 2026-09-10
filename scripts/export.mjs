@@ -51,6 +51,10 @@ export async function exportModel() {
     path.join(distDir, "model-builder.mjs"),
   );
   await fs.copyFile(path.join(projectRoot, "lib/layout.mjs"), path.join(distDir, "layout.mjs"));
+  await fs.copyFile(
+    path.join(projectRoot, "lib/furniture.mjs"),
+    path.join(distDir, "furniture.mjs"),
+  );
   await fs.mkdir(path.join(projectRoot, "work"), { recursive: true });
   await fs.writeFile(
     path.join(projectRoot, "work/geometry-check.json"),
