@@ -8,13 +8,15 @@
     "build": "node scripts/build.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "typecheck": "tsc --noEmit",
-    "test": "node --test scripts/roomplan.test.mjs scripts/electrical.test.mjs && node scripts/validate-model.mjs",
+    "test": "node --test scripts/roomplan.test.mjs scripts/electrical.test.mjs scripts/ai.test.mjs && node scripts/validate-model.mjs",
     "measurements:audit": "node scripts/roomplan-audit.mjs",
     "measurements:apply": "node scripts/roomplan-audit.mjs --apply",
     "measurements:apply-heights": "node scripts/roomplan/apply-heights.mjs",
     "export:model": "node scripts/export.mjs",
     "format": "oxfmt .",
-    "format:check": "oxfmt --check ."
+    "format:check": "oxfmt --check .",
+    "export:ai": "node scripts/export-ai.mjs --docs",
+    "test:ai": "node --test scripts/ai.test.mjs"
   },
   "dependencies": {
     "lucide-react": "1.31.0",
@@ -23,11 +25,13 @@
     "three": "0.180.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/three": "0.180.0",
     "esbuild": "0.27.3",
+    "fflate": "^0.8.3",
     "oxfmt": "0.61.0",
     "typescript": "5.9.3",
     "vite": "8.0.13"

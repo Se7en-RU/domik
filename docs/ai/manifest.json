@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "1.0",
+  "sourceRevision": "2026-09-10-electrical-layer",
+  "sourceSha256": "d48c66d8b73d4ce156ca1604a086feba42e80d3b62dfe9c58db21eca0daff0e9",
+  "generatorSha256": "9069cf6b47940e76cade8edd3c00db966adc1130d3887fefc54015001aea67f5",
+  "rooms": [
+    {
+      "id": "F1-LIVING",
+      "name": "Гостиная",
+      "floor": 1,
+      "page": "F1-LIVING/index.html",
+      "passport": "F1-LIVING/passport.json",
+      "archive": "F1-LIVING/room-kit.zip"
+    },
+    {
+      "id": "F1-KITCHEN",
+      "name": "Кухня",
+      "floor": 1,
+      "page": "F1-KITCHEN/index.html",
+      "passport": "F1-KITCHEN/passport.json",
+      "archive": "F1-KITCHEN/room-kit.zip"
+    },
+    {
+      "id": "F1-HALL",
+      "name": "Прихожая",
+      "floor": 1,
+      "page": "F1-HALL/index.html",
+      "passport": "F1-HALL/passport.json",
+      "archive": "F1-HALL/room-kit.zip"
+    },
+    {
+      "id": "F1-BATH",
+      "name": "Ванная · 1 этаж",
+      "floor": 1,
+      "page": "F1-BATH/index.html",
+      "passport": "F1-BATH/passport.json",
+      "archive": "F1-BATH/room-kit.zip"
+    },
+    {
+      "id": "F1-BOILER",
+      "name": "Бойлерная",
+      "floor": 1,
+      "page": "F1-BOILER/index.html",
+      "passport": "F1-BOILER/passport.json",
+      "archive": "F1-BOILER/room-kit.zip"
+    },
+    {
+      "id": "F1-OFFICE",
+      "name": "Кабинет",
+      "floor": 1,
+      "page": "F1-OFFICE/index.html",
+      "passport": "F1-OFFICE/passport.json",
+      "archive": "F1-OFFICE/room-kit.zip"
+    },
+    {
+      "id": "F1-STORE",
+      "name": "Кладовая",
+      "floor": 1,
+      "page": "F1-STORE/index.html",
+      "passport": "F1-STORE/passport.json",
+      "archive": "F1-STORE/room-kit.zip"
+    },
+    {
+      "id": "F1-STAIR",
+      "name": "Лестница",
+      "floor": 1,
+      "page": "F1-STAIR/index.html",
+      "passport": "F1-STAIR/passport.json",
+      "archive": "F1-STAIR/room-kit.zip"
+    },
+    {
+      "id": "F1-GARAGE",
+      "name": "Гараж",
+      "floor": 1,
+      "page": "F1-GARAGE/index.html",
+      "passport": "F1-GARAGE/passport.json",
+      "archive": "F1-GARAGE/room-kit.zip"
+    },
+    {
+      "id": "F2-CHILD",
+      "name": "Детская",
+      "floor": 2,
+      "page": "F2-CHILD/index.html",
+      "passport": "F2-CHILD/passport.json",
+      "archive": "F2-CHILD/room-kit.zip"
+    },
+    {
+      "id": "F2-DRESS",
+      "name": "Гардеробная",
+      "floor": 2,
+      "page": "F2-DRESS/index.html",
+      "passport": "F2-DRESS/passport.json",
+      "archive": "F2-DRESS/room-kit.zip"
+    },
+    {
+      "id": "F2-BED",
+      "name": "Спальня",
+      "floor": 2,
+      "page": "F2-BED/index.html",
+      "passport": "F2-BED/passport.json",
+      "archive": "F2-BED/room-kit.zip"
+    },
+    {
+      "id": "F2-HALL",
+      "name": "Коридор",
+      "floor": 2,
+      "page": "F2-HALL/index.html",
+      "passport": "F2-HALL/passport.json",
+      "archive": "F2-HALL/room-kit.zip"
+    },
+    {
+      "id": "F2-SHOWER",
+      "name": "Душевая",
+      "floor": 2,
+      "page": "F2-SHOWER/index.html",
+      "passport": "F2-SHOWER/passport.json",
+      "archive": "F2-SHOWER/room-kit.zip"
+    },
+    {
+      "id": "F2-BATH",
+      "name": "Ванная · 2 этаж",
+      "floor": 2,
+      "page": "F2-BATH/index.html",
+      "passport": "F2-BATH/passport.json",
+      "archive": "F2-BATH/room-kit.zip"
+    },
+    {
+      "id": "F2-ROOM",
+      "name": "Комната",
+      "floor": 2,
+      "page": "F2-ROOM/index.html",
+      "passport": "F2-ROOM/passport.json",
+      "archive": "F2-ROOM/room-kit.zip"
+    }
+  ]
+}

@@ -2,3 +2,6 @@
 measurements/raw/
 measurements/PLAN.md
 measurements/reports/
+
+# Generated room kits (formatted by the exporter)
+docs/ai/

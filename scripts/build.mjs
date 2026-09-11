@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { build } from "esbuild";
 import { projectRoot, distDir } from "./paths.mjs";
 import { exportModel } from "./export.mjs";
+import { exportAi } from "./export-ai.mjs";
 
 // The production HTML embeds the entire viewer, including its reference plans.
 // This keeps /domik/ on Pages and offline file:// viewing independent of base URLs.
@@ -55,6 +56,7 @@ await fs.writeFile(path.join(distDir, "index.html"), html);
 await fs.writeFile(path.join(distDir, "house-viewer.html"), html);
 await fs.writeFile(path.join(distDir, ".nojekyll"), "");
 await exportModel();
+await exportAi();
 console.log(
   `Built dist/: standalone viewer (${Buffer.byteLength(html)} bytes), GLB, OBJ and editable JSON.`,
 );
