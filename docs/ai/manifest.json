@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "sourceRevision": "2026-09-10-electrical-layer",
-  "sourceSha256": "d48c66d8b73d4ce156ca1604a086feba42e80d3b62dfe9c58db21eca0daff0e9",
-  "generatorSha256": "9069cf6b47940e76cade8edd3c00db966adc1130d3887fefc54015001aea67f5",
+  "sourceRevision": "2026-10-03-kitchen-elevation",
+  "sourceSha256": "32ad8743e4f1a476f1e6e0247976fe074f25950b8e800101d731335ae58750f1",
+  "generatorSha256": "0cceb85e729717f04d8e43809bd3a3356359953de9d2dbc7c57d0cd02079d6d9",
   "rooms": [
     {
       "id": "F1-LIVING",
